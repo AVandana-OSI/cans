@@ -23,8 +23,9 @@ class DomainProgressBar extends React.PureComponent {
   render() {
     const { progress } = this.state;
     return (
-      <div className={'progress-bar'}>
-        <div className={'progress'} style={{ width: `${progress}%` }} />
+      <div className={'domain-progress-bar'}>
+        <div className={'progress-line'} style={{ width: `${progress}%` }} />
+        <h5 className={'progress-value'}>{`${progress}%`}</h5>
       </div>
     );
   }

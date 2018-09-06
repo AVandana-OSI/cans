@@ -253,11 +253,16 @@ describe('AssessmentHelper', () => {
             {
               under_six_id: '3',
               required: true,
+              rating: 2,
+            },
+            {
+              under_six_id: '4',
+              required: true,
               rating: -1,
             },
           ],
         };
-        expect(calculateDomainProgress(true, domain)).toEqual(50);
+        expect(calculateDomainProgress(true, domain)).toEqual(67);
       });
 
       it('should return 50 when one of two items has a rating', () => {

@@ -78,5 +78,5 @@ export function calculateDomainProgress(isAssessmentUnderSix, domain) {
   const total = domain.items.filter(item => shouldItemBeRendered(isAssessmentUnderSix, item) && item.required);
   if (total.length === 0) return FULL_PROGRESS;
   const filled = total.filter(item => item.rating !== -1);
-  return (filled.length / total.length) * FULL_PROGRESS;
+  return Math.round((filled.length / total.length) * FULL_PROGRESS);
 }

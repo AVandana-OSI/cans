@@ -145,9 +145,15 @@ class Domain extends Component {
     const { isAssessmentUnderSix, domain } = this.props;
     const { items, is_caregiver_domain } = domain;
     const { title, description, caregiverName, expanded } = this.state;
+    const progressBar = <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />;
     return shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
       <Fragment>
-        <ExpansionPanel expanded={expanded} onChange={this.handleExpandedChange} style={{ backgroundColor: '#114161' }}>
+        <ExpansionPanel
+          expanded={expanded}
+          onChange={this.handleExpandedChange}
+          style={{ backgroundColor: '#114161' }}
+          elevation={0}
+        >
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon style={{ height: '28px', color: 'white' }} />}
             style={{ minHeight: '28px' }}
@@ -163,7 +169,7 @@ class Domain extends Component {
           </ExpansionPanelSummary>
           {expanded && (
             <Fragment>
-              <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />
+              {progressBar}
               <ExpansionPanelDetails style={{ display: 'block', padding: '0', backgroundColor: 'white' }}>
                 {is_caregiver_domain && this.renderCaregiverName()}
                 {this.renderItems(items)}
@@ -172,7 +178,7 @@ class Domain extends Component {
             </Fragment>
           )}
         </ExpansionPanel>
-        {!expanded && <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />}
+        {!expanded && progressBar}
       </Fragment>
     ) : null;
   };
