@@ -5,7 +5,7 @@ import BreadCrumb from './BreadCrumb';
 import { formatClientName } from '../Client/Client.helper';
 import { Link } from 'react-router-dom';
 
-const levelOneCrumbs = [
+const navsWithChildYouthListCrumb = [
   navigation.ASSESSMENT_ADD,
   navigation.ASSESSMENT_EDIT,
   navigation.CHILD_PROFILE,
@@ -13,39 +13,17 @@ const levelOneCrumbs = [
   navigation.CHILD_PROFILE_EDIT,
 ];
 
-const levelTwoCrumbs = [
-  navigation.ASSESSMENT_ADD,
-  navigation.ASSESSMENT_EDIT,
-  navigation.CHILD_PROFILE_ADD,
-  navigation.CHILD_PROFILE_EDIT,
-];
+const navsWithChildProfileCrumb = [navigation.ASSESSMENT_ADD, navigation.ASSESSMENT_EDIT];
 
-const addLevelOneNavigation = (elements, navigateTo) => {
-  if (levelOneCrumbs.includes(navigateTo)) {
+const addChildYouthListCrumbIfNeeded = (elements, navigateTo) => {
+  if (navsWithChildYouthListCrumb.includes(navigateTo)) {
     elements.push(<Link to={''}>CHILD/YOUTH LIST</Link>);
-  } else if (navigateTo === navigation.CHILD_LIST) {
-    elements.push(<u>CHILD/YOUTH LIST</u>);
   }
 };
 
-const addLevelTwoNavigation = (elements, navigateTo, client) => {
-  if (!client) return;
-  if (levelTwoCrumbs.includes(navigateTo)) {
+const addChildProfileCrumbIfNeeded = (elements, navigateTo, client) => {
+  if (navsWithChildProfileCrumb.includes(navigateTo)) {
     elements.push(<Link to={`/clients/${client.id}`}>{formatClientName(client).toUpperCase()}</Link>);
-  } else if (navigateTo === navigation.CHILD_PROFILE) {
-    elements.push(<u>{formatClientName(client).toUpperCase()}</u>);
-  }
-};
-
-const addLevelThreeNavigation = (elements, navigateTo) => {
-  if (navigateTo === navigation.CHILD_PROFILE_ADD) {
-    elements.push(<u>ADD CHILD/YOUTH</u>);
-  } else if (navigateTo === navigation.CHILD_PROFILE_EDIT) {
-    elements.push(<u>EDIT PROFILE</u>);
-  } else if (navigateTo === navigation.ASSESSMENT_ADD) {
-    elements.push(<u>ADD CANS</u>);
-  } else if (navigateTo === navigation.ASSESSMENT_EDIT) {
-    elements.push(<u>EDIT CANS</u>);
   }
 };
 
@@ -58,9 +36,8 @@ class BreadCrumbsBuilder extends React.Component {
   prepareNavigationElements() {
     const elements = [];
     const { navigateTo, client } = this.props;
-    addLevelOneNavigation(elements, navigateTo);
-    addLevelTwoNavigation(elements, navigateTo, client);
-    addLevelThreeNavigation(elements, navigateTo);
+    addChildYouthListCrumbIfNeeded(elements, navigateTo);
+    addChildProfileCrumbIfNeeded(elements, navigateTo, client);
     return elements;
   }
 
