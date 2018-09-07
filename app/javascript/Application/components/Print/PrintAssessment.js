@@ -108,7 +108,7 @@ class PrintAssessment extends PureComponent {
         <svg viewBox={exclamationTriangleViewPort} style={alertSvgStyle}>
           <path d={exclamationTriangle} />
         </svg>
-        <strong>Prior to sharing the CANS assessment redact item number 7, 48, EC.41 and EC.18</strong>
+        <strong>Prior to sharing the CANS assessment redact item number 7, 48 and EC.41</strong>
       </div>
     );
   };

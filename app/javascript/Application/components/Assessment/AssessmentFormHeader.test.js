@@ -186,7 +186,7 @@ describe('<AssessmentFormHeader />', () => {
       const alert = wrapper.find(Alert);
       expect(alert.length).toBe(1);
       expect(wrapper.find(Alert).html()).toMatch(
-        /Prior to sharing the CANS assessment redact item number 7, 48, EC.41 and EC.18/
+        /Prior to sharing the CANS assessment redact item number 7, 48 and EC.41/
       );
     });
 
