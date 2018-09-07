@@ -217,7 +217,7 @@ class AssessmentFormHeader extends PureComponent {
   renderToggleUnderSixQuestion() {
     const isUnderSix = this.props.assessment.state.under_six;
     return (
-      <Typography variant="body1" style={{ textAlign: 'right' }} className={'assessment-form-header-label'}>
+      <Typography variant="body1" style={{ textAlign: 'left' }} className={'assessment-form-header-label'}>
         Age: 0-5
         <FormControlLabel
           className={'assessment-form-header-label'}

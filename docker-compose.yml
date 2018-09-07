@@ -25,7 +25,7 @@ services:
       - '6379:6379'
 
   cans-api:
-    image: cwds/cans-api:0.8.4
+    image: cwds/cans-api:0.9.1
     hostname: cans-api
     depends_on:
       - postgres
