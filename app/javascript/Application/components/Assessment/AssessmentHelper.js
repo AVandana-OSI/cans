@@ -1,7 +1,5 @@
 import { getCurrentIsoDate } from '../../util/dateHelper';
 
-const FULL_PROGRESS = 100;
-
 export const AssessmentType = Object.freeze({
   initial: 'INITIAL',
   subsequent: 'SUBSEQUENT',
@@ -72,11 +70,4 @@ export function shouldDomainBeRendered(isAssessmentUnderSix, domain) {
 
 export function shouldItemBeRendered(isAssessmentUnderSix, item) {
   return (isAssessmentUnderSix && item.under_six_id) || (!isAssessmentUnderSix && item.above_six_id);
-}
-
-export function calculateDomainProgress(isAssessmentUnderSix, domain) {
-  const total = domain.items.filter(item => shouldItemBeRendered(isAssessmentUnderSix, item) && item.required);
-  if (total.length === 0) return FULL_PROGRESS;
-  const filled = total.filter(item => item.rating !== -1);
-  return Math.round((filled.length / total.length) * FULL_PROGRESS);
 }
