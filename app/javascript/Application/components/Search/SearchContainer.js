@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 // import { Link } from 'react-router-dom';
 // import { Row, Col, Label, Input, Button as ButtonReactStrap } from 'reactstrap';
 // import ClientService from './Client.service';
@@ -15,7 +15,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 // import DataGrid from '@cwds/components/lib/DataGrid';
 import PersonSearchForm from './PersonSearchForm';
-
+import SearchAssessmentHistory from './SearchAssessmentHistory';
 // import './style.sass';
 
 // const calculatePages = (recordsCount, pageSize) => Math.ceil(recordsCount / pageSize);
@@ -39,23 +39,24 @@ class SearchContainer extends Component {
     return (
       <PersonSearchForm
         searchPrompt={this.props.searchPrompt}
+        searchTitle={this.props.searchTitle}
         // isClientOnly={false}
         // onSelect={person => this.onSelectPerson(person)}
       />
     );
   }
 
+  renderSearchAssessmentHistory() {
+    // return <ClientAssessmentHistory clientId={50001} location={this.props.location} history={this.props.history} />;
+    return <SearchAssessmentHistory clientIds={[50001, 50002, 50003]} historyTitle={'Assessment History'} />;
+  }
+
   render = () => {
     return (
-      <Card className={'card'}>
-        <CardHeader
-          className={'card-header-cans card-header-cans-client-search'}
-          searchTitle={this.props.searchTitle}
-        />
-        <div className={'content'}>
-          <CardContent>{this.renderPersonSearchForm()}</CardContent>
-        </div>
-      </Card>
+      <Fragment>
+        {this.renderPersonSearchForm()}
+        {this.renderSearchAssessmentHistory()}
+      </Fragment>
     );
   };
 }

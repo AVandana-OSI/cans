@@ -3,20 +3,24 @@ import PropTypes from 'prop-types';
 import Autocompleter from '../common/search/Autocompleter';
 
 class PersonSearchForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   //   componentWillUnmount() {
   //     this.props.onClear();
   //     this.props.onChange('');
   //   }
 
   render() {
-    const { searchPrompt } = this.props;
+    const { searchTitle, searchPrompt } = this.props;
     // const { searchPrompt, ...autocompleterProps } = this.props;
 
     return (
       <div>
         <div className="card double-gap-bottom hidden-print" id="search-card">
           <div className="card-header">
-            <h2>Search Clients Only</h2>
+            <h2>{searchTitle}</h2>
           </div>
           <div className="card-body">
             <div className="row">
