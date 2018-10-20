@@ -10,10 +10,11 @@ module.exports = {
   ],
   plugins: ['react', 'jsx-a11y', 'jest', 'prettier', 'standard', 'jasmine'],
   env: {
+    browser: true,
     es6: true,
+    jasmine: true,
     node: true,
     'jest/globals': true,
-    jasmine: true,
   },
   rules: {
     'prettier/prettier': 'error',
@@ -56,9 +57,12 @@ module.exports = {
   },
   parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module',
+    ecmaVersion: 6,
     ecmaFeatures: {
+      experimentalObjectRestSpread: true,
       jsx: true,
+      modules: true,
     },
+    sourceType: 'module',
   },
 };

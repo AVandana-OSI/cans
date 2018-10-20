@@ -83,6 +83,7 @@ class AssessmentFormHeader extends PureComponent {
           id={'assessment-date'}
           value={this.props.assessment.event_date}
           onChange={value => this.changeFieldAndUpdateAssessment('event_date', value)}
+          onKeyUp={this.props.onKeyUp}
           ariaLabelledBy={'assessment-date-label'}
         />
       </Fragment>
@@ -298,11 +299,14 @@ class AssessmentFormHeader extends PureComponent {
     );
   }
 }
-
+AssessmentFormHeader.defaultProps = {
+  onKeyUp: () => {},
+};
 AssessmentFormHeader.propTypes = {
   assessment: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   onAssessmentUpdate: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func,
 };
 
 export default AssessmentFormHeader;

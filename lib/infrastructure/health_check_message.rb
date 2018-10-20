@@ -14,6 +14,10 @@ module Infrastructure
       @health_checks = health_checks
     end
 
+    def status_code
+      @health_status ? ok_http_status_code : cwds_http_error_status_code
+    end
+
     def to_json
       {
         application: application,
@@ -29,6 +33,14 @@ module Infrastructure
       health_checks.each_with_object({}) do |check, checks|
         checks[check.name.to_sym] = check.values
       end
+    end
+
+    def ok_http_status_code
+      200
+    end
+
+    def cwds_http_error_status_code
+      465
     end
   end
 end

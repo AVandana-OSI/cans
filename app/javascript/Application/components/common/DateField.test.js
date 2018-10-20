@@ -4,10 +4,11 @@ import DateField from './DateField';
 import { jsDateToIso } from '../../util/dateHelper';
 
 describe('DateField', () => {
-  function mountDateField({ id = '', onChange = () => null, required = undefined, value } = {}) {
+  function mountDateField({ id = '', onChange = () => null, onKeyUp = () => null, required = undefined, value } = {}) {
     const props = {
       id,
       onChange,
+      onKeyUp,
       required,
       value,
     };
@@ -37,6 +38,14 @@ describe('DateField', () => {
     const date = new Date();
     dateTimePicker.props().onChange(date);
     expect(onChange).toHaveBeenCalledWith(jsDateToIso(date));
+  });
+
+  it('calls parent onKeyUp with date string when DateTimePicker calls onKeyUp', () => {
+    const onKeyUp = jasmine.createSpy('onKeyUp');
+    const dateTimePicker = mountDateField({ onKeyUp }).find('DateTimePicker');
+    const date = new Date();
+    dateTimePicker.props().onKeyUp(date);
+    expect(onKeyUp).toHaveBeenCalledWith(date);
   });
 
   it('does not render a required date field', () => {

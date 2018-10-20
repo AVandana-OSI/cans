@@ -23,7 +23,7 @@ describe('<AssessmentFormHeader />', () => {
     it('renders with case numbers dropdown', () => {
       const clientWithCases = clone(client);
       clientWithCases.cases = [{ id: 101, external_id: '1001' }, { id: 102, external_id: '1002' }];
-      const props = { assessment, client: clientWithCases, onAssessmentUpdate: jest.fn() };
+      const props = { assessment, client: clientWithCases, onAssessmentUpdate: jest.fn(), onKeyUp: jest.fn() };
       const wrapper = shallow(<AssessmentFormHeader {...props} />);
       const caseNumberOptions = wrapper
         .find('#select-case')

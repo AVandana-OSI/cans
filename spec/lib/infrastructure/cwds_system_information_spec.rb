@@ -10,7 +10,7 @@ module Infrastructure
 
       context 'when /system-information' do
         let(:health_checker) { instance_double('Infrastructure::HealthChecker') }
-        let(:health_check_response) { { application: 'CANS' }.to_json }
+        let(:health_check_response) { [200, { application: 'CANS' }.to_json] }
         let(:environment) do
           Rack::MockRequest.env_for('http://example.com/cans/system-information', {})
         end
@@ -20,7 +20,7 @@ module Infrastructure
           allow(health_checker).to receive(:check).and_return(health_check_response)
         end
 
-        it 'returns 200 status code' do
+        it 'returns status code' do
           status, _headers, _body = cwds_system_information.call(environment)
           expect(status).to eq 200
         end
@@ -32,7 +32,7 @@ module Infrastructure
 
         it 'returns a json payload' do
           _status, _headers, body = cwds_system_information.call(environment)
-          expect(body).to eq [health_check_response]
+          expect(body).to eq([{ application: 'CANS' }.to_json])
         end
       end
 

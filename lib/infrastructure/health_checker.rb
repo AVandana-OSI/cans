@@ -2,9 +2,10 @@
 
 module Infrastructure
   class HealthChecker
-    def initialize(redis = Redis.new,
-                   http_service = Infrastructure::HttpService.new,
-                   security_gateway = Infrastructure::SecurityGateway.new)
+    def initialize(redis = Redis.new(host: ENV.fetch('REDIS_HOST', 'localhost'),
+                                     port: ENV.fetch('REDIS_PORT', '6379')),
+                   http_service = ::Infrastructure::HttpService.new,
+                   security_gateway = ::Infrastructure::SecurityGateway.new)
       @redis = redis
       @http_service = http_service
       @security_gateway = security_gateway
@@ -15,7 +16,8 @@ module Infrastructure
       health_checks << redis_check
       health_checks << cans_api_check
       health_checks << perry_check
-      HealthCheckMessage.new(overall_health(health_checks), health_checks).to_json
+      health_check_message = HealthCheckMessage.new(overall_health(health_checks), health_checks)
+      [health_check_message.status_code, health_check_message.to_json]
     end
 
     private

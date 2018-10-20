@@ -25,6 +25,20 @@ module Infrastructure
       end
     end
 
+    describe '#status_code' do
+      context 'when health status is true' do
+        it 'returns 200' do
+          expect(HealthCheckMessage.new(true, []).status_code).to eq 200
+        end
+      end
+
+      context 'when health status is false' do
+        it 'returns 465' do
+          expect(HealthCheckMessage.new(false, []).status_code).to eq 465
+        end
+      end
+    end
+
     describe '#to_json' do
       let(:timestamp) { Time.now }
       let(:health_checks) { [HealthCheckItem.new(:redis, true, timestamp)] }

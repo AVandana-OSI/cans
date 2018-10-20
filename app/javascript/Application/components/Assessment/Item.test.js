@@ -62,12 +62,12 @@ describe('<Item />', () => {
     const wrapper = mount({ ...itemComponentDefault });
     wrapper.setProps({ ...propsDefault });
     const foldedText = wrapper.text();
-    expect(wrapper.find('#lf10family-item-expand').hasClass('fa-plus')).toBe(true);
+    expect(wrapper.find('#lf10family-item-expand').hasClass('fa-chevron-down')).toBe(true);
     expect(foldedText).not.toMatch(/Description/);
 
     wrapper.find('#lf10family-item-expand').simulate('click');
     const expandedText = wrapper.text();
-    expect(wrapper.find('#lf10family-item-expand').hasClass('fa-minus')).toBe(true);
+    expect(wrapper.find('#lf10family-item-expand').hasClass('fa-chevron-up')).toBe(true);
     expect(expandedText).toMatch(/Description/);
   });
 

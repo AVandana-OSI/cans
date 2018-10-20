@@ -77,6 +77,7 @@ class Item extends Component {
   };
 
   renderConfidentialCheckbox = (isConfidential, confidential_by_default) => {
+    const code = this.props.item.code;
     return (
       <div>
         <form autoComplete="off">
@@ -85,6 +86,7 @@ class Item extends Component {
               onChange={this.handleConfidentialityChange}
               label={'Confidential'}
               value={stringify(isConfidential)}
+              id={code + 'Checkbox'}
               control={
                 <Checkbox
                   checked={isConfidential}
@@ -137,6 +139,7 @@ class Item extends Component {
                   <FormControlLabel
                     value={stringify(i)}
                     key={label}
+                    id={`input-${code}-${i}-select`}
                     control={
                       <Radio
                         value={stringify(i)}
@@ -178,7 +181,10 @@ class Item extends Component {
     const itemNumber = isAssessmentUnderSix ? under_six_id : above_six_id;
     const { isExpanded, title, description, qtcDescriptions, ratingDescriptions } = this.state;
     const isBooleanRating = rating_type === 'BOOLEAN';
-    const classes = classNames('item-expand-icon', { 'fa fa-plus': !isExpanded, 'fa fa-minus': isExpanded });
+    const classes = classNames('item-expand-icon', {
+      'fa fa-chevron-down': !isExpanded,
+      'fa fa-chevron-up': isExpanded,
+    });
     return shouldItemBeRendered(isAssessmentUnderSix, item) ? (
       <div>
         <Paper>

@@ -44,5 +44,5 @@ coverage
 .env
 .yarn-integrity
 .byebug_history
-
+dump.rdb
 

@@ -1,0 +1,128 @@
+version: '3.2'
+services:
+  db2:
+    image: cwds/db2data
+    hostname: db2data
+    expose:
+      - 50000
+    environment:
+      DB_CMS_DB2_PORT: ${DB_CMS_DB2_PORT}
+    networks:
+      - cans
+
+  postgres:
+    image: cwds/postgresql_data:0.9.4_680-RC
+    hostname: postgresql_data
+    expose:
+      - 5432
+    environment:
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    networks:
+      - cans
+
+  perry:
+    image: cwds/perry
+    hostname: perry
+    expose:
+      - 8080
+      - 9082
+    environment:
+      PERRY_PORT: ${PERRY_PORT}
+      DEV_MODE: ${DEV_MODE}
+      LOG_LEVEL: ${LOG_LEVEL}
+    networks:
+      - cans
+
+  redis:
+    image: 'redis:3.0'
+    expose:
+      - 6379
+    networks:
+      - cans
+
+  cans-api:
+    image: cwds/cans-api:0.9.4
+    hostname: cans-api
+    depends_on:
+      - db2
+      - postgres
+      - perry
+    restart: on-failure
+    expose:
+      - 8080
+    environment:
+      LOGIN_URL: 'http://perry:8080/perry/authn/login'
+      LOGOUT_URL: 'http://perry:8080/perry/authn/logout'
+      SWAGGER_TOKEN_URL: 'http://perry:8080/perry/authn/token'
+      SWAGGER_JSON_URL: 'http://cans-api:8080/swagger.json'
+      SWAGGER_CALLBACK_URL: 'http://cans-api:8080/swagger'
+      SHIRO_CONFIG_PATH: ${SHIRO_CONFIG_PATH}
+      KEY_STORE_FILE: ${KEY_STORE_FILE}
+      AUTHORIZATION_ENABLED: ${AUTHORIZATION_ENABLED}
+      DB_NS_JDBC_URL: ${DB_NS_JDBC_URL}
+      DB_NS_SCHEMA: ${DB_NS_SCHEMA}
+      DB_NS_USER: ${DB_NS_USER}
+      DB_NS_PASSWORD: ${DB_NS_PASSWORD}
+      DB_CMS_JDBC_URL: ${DB_CMS_JDBC_URL}
+      DB_CMS_SCHEMA: ${DB_CMS_SCHEMA}
+      DB_CMS_USER: ${DB_CMS_USER}
+      DB_CMS_PASSWORD: ${DB_CMS_PASSWORD}
+      DB_CMS_RS_JDBC_URL: ${DB_CMS_RS_JDBC_URL}
+      DB_CMS_RS_SCHEMA: ${DB_CMS_RS_SCHEMA}
+      DB_CMS_RS_USER: ${DB_CMS_RS_USER}
+      DB_CMS_RS_PASSWORD: ${DB_CMS_RS_PASSWORD}
+    networks:
+      - cans
+
+  cans-web:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    expose:
+      - 3000
+    environment:
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PERRY_BASE_URL: 'http://perry:8080/perry'
+      CANS_API_BASE_URL: 'http://cans-api:8080'
+      CANS_AUTHORIZATION_ENABLED: ${CANS_AUTHORIZATION_ENABLED}
+      REDIS_HOST: 'redis'
+      REDIS_PORT: 6379
+    depends_on:
+      - redis
+      - cans-api
+      - perry
+    tty: true
+    stdin_open: true
+    networks:
+      - cans
+
+  cans-test:
+    build:
+      context: .
+      dockerfile: docker/test/Dockerfile
+    image: cans-cans-test:latest
+    volumes:
+      - ./spec/.:/app/spec
+    environment:
+      CANS_WEB_BASE_URL: 'cans-web:3000/cans'
+    tty: true
+    stdin_open: true
+    networks:
+      - cans
+
+  cans-test-all:
+    image: cans-cans-test:latest
+    depends_on:
+      - cans-web
+      - cans-test
+    command: sh '/wait4all.sh'
+    volumes:
+      - ./docker/test/wait-for:/wait-for
+      - ./docker/test/wait4all.sh:/wait4all.sh
+    tty: true
+    stdin_open: true
+    networks:
+      - cans
+
+networks:
+  cans:

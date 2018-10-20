@@ -4,10 +4,10 @@ services:
     image: cwds/db2data
     hostname: db2data
     ports:
-      - ${DB_CMS_DB2_PORT}:50000  
-      
+      - ${DB_CMS_DB2_PORT}:50000
+
   postgres:
-    image: cwds/postgresql_data:0.8.4_648-RC
+    image: cwds/postgresql_data:0.9.4_680-RC
     hostname: postgresql_data
     ports:
       - ${POSTGRES_PORT}:5432
@@ -31,9 +31,10 @@ services:
       - '6379:6379'
 
   cans-api:
-    image: cwds/cans-api:0.9.2_220-RC
+    image: cwds/cans-api:0.9.4
     hostname: cans-api
     depends_on:
+      - db2
       - postgres
       - perry
     restart: on-failure

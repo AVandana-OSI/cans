@@ -110,9 +110,9 @@ describe('<AssessmentContainer />', () => {
         const adder = jest.spyOn(global, 'addEventListener').mockImplementation(() => {});
         const remover = jest.spyOn(global, 'removeEventListener').mockImplementation(() => {});
         const wrapper = shallow(<AssessmentContainer isNewForm={false} client={{}} />);
-        expect(adder).toHaveBeenCalled();
+        expect(adder).toHaveBeenCalledTimes(1);
         wrapper.unmount();
-        expect(remover).toHaveBeenCalled();
+        expect(remover).toHaveBeenCalledTimes(1);
       });
 
       it('when a user press ctrl+p', () => {
@@ -217,6 +217,7 @@ describe('<AssessmentContainer />', () => {
         const props = {
           location: { childId: 1 },
           isNewForm: false,
+          isSaveButtonEnabled: true,
           client: {},
         };
         const assessmentServiceGetSpy = jest.spyOn(AssessmentService, 'fetchNewAssessment');
@@ -288,7 +289,6 @@ describe('<AssessmentContainer />', () => {
         jest.spyOn(AssessmentService, 'fetchNewAssessment').mockReturnValue(Promise.resolve(assessment));
         const wrapper = await shallow(<AssessmentContainer client={childInfoJson} isNewForm={false} />);
         wrapper.setState({ assessment: { id: 1 } });
-
         // when
         await wrapper.instance().handleSaveAssessment();
         wrapper.update();
@@ -401,17 +401,22 @@ describe('<AssessmentContainer />', () => {
   describe('buttons', () => {
     describe('Cancel button', () => {
       it('redirects to client page', async () => {
-        const wrapper = await mountWithRouter(
-          <AssessmentContainer match={{ params: { id: 1 } }} client={childInfoJson} isNewForm={false} />
+        const wrapper = shallow(
+          <AssessmentContainer match={{ params: { id: 1 } }} client={childInfoJson} isNewForm={false} />,
+          { disableLifecycleMethods: true }
         );
-        expect(wrapper.find('Redirect').length).toBe(0);
-        await wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .handleCancelClick();
-        const redirect = wrapper.update().find('Redirect');
-        expect(redirect.length).toBe(1);
-        expect(redirect.first().props().to.state.successAssessmentId).toBe(undefined);
+        await wrapper.instance().handleCancelClick();
+        expect(wrapper.state().redirection).toEqual({
+          shouldRedirect: true,
+        });
+        expect(wrapper.find('Redirect').exists()).toBe(true);
+
+        await wrapper.update();
+        wrapper.instance().componentDidUpdate();
+        expect(wrapper.state().redirection).toEqual({
+          shouldRedirect: false,
+        });
+        expect(wrapper.find('Redirect').exists()).toBe(false);
       });
     });
 
@@ -453,35 +458,65 @@ describe('<AssessmentContainer />', () => {
       });
 
       it('redirects to client page on Submit button clicked', async () => {
-        // given
         const assessmentServicePostSpy = jest.spyOn(AssessmentService, 'postAssessment');
         assessmentServicePostSpy.mockReturnValue(Promise.resolve({ id: 123 }));
-        const historyMock = {
-          push: () => {
-            historyMock.length += 1;
-          },
-          length: 0,
-        };
-        const wrapper = await mountWithRouter(
+        const wrapper = shallow(
           <AssessmentContainer
             match={{ params: { id: 1 } }}
             client={childInfoJson}
-            history={historyMock}
             isNewForm={false}
-          />
+            history={{ push: jest.fn() }}
+          />,
+          { disableLifecycleMethods: true }
         );
         expect(wrapper.find('Redirect').length).toBe(0);
 
-        // when
-        const instance = wrapper.find('AssessmentContainer').instance();
-        await instance.handleSubmitAssessment();
+        await wrapper.instance().handleSubmitAssessment();
+        expect(wrapper.state().redirection).toEqual({
+          shouldRedirect: true,
+          successAssessmentId: 123,
+        });
+        expect(wrapper.find('Redirect').exists()).toBe(true);
 
-        // then
         await wrapper.update();
-        const redirect = wrapper.find('Redirect');
-        expect(redirect.length).toBe(1);
-        expect(redirect.first().props().to.state.successAssessmentId).toBe(123);
-        expect(historyMock.length).toBe(1);
+        wrapper.instance().componentDidUpdate();
+        expect(wrapper.state().redirection).toEqual({
+          shouldRedirect: false,
+          successAssessmentId: 123,
+        });
+        expect(wrapper.find('Redirect').exists()).toBe(false);
+      });
+    });
+
+    describe('handleKeyUp', () => {
+      let wrapper;
+      let instance;
+      beforeEach(() => {
+        wrapper = shallow(
+          <AssessmentContainer match={{ params: { id: 1 } }} client={childInfoJson} isNewForm={false} />
+        );
+        instance = wrapper.instance();
+      });
+
+      it('should default isValidDate to true', () => {
+        expect(instance.state.isValidDate).toEqual(true);
+      });
+
+      it('should set isValidDate to true when date is valid', () => {
+        instance.setState({ isValidDate: false });
+        instance.handleKeyUp({ target: { value: '10/09/2018' } });
+        expect(instance.state.isValidDate).toEqual(true);
+      });
+
+      it('should set isValidDate to false when date is invalid', () => {
+        instance.handleKeyUp({ target: { value: '325982323' } });
+        expect(instance.state.isValidDate).toEqual(false);
+        instance.handleKeyUp({ target: { value: '10/2019/21' } });
+        expect(instance.state.isValidDate).toEqual(false);
+        instance.handleKeyUp({ target: { value: '' } });
+        expect(instance.state.isValidDate).toEqual(false);
+        instance.handleKeyUp({ target: {} });
+        expect(instance.state.isValidDate).toEqual(false);
       });
     });
 
@@ -537,6 +572,40 @@ describe('<AssessmentContainer />', () => {
         // then
         expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeTruthy();
         expect(wrapper.find('Button#submit-assessment').instance().props.disabled).toBeTruthy();
+      });
+
+      it('should disable the save button when date is invalid', async () => {
+        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />);
+
+        // when
+        wrapper
+          .find('AssessmentContainer')
+          .instance()
+          .setState({
+            isValidDate: false,
+            isEditable: true,
+            assessment,
+          });
+
+        // then
+        expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeTruthy();
+      });
+
+      it('should enable the save button when date is valid', async () => {
+        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />);
+
+        // when
+        wrapper
+          .find('AssessmentContainer')
+          .instance()
+          .setState({
+            isValidDate: true,
+            isEditable: true,
+            assessment,
+          });
+
+        // then
+        expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeFalsy();
       });
     });
   });

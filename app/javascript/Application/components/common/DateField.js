@@ -6,7 +6,6 @@ import momentLocalizer from 'react-widgets-moment';
 import { isEmpty } from '../../util/common';
 import { isoToJsDate, isValidLocalDate, jsDateToIso, localToIsoDate } from '../../util/dateHelper';
 import { LOCAL_DATE_FORMAT } from '../../util/constants';
-
 import './style.sass';
 
 Moment.locale('en');
@@ -50,7 +49,7 @@ class DateField extends Component {
   };
 
   render() {
-    const { id, isRequired, ariaLabelledBy, ariaDescribedBy } = this.props;
+    const { id, isRequired, ariaLabelledBy, ariaDescribedBy, onKeyUp } = this.props;
     const { value, key } = this.state;
     return (
       <DateTimePicker
@@ -62,6 +61,7 @@ class DateField extends Component {
         format={LOCAL_DATE_FORMAT}
         onBlur={this.handleOnBlur}
         onChange={this.handleOnChange}
+        onKeyUp={onKeyUp}
         placeholder={'mm/dd/yyyy'}
         required={isRequired}
         aria-required={isRequired}
@@ -76,6 +76,7 @@ DateField.defaultProps = {
   isRequired: false,
   ariaLabelledBy: null,
   ariaDescribedBy: null,
+  onKeyUp: () => {},
   value: null,
 };
 
@@ -85,6 +86,7 @@ DateField.propTypes = {
   id: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func,
   value: PropTypes.string,
 };
 

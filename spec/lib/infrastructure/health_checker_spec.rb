@@ -6,6 +6,28 @@ require 'json'
 
 module Infrastructure
   describe HealthChecker do
+    describe '#initialize' do
+      before do
+        allow(Infrastructure::HttpService).to receive(:new).with(no_args)
+        allow(Infrastructure::SecurityGateway).to receive(:new).with(no_args)
+      end
+
+      it 'sets defaults for Redis' do
+        expect(Redis).to receive(:new).with(host: 'localhost', port: '6379')
+        HealthChecker.new
+      end
+
+      it 'sets defaults for http service' do
+        expect(Infrastructure::HttpService).to receive(:new).with(no_args)
+        HealthChecker.new
+      end
+
+      it 'sets defaults for security gateway' do
+        expect(Infrastructure::HttpService).to receive(:new).with(no_args)
+        HealthChecker.new
+      end
+    end
+
     describe '#check' do
       let(:redis) { instance_double('Redis') }
       let(:http_service) { instance_double('Infrastructure::HttpService') }
@@ -27,20 +49,29 @@ module Infrastructure
       end
 
       context 'when all services are up' do
+        it'returns a 200 status code' do
+          status, _response = health_checker.check
+          expect(status).to eq 200
+        end
+
         it 'shows as healthy' do
-          expect(JSON.parse(health_checker.check)['health_status']).to eq true
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_status']).to eq true
         end
 
         it 'returns redis success' do
-          expect(JSON.parse(health_checker.check)['health_checks']['redis']['healthy']).to eq true
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['redis']['healthy']).to eq true
         end
 
         it 'returns cans api success' do
-          expect(JSON.parse(health_checker.check)['health_checks']['cansapi']['healthy']).to eq true
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['cansapi']['healthy']).to eq true
         end
 
         it 'returns perry success' do
-          expect(JSON.parse(health_checker.check)['health_checks']['perry']['healthy']).to eq true
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['perry']['healthy']).to eq true
         end
       end
 
@@ -49,16 +80,24 @@ module Infrastructure
           allow(redis).to receive(:ping).with(no_args).and_throw(Redis::CannotConnectError.new)
         end
 
+        it'returns a 465 status code' do
+          status, _response = health_checker.check
+          expect(status).to eq 465
+        end
+
         it 'shows as not healthy' do
-          expect(JSON.parse(health_checker.check)['health_status']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_status']).to eq false
         end
 
         it 'returns redis failure' do
-          expect(JSON.parse(health_checker.check)['health_checks']['redis']['healthy']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['redis']['healthy']).to eq false
         end
 
         it 'returns error message' do
-          message = JSON.parse(health_checker.check)['health_checks']['redis']['message']
+          _status, response = health_checker.check
+          message = JSON.parse(response)['health_checks']['redis']['message']
           expect(message).to match('Redis::CannotConnectError')
         end
       end
@@ -68,17 +107,24 @@ module Infrastructure
           allow(cans_api_response).to receive(:status).and_return(500)
         end
 
+        it'returns a 465 status code' do
+          status, _response = health_checker.check
+          expect(status).to eq 465
+        end
+
         it 'shows as not healthy' do
-          expect(JSON.parse(health_checker.check)['health_status']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_status']).to eq false
         end
 
         it 'returns a cans-api failure' do
-          response = JSON.parse(health_checker.check)
-          expect(response['health_checks']['cansapi']['healthy']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['cansapi']['healthy']).to eq false
         end
 
         it 'sets an error message' do
-          message = JSON.parse(health_checker.check)['health_checks']['cansapi']['message']
+          _status, response = health_checker.check
+          message = JSON.parse(response)['health_checks']['cansapi']['message']
           expect(message).to match('cansapi returned 500')
         end
       end
@@ -90,17 +136,24 @@ module Infrastructure
             .and_raise(StandardError.new('error'))
         end
 
+        it'returns a 465 status code' do
+          status, _response = health_checker.check
+          expect(status).to eq 465
+        end
+
         it 'shows as not healthy' do
-          expect(JSON.parse(health_checker.check)['health_status']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_status']).to eq false
         end
 
         it 'returns a cans-api failure' do
-          response = JSON.parse(health_checker.check)
-          expect(response['health_checks']['cansapi']['healthy']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['cansapi']['healthy']).to eq false
         end
 
         it 'sets an error message' do
-          message = JSON.parse(health_checker.check)['health_checks']['cansapi']['message']
+          _status, response = health_checker.check
+          message = JSON.parse(response)['health_checks']['cansapi']['message']
           expect(message).to match('cansapi returned error')
         end
       end
@@ -110,16 +163,24 @@ module Infrastructure
           allow(perry_response).to receive(:status).and_return(500)
         end
 
+        it'returns a 465 status code' do
+          status, _response = health_checker.check
+          expect(status).to eq 465
+        end
+
         it 'shows as not healthy' do
-          expect(JSON.parse(health_checker.check)['health_status']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_status']).to eq false
         end
 
         it 'returns a perry failure' do
-          expect(JSON.parse(health_checker.check)['health_checks']['perry']['healthy']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['perry']['healthy']).to eq false
         end
 
         it 'sets an error message' do
-          message = JSON.parse(health_checker.check)['health_checks']['perry']['message']
+          _status, response = health_checker.check
+          message = JSON.parse(response)['health_checks']['perry']['message']
           expect(message).to match('perry returned 500')
         end
       end
@@ -131,16 +192,24 @@ module Infrastructure
             .and_raise(StandardError.new('error'))
         end
 
+        it'returns a 465 status code' do
+          status, _response = health_checker.check
+          expect(status).to eq 465
+        end
+
         it 'shows as not healthy' do
-          expect(JSON.parse(health_checker.check)['health_status']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_status']).to eq false
         end
 
         it 'returns a perry failure' do
-          expect(JSON.parse(health_checker.check)['health_checks']['perry']['healthy']).to eq false
+          _status, response = health_checker.check
+          expect(JSON.parse(response)['health_checks']['perry']['healthy']).to eq false
         end
 
         it 'sets an error message' do
-          message = JSON.parse(health_checker.check)['health_checks']['perry']['message']
+          _status, response = health_checker.check
+          message = JSON.parse(response)['health_checks']['perry']['message']
           expect(message).to match('perry returned error')
         end
       end

@@ -17,7 +17,8 @@ module Infrastructure
     private
 
     def system_information
-      [200, { 'Content-Type' => 'application/json' }, [HealthChecker.new.check]]
+      status_code, response = HealthChecker.new.check
+      [status_code, { 'Content-Type' => 'application/json' }, [response]]
     end
 
     def matches_system_information_path?(request)
