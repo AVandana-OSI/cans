@@ -17,9 +17,7 @@ import '../Client/style.sass';
 class SearchAssessmentHistory extends Component {
   constructor(props) {
     super(props);
-
     const { successAssessmentId } = (this.props.location || {}).state || {};
-
     if (successAssessmentId && this.props.history) {
       this.props.history.replace({ ...this.props.location, state: {} });
     }
@@ -29,33 +27,6 @@ class SearchAssessmentHistory extends Component {
       fetchStatus: LoadingState.idle,
       shouldRenderSuccessMessage: !!successAssessmentId,
     };
-  }
-
-  componentDidMount() {
-    const { clientIds } = this.props;
-
-    const promises = clientIds.map(clientId => {
-      if (clientId) {
-        return AssessmentService.search({ person_id: clientId });
-      }
-    });
-
-    return Promise.all(promises)
-      .then(assessmentData => {
-        const assessments = [].concat.apply([], assessmentData).filter(assessment => {
-          if (assessment.status === 'IN_PROGRESS') {
-            return assessment;
-          }
-        });
-
-        this.setState({
-          assessments,
-          fetchStatus: LoadingState.ready,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   renderAssessments = (assessments, fetchStatus) => {
@@ -83,6 +54,36 @@ class SearchAssessmentHistory extends Component {
         </div>
       </div>
     );
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.clientIds !== prevProps.clientIds) {
+      const { clientIds } = this.props;
+
+      const promises = clientIds.map(clientId => {
+        if (clientId) {
+          return AssessmentService.search({ person_id: clientId });
+        }
+      });
+
+      return Promise.all(promises)
+        .then(assessmentData => {
+          const assessments = [].concat.apply([], assessmentData).filter(assessment => {
+            if (assessment.status === 'IN_PROGRESS') {
+              return assessment;
+            }
+          });
+
+          this.setState({
+            assessments,
+            fetchStatus: LoadingState.ready,
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          this.setState({ clientsStatus: LoadingState.error });
+        });
+    }
   }
 }
 
