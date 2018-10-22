@@ -1,34 +1,34 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, Label, Input, Button as ButtonReactStrap } from 'reactstrap';
-import ClientService from './Client.service';
-import PaginationButtonFactory from '../common/pagination/PaginationButtonFactory';
-import Pagination from '../common/pagination/Pagination';
-import DateField from '../common/DateField';
-import { formatClientName } from './Client.helper';
-import { isoToLocalDate } from '../../util/dateHelper';
-import { LoadingState } from '../../util/loadingHelper';
-import { isEnterKeyPressed } from '../../util/events';
-import Button from '@material-ui/core/Button/Button';
-import Card from '@material-ui/core/Card/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import DataGrid from '@cwds/components/lib/DataGrid';
+import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom'
+import { Row, Col, Label, Input, Button as ButtonReactStrap } from 'reactstrap'
+import ClientService from './Client.service'
+import PaginationButtonFactory from '../common/pagination/PaginationButtonFactory'
+import Pagination from '../common/pagination/Pagination'
+import DateField from '../common/DateField'
+import { formatClientName } from './Client.helper'
+import { isoToLocalDate } from '../../util/dateHelper'
+import { LoadingState } from '../../util/loadingHelper'
+import { isEnterKeyPressed } from '../../util/events'
+import Button from '@material-ui/core/Button/Button'
+import Card from '@material-ui/core/Card/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardContent from '@material-ui/core/CardContent'
+import DataGrid from '@cwds/components/lib/DataGrid'
 
-import './style.sass';
+import './style.sass'
 
-const calculatePages = (recordsCount, pageSize) => Math.ceil(recordsCount / pageSize);
+const calculatePages = (recordsCount, pageSize) => Math.ceil(recordsCount / pageSize)
 
 const initialFilterState = {
   firstName: '',
   middleName: '',
   lastName: '',
   dob: '',
-};
+}
 
 class ClientsContainer extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       filter: initialFilterState,
       pagination: {
@@ -38,26 +38,26 @@ class ClientsContainer extends Component {
       },
       records: [],
       clientsStatus: LoadingState.ready,
-    };
-    this.handleOnPageSizeChange = this.handleOnPageSizeChange.bind(this);
-    this.handleOnPageChange = this.handleOnPageChange.bind(this);
-    this.handleResetButtonClick = this.handleResetButtonClick.bind(this);
+    }
+    this.handleOnPageSizeChange = this.handleOnPageSizeChange.bind(this)
+    this.handleOnPageChange = this.handleOnPageChange.bind(this)
+    this.handleResetButtonClick = this.handleResetButtonClick.bind(this)
   }
 
   async componentDidMount() {
-    await this.fetchClients();
+    await this.fetchClients()
   }
 
   fetchClients = () => {
-    this.setState({ clientsStatus: LoadingState.waiting });
+    this.setState({ clientsStatus: LoadingState.waiting })
     return ClientService.search({ ...this.state.filter, pagination: this.state.pagination })
       .then(this.onFetchClientsSuccess)
-      .catch(() => this.setState({ clientsStatus: LoadingState.error }));
-  };
+      .catch(() => this.setState({ clientsStatus: LoadingState.error }))
+  }
 
   onFetchClientsSuccess = searchResult => {
-    const pagination = this.state.pagination;
-    const pages = calculatePages(searchResult.total_records, pagination.pageSize);
+    const pagination = this.state.pagination
+    const pages = calculatePages(searchResult.total_records, pagination.pageSize)
     this.setState({
       pagination: {
         ...pagination,
@@ -65,23 +65,23 @@ class ClientsContainer extends Component {
       },
       records: searchResult.records,
       clientsStatus: LoadingState.ready,
-    });
-  };
+    })
+  }
 
   resetPagination = () => ({
     ...this.state.pagination,
     page: 0,
-  });
+  })
 
   async handleOnPageChange(page) {
-    const pagination = this.state.pagination;
+    const pagination = this.state.pagination
     await this.setState({
       pagination: {
         ...pagination,
         page,
       },
-    });
-    await this.fetchClients();
+    })
+    await this.fetchClients()
   }
 
   async handleOnPageSizeChange(pageSize) {
@@ -90,16 +90,16 @@ class ClientsContainer extends Component {
         ...this.resetPagination(),
         pageSize,
       },
-    });
-    await this.fetchClients();
+    })
+    await this.fetchClients()
   }
 
   async handleResetButtonClick() {
     await this.setState({
       filter: initialFilterState,
       pagination: this.resetPagination(),
-    });
-    this.fetchClients();
+    })
+    this.fetchClients()
   }
 
   handleFilterInputChange = filterName => event =>
@@ -109,13 +109,13 @@ class ClientsContainer extends Component {
         [filterName]: event.target.value,
       },
       pagination: this.resetPagination(),
-    });
+    })
 
   handleFilterInputKeyPress = event => {
     if (isEnterKeyPressed(event)) {
-      this.fetchClients();
+      this.fetchClients()
     }
-  };
+  }
 
   handleDateFilterInputChange = filterName => value => {
     this.setState({
@@ -124,12 +124,12 @@ class ClientsContainer extends Component {
         [filterName]: value,
       },
       pagination: this.resetPagination(),
-    });
-  };
+    })
+  }
 
   renderDateFilterInput(filterName, label) {
-    const inputId = `${filterName}-input`;
-    const labelId = `${inputId}-label`;
+    const inputId = `${filterName}-input`
+    const labelId = `${inputId}-label`
     return (
       <Fragment>
         <Label id={labelId} for={inputId} className={'filter-controls-label'}>
@@ -143,11 +143,11 @@ class ClientsContainer extends Component {
           ariaLabelledBy={labelId}
         />
       </Fragment>
-    );
+    )
   }
 
   renderFilterInput(filterName, label) {
-    const inputId = `${filterName}-input`;
+    const inputId = `${filterName}-input`
     return (
       <Fragment>
         <Label for={inputId} className={'filter-controls-label'}>
@@ -161,7 +161,7 @@ class ClientsContainer extends Component {
           style={{ fontSize: '1.5rem', height: '3.6rem' }}
         />
       </Fragment>
-    );
+    )
   }
 
   renderFilterControls = () => {
@@ -193,8 +193,8 @@ class ClientsContainer extends Component {
           </Col>
         </Row>
       </div>
-    );
-  };
+    )
+  }
 
   renderAddChildButton() {
     return (
@@ -203,35 +203,35 @@ class ClientsContainer extends Component {
           Add Child
         </Button>
       </Link>
-    );
+    )
   }
 
   renderClientName = client => {
-    const name = formatClientName(client);
-    const isEditable = client.metadata && client.metadata.editable;
+    const name = formatClientName(client)
+    const isEditable = client.metadata && client.metadata.editable
     if (isEditable) {
       return (
         <Link key={client.id} className="client-name" to={`/clients/${client.id}`}>
           {formatClientName(client)}
         </Link>
-      );
+      )
     } else {
       return (
         <div className="sensitive-client-name" key={client.id}>
           {name}
         </div>
-      );
+      )
     }
-  };
+  }
 
-  renderClientDob = client => isoToLocalDate(client.dob);
+  renderClientDob = client => isoToLocalDate(client.dob)
 
   renderAccessRestrictions = client =>
-    client.sensitivity_type === 'SENSITIVE' ? 'Sensitive' : client.sensitivity_type === 'SEALED' ? 'Sealed' : null;
+    client.sensitivity_type === 'SENSITIVE' ? 'Sensitive' : client.sensitivity_type === 'SEALED' ? 'Sealed' : null
 
   render = () => {
-    const { records, pagination, clientsStatus } = this.state;
-    const { page, pages, pageSize } = pagination;
+    const { records, pagination, clientsStatus } = this.state
+    const { page, pages, pageSize } = pagination
     const columns = [
       {
         id: 'fullName',
@@ -251,9 +251,9 @@ class ClientsContainer extends Component {
         accessor: this.renderAccessRestrictions,
         sortable: false,
       },
-    ];
-    const isPaginationShown = records.length > 0;
-    const loading = clientsStatus === LoadingState.waiting;
+    ]
+    const isPaginationShown = records.length > 0
+    const loading = clientsStatus === LoadingState.waiting
     return (
       <Card className={'card'}>
         <CardHeader className={'card-header-cans'} title="County Client List" action={this.renderAddChildButton()} />
@@ -282,8 +282,8 @@ class ClientsContainer extends Component {
           </CardContent>
         </div>
       </Card>
-    );
-  };
+    )
+  }
 }
 
-export default ClientsContainer;
+export default ClientsContainer

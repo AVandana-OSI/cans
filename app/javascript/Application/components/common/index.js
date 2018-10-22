@@ -1,2 +1,2 @@
-export { CloseableAlert, alertType } from './CloseableAlert';
-export { GlobalAlert } from './GlobalAlert';
+export { CloseableAlert, alertType } from './CloseableAlert'
+export { GlobalAlert } from './GlobalAlert'

@@ -54,6 +54,7 @@ module.exports = {
       },
     ],
     'react/sort-prop-types': 2,
+    'semi': [2, 'never'],
   },
   parser: 'babel-eslint',
   parserOptions: {

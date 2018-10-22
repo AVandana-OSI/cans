@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import MenuItem from '@material-ui/core/MenuItem'
+import Typography from '@material-ui/core/Typography'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 
 class Rating extends Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
   }
 
   handleChange = onChangeEvent => {
-    this.props.onRatingUpdate(onChangeEvent);
-  };
+    this.props.onRatingUpdate(onChangeEvent)
+  }
 
   renderNaOptionIfNeeded = () => {
-    return this.props.hasNaOption ? <MenuItem value={8}>N/A</MenuItem> : null;
-  };
+    return this.props.hasNaOption ? <MenuItem value={8}>N/A</MenuItem> : null
+  }
 
   renderBooleanSelect = () => {
     return (
@@ -27,8 +27,8 @@ class Rating extends Component {
         <MenuItem value={0}>No</MenuItem>
         <MenuItem value={1}>Yes</MenuItem>
       </Select>
-    );
-  };
+    )
+  }
 
   renderRegularSelect = () => {
     return (
@@ -40,11 +40,11 @@ class Rating extends Component {
         <MenuItem value={2}>2</MenuItem>
         <MenuItem value={3}>3</MenuItem>
       </Select>
-    );
-  };
+    )
+  }
 
   render = () => {
-    const isRegularType = this.props.rating_type === 'REGULAR';
+    const isRegularType = this.props.rating_type === 'REGULAR'
     return (
       <div style={{ display: 'flex' }}>
         <Typography
@@ -60,8 +60,8 @@ class Rating extends Component {
           <FormControl>{isRegularType ? this.renderRegularSelect() : this.renderBooleanSelect()}</FormControl>
         </form>
       </div>
-    );
-  };
+    )
+  }
 }
 
 Rating.propTypes = {
@@ -69,6 +69,6 @@ Rating.propTypes = {
   onRatingUpdate: PropTypes.func.isRequired,
   rating: PropTypes.number.isRequired,
   rating_type: PropTypes.string.isRequired,
-};
+}
 
-export default Rating;
+export default Rating

@@ -1,29 +1,29 @@
-import React, { Component, Fragment } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import PropTypes from 'prop-types';
-import { PageInfo } from '../Layout';
-import Button from '@material-ui/core/Button/Button';
-import ClientAssessmentHistory from './ClientAssessmentHistory';
-import { CloseableAlert, alertType } from '../common/CloseableAlert';
-import { Link } from 'react-router-dom';
-import { isoToLocalDate } from '../../util/dateHelper';
+import React, { Component, Fragment } from 'react'
+import Grid from '@material-ui/core/Grid'
+import Card from '@material-ui/core/Card/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardContent from '@material-ui/core/CardContent'
+import PropTypes from 'prop-types'
+import { PageInfo } from '../Layout'
+import Button from '@material-ui/core/Button/Button'
+import ClientAssessmentHistory from './ClientAssessmentHistory'
+import { CloseableAlert, alertType } from '../common/CloseableAlert'
+import { Link } from 'react-router-dom'
+import { isoToLocalDate } from '../../util/dateHelper'
 
-import './style.sass';
+import './style.sass'
 
 class Client extends Component {
   constructor(props) {
-    super(props);
-    const { isNewForm, successClientId } = (this.props.location || {}).state || {};
+    super(props)
+    const { isNewForm, successClientId } = (this.props.location || {}).state || {}
     if (successClientId && this.props.history) {
-      this.props.history.replace({ ...this.props.location, state: {} });
+      this.props.history.replace({ ...this.props.location, state: {} })
     }
     this.state = {
       isNewForm,
       shouldRenderClientMessage: !!successClientId,
-    };
+    }
   }
 
   renderClientData(data, label, gridSize = 3) {
@@ -32,50 +32,50 @@ class Client extends Component {
         <div className={'label-text'}>{label}</div>
         {data}
       </Grid>
-    );
+    )
   }
 
   formatClientId = num => {
     if (num) {
       if (num.length === 19) {
-        const firstFour = num.substring(0, 4);
-        const secondFour = num.substring(4, 8);
-        const thirdFour = num.substring(8, 12);
-        const fourthFour = num.substring(12, 19);
-        return `${firstFour}-${secondFour}-${thirdFour}-${fourthFour}`;
+        const firstFour = num.substring(0, 4)
+        const secondFour = num.substring(4, 8)
+        const thirdFour = num.substring(8, 12)
+        const fourthFour = num.substring(12, 19)
+        return `${firstFour}-${secondFour}-${thirdFour}-${fourthFour}`
       } else if (num.length === 22) {
-        return num;
+        return num
       } else {
-        return '0';
+        return '0'
       }
     }
-  };
+  }
 
   formatCases(cases) {
-    if (!cases) return null;
+    if (!cases) return null
     const items = [...cases].reverse().map(aCase => {
-      return <li key={aCase.external_id}>{aCase.external_id}</li>;
-    });
-    return <ul className={'no-indent-list'}>{items}</ul>;
+      return <li key={aCase.external_id}>{aCase.external_id}</li>
+    })
+    return <ul className={'no-indent-list'}>{items}</ul>
   }
 
   sensitivityTypeLabel(type) {
     if (!type) {
-      return 'Unrestricted';
+      return 'Unrestricted'
     }
     switch (type) {
       case 'SEALED':
-        return 'Sealed';
+        return 'Sealed'
       case 'SENSITIVE':
-        return 'Sensitive';
+        return 'Sensitive'
       default:
-        return type;
+        return type
     }
   }
 
   render() {
-    const { client } = this.props;
-    const { isNewForm, shouldRenderClientMessage } = this.state;
+    const { client } = this.props
+    const { isNewForm, shouldRenderClientMessage } = this.state
     return (
       <Fragment>
         <PageInfo title={'Child/Youth Profile'} />
@@ -138,7 +138,7 @@ class Client extends Component {
           <ClientAssessmentHistory clientId={client.id} location={this.props.location} history={this.props.history} />
         </Grid>
       </Fragment>
-    );
+    )
   }
 }
 
@@ -146,10 +146,10 @@ Client.propTypes = {
   client: PropTypes.object,
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-};
+}
 
 Client.defaultProps = {
   client: {},
-};
+}
 
-export default Client;
+export default Client

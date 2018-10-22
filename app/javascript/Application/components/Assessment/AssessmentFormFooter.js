@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col, Button } from 'reactstrap';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { Row, Col, Button } from 'reactstrap'
 
-import './style.sass';
+import './style.sass'
 
 class AssessmentFormFooter extends PureComponent {
   render() {
@@ -12,7 +12,7 @@ class AssessmentFormFooter extends PureComponent {
       onSaveAssessment,
       isSubmitButtonEnabled,
       onSubmitAssessment,
-    } = this.props;
+    } = this.props
     return (
       <Row className={'form-footer'}>
         <Col sm={9}>
@@ -34,7 +34,7 @@ class AssessmentFormFooter extends PureComponent {
           </Button>
         </Col>
       </Row>
-    );
+    )
   }
 }
 
@@ -44,6 +44,6 @@ AssessmentFormFooter.propTypes = {
   onCancelClick: PropTypes.func.isRequired,
   onSaveAssessment: PropTypes.func.isRequired,
   onSubmitAssessment: PropTypes.func.isRequired,
-};
+}
 
-export default AssessmentFormFooter;
+export default AssessmentFormFooter

@@ -1,5 +1,5 @@
-import moment from 'moment';
-import { ISO_DATE_FORMAT, LOCAL_DATE_FORMAT } from './constants';
+import moment from 'moment'
+import { ISO_DATE_FORMAT, LOCAL_DATE_FORMAT } from './constants'
 
 /**
  * Returns a formatted local datetime
@@ -8,9 +8,9 @@ import { ISO_DATE_FORMAT, LOCAL_DATE_FORMAT } from './constants';
  */
 export function isoToLocalDate(datetime) {
   if (datetime === null) {
-    return datetime;
+    return datetime
   }
-  return moment(datetime, ISO_DATE_FORMAT).format(LOCAL_DATE_FORMAT);
+  return moment(datetime, ISO_DATE_FORMAT).format(LOCAL_DATE_FORMAT)
 }
 
 /**
@@ -20,9 +20,9 @@ export function isoToLocalDate(datetime) {
  */
 export function localToIsoDate(date) {
   if (date === null) {
-    return date;
+    return date
   }
-  return moment(date, LOCAL_DATE_FORMAT).format(ISO_DATE_FORMAT);
+  return moment(date, LOCAL_DATE_FORMAT).format(ISO_DATE_FORMAT)
 }
 
 /**
@@ -32,12 +32,12 @@ export function localToIsoDate(date) {
  */
 export function jsDateToIso(value) {
   if (value === null) {
-    return value;
+    return value
   }
   if (!(value instanceof Date)) {
-    return 'Invalid date';
+    return 'Invalid date'
   }
-  return moment(value).format(ISO_DATE_FORMAT);
+  return moment(value).format(ISO_DATE_FORMAT)
 }
 
 /**
@@ -47,12 +47,12 @@ export function jsDateToIso(value) {
  */
 export function isoToJsDate(value) {
   if (value === null) {
-    return value;
+    return value
   }
   if (isValidIsoDate(value)) {
-    return moment(value, ISO_DATE_FORMAT).toDate();
+    return moment(value, ISO_DATE_FORMAT).toDate()
   }
-  return null;
+  return null
 }
 
 /**
@@ -62,7 +62,7 @@ export function isoToJsDate(value) {
  * @returns {boolean} True if input string is a valid ISO formatted date
  */
 export function isValidIsoDate(value, strict = false) {
-  return moment(value, ISO_DATE_FORMAT, strict).isValid();
+  return moment(value, ISO_DATE_FORMAT, strict).isValid()
 }
 
 /**
@@ -72,7 +72,7 @@ export function isValidIsoDate(value, strict = false) {
  * @returns {boolean}
  */
 export function isValidLocalDate(value, strict = false) {
-  return moment(value, LOCAL_DATE_FORMAT, strict).isValid();
+  return moment(value, LOCAL_DATE_FORMAT, strict).isValid()
 }
 
 /**
@@ -80,7 +80,7 @@ export function isValidLocalDate(value, strict = false) {
  * @returns {string} ISO formatted current date
  */
 export function getCurrentIsoDate() {
-  return moment().format(ISO_DATE_FORMAT);
+  return moment().format(ISO_DATE_FORMAT)
 }
 
 /**
@@ -89,8 +89,8 @@ export function getCurrentIsoDate() {
  * @returns {boolean}
  */
 export function isFutureDate(date) {
-  date = isValidIsoDate(date, true) ? date : localToIsoDate(date);
-  return moment().isSameOrBefore(date);
+  date = isValidIsoDate(date, true) ? date : localToIsoDate(date)
+  return moment().isSameOrBefore(date)
 }
 
 /**
@@ -100,8 +100,8 @@ export function isFutureDate(date) {
  * @returns {boolean}
  */
 export function isValidDate(date, config = { allowFutureDate: true }) {
-  let valid = isValidLocalDate(date, true) || isValidIsoDate(date, true);
-  return valid && (config.allowFutureDate || !isFutureDate(date));
+  let valid = isValidLocalDate(date, true) || isValidIsoDate(date, true)
+  return valid && (config.allowFutureDate || !isFutureDate(date))
 }
 
 /**
@@ -111,7 +111,7 @@ export function isValidDate(date, config = { allowFutureDate: true }) {
  */
 export function localToIsoDateOrNull(str) {
   if (isValidLocalDate(str, true)) {
-    return localToIsoDate(str);
+    return localToIsoDate(str)
   }
-  return null;
+  return null
 }

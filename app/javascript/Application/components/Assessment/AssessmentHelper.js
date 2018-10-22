@@ -1,4 +1,4 @@
-import { getCurrentIsoDate } from '../../util/dateHelper';
+import { getCurrentIsoDate } from '../../util/dateHelper'
 
 export const AssessmentType = Object.freeze({
   initial: 'INITIAL',
@@ -6,13 +6,13 @@ export const AssessmentType = Object.freeze({
   annual: 'ANNUAL',
   discharge: 'DISCHARGE',
   adminClose: 'ADMINISTRATIVE_CLOSE',
-});
+})
 
 export const AssessmentStatus = Object.freeze({
   inProgress: 'IN_PROGRESS',
   submitted: 'SUBMITTED',
   approved: 'APPROVED',
-});
+})
 
 export const defaultEmptyAssessment = {
   event_date: getCurrentIsoDate(),
@@ -20,10 +20,10 @@ export const defaultEmptyAssessment = {
   state: {
     domains: [],
   },
-};
+}
 
 export function validateAssessmentForSubmit(assessment) {
-  return validateAssessmentDtoFields(assessment) && validateAssessmentState(assessment.state);
+  return validateAssessmentDtoFields(assessment) && validateAssessmentState(assessment.state)
 }
 
 function validateAssessmentDtoFields(assessmentDto) {
@@ -32,42 +32,42 @@ function validateAssessmentDtoFields(assessmentDto) {
     isDefined(assessmentDto.assessment_type) &&
     isDefined(assessmentDto.completed_as) &&
     isDefined(assessmentDto.has_caregiver)
-  );
+  )
 }
 
 function validateAssessmentState(assessment) {
-  return isDefined(assessment.under_six) && areItemsValid(assessment);
+  return isDefined(assessment.under_six) && areItemsValid(assessment)
 }
 
 function isDefined(value) {
-  return typeof value !== 'undefined' && value !== null && value !== '';
+  return typeof value !== 'undefined' && value !== null && value !== ''
 }
 
 function areItemsValid(assessment) {
-  const isUnderSix = !!assessment.under_six;
+  const isUnderSix = !!assessment.under_six
   const requiredItems = assessment.domains
     .filter(domain => shouldDomainBeRendered(isUnderSix, domain))
     .reduce((items, domain) => items.concat(domain.items), [])
-    .filter(item => shouldItemBeRendered(isUnderSix, item));
-  const itemsWithNoRating = requiredItems.filter(item => item.rating === -1);
-  return itemsWithNoRating.length === 0;
+    .filter(item => shouldItemBeRendered(isUnderSix, item))
+  const itemsWithNoRating = requiredItems.filter(item => item.rating === -1)
+  return itemsWithNoRating.length === 0
 }
 
 export function resetConfidentialByDefaultItems(assessment) {
   assessment.state.domains.map(domain => {
     domain.items.map(item => {
       if (item.confidential_by_default) {
-        item.confidential = true;
+        item.confidential = true
       }
-    });
-  });
-  return assessment;
+    })
+  })
+  return assessment
 }
 
 export function shouldDomainBeRendered(isAssessmentUnderSix, domain) {
-  return (isAssessmentUnderSix && domain.under_six) || (!isAssessmentUnderSix && domain.above_six);
+  return (isAssessmentUnderSix && domain.under_six) || (!isAssessmentUnderSix && domain.above_six)
 }
 
 export function shouldItemBeRendered(isAssessmentUnderSix, item) {
-  return (isAssessmentUnderSix && item.under_six_id) || (!isAssessmentUnderSix && item.above_six_id);
+  return (isAssessmentUnderSix && item.under_six_id) || (!isAssessmentUnderSix && item.above_six_id)
 }

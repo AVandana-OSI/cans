@@ -1,10 +1,10 @@
-import React from 'react';
-import classnames from 'classnames';
-import PaginationRT from 'react-table/lib/pagination';
-import Select from '@cwds/components/lib/Select';
-import Input from '@cwds/components/lib/Input';
-import { isFirefox } from '../../../util/common';
-import uniqueId from 'lodash.uniqueid';
+import React from 'react'
+import classnames from 'classnames'
+import PaginationRT from 'react-table/lib/pagination'
+import Select from '@cwds/components/lib/Select'
+import Input from '@cwds/components/lib/Input'
+import { isFirefox } from '../../../util/common'
+import uniqueId from 'lodash.uniqueid'
 
 /**
  * Replacing Pagination from @cwds/components library to solve issue
@@ -14,7 +14,7 @@ import uniqueId from 'lodash.uniqueid';
  * See https://github.com/react-tools/react-table/blob/f55ce620411c619855a2fe2f081407e4f82727b9/src/pagination.js
  */
 class Pagination extends PaginationRT {
-  uniqueId = uniqueId('datagrid_pagination_');
+  uniqueId = uniqueId('datagrid_pagination_')
   render() {
     const {
       // Computed
@@ -31,15 +31,15 @@ class Pagination extends PaginationRT {
       className,
       PreviousComponent,
       NextComponent,
-    } = this.props;
+    } = this.props
 
     return (
       <div className={classnames(className, '-pagination')} style={this.props.style}>
         <div className="-previous">
           <PreviousComponent
             onClick={() => {
-              if (!canPrevious) return;
-              this.changePage(page - 1);
+              if (!canPrevious) return
+              this.changePage(page - 1)
             }}
             disabled={!canPrevious}
           >
@@ -58,21 +58,21 @@ class Pagination extends PaginationRT {
                   id={`${this.uniqueId}_pageJump`}
                   type={!isFirefox && this.state.page === '' ? 'text' : 'number'}
                   onChange={e => {
-                    const { value, valueAsNumber } = e.target;
+                    const { value, valueAsNumber } = e.target
                     if (isFirefox && isNaN(valueAsNumber)) {
-                      return this.setState({ page: valueAsNumber });
+                      return this.setState({ page: valueAsNumber })
                     }
                     if (value === '') {
-                      return this.setState({ page: value });
+                      return this.setState({ page: value })
                     }
-                    const page = value - 1;
-                    this.setState({ page: this.getSafePage(page) });
+                    const page = value - 1
+                    this.setState({ page: this.getSafePage(page) })
                   }}
                   value={this.state.page === '' ? '' : this.state.page + 1}
                   onBlur={this.applyPage}
                   onKeyPress={e => {
                     if (e.which === 13 || e.keyCode === 13) {
-                      this.applyPage();
+                      this.applyPage()
                     }
                   }}
                 />
@@ -103,8 +103,8 @@ class Pagination extends PaginationRT {
         <div className="-next">
           <NextComponent
             onClick={() => {
-              if (!canNext) return;
-              this.changePage(page + 1);
+              if (!canNext) return
+              this.changePage(page + 1)
             }}
             disabled={!canNext}
           >
@@ -112,8 +112,8 @@ class Pagination extends PaginationRT {
           </NextComponent>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Pagination;
+export default Pagination

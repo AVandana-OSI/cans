@@ -1,9 +1,9 @@
-import { apiGet } from '../../App.api';
+import { apiGet } from '../../App.api'
 
 export class I18nService {
   static fetchByInstrumentId(id, lang = 'en') {
-    return apiGet(`/instruments/${id}/i18n/${lang}`);
+    return apiGet(`/instruments/${id}/i18n/${lang}`)
   }
 }
 
-export default I18nService;
+export default I18nService

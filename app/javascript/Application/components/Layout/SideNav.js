@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import SideNavLink from './SideNavLink';
+import React, { Component } from 'react'
+import SideNavLink from './SideNavLink'
 
-import './style.sass';
+import './style.sass'
 
-const URL_MAP = [{ url: '/', text: 'County Client List' }, { url: '/search', text: 'Client Search' }];
+const URL_MAP = [{ url: '/', text: 'County Client List' }, { url: '/search', text: 'Client Search' }]
 
 class SideNav extends Component {
   constructor(props) {
-    super(props);
-    this.state = { activeLink: '' };
-    this.toggleActiveLink = this.toggleActiveLink.bind(this);
-    this.isActive = this.isActive.bind(this);
+    super(props)
+    this.state = { activeLink: '' }
+    this.toggleActiveLink = this.toggleActiveLink.bind(this)
+    this.isActive = this.isActive.bind(this)
   }
 
   toggleActiveLink(href) {
-    this.setState({ activeLink: href });
+    this.setState({ activeLink: href })
   }
 
   isActive(href) {
-    return this.state.activeLink === href;
+    return this.state.activeLink === href
   }
 
   render() {
@@ -32,15 +32,15 @@ class SideNav extends Component {
               href={item.url}
               text={item.text}
               onClick={() => {
-                this.toggleActiveLink(item.url);
+                this.toggleActiveLink(item.url)
               }}
               isActive={this.isActive(item.url)}
             />
-          );
+          )
         })}
       </nav>
-    );
+    )
   }
 }
 
-export default SideNav;
+export default SideNav

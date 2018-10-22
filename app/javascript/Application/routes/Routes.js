@@ -1,10 +1,10 @@
 /* eslint-disable react/no-multi-comp,react/no-children-prop */
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { Page } from '../components/Layout';
-import { navigation } from '../util/constants';
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { Page } from '../components/Layout'
+import { navigation } from '../util/constants'
 
-const page = (route, navigateTo) => <Page navigateTo={navigateTo} {...route} />;
+const page = (route, navigateTo) => <Page navigateTo={navigateTo} {...route} />
 
 const Routes = () => {
   return (
@@ -21,7 +21,7 @@ const Routes = () => {
       />
       <Route exact path="/search" children={route => page(route, navigation.CLIENT_SEARCH)} />
     </Switch>
-  );
-};
+  )
+}
 
-export default Routes;
+export default Routes

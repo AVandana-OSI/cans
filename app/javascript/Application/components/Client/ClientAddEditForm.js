@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import InputMask from 'react-input-mask';
-import { Row, Col, Button } from 'reactstrap';
-import { TextField, Card, CardHeader, CardContent } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
-import { CountiesService } from './Counties.service';
-import { SensitivityTypesService } from './SensitivityTypes.service';
-import { CloseableAlert, alertType } from '../common/CloseableAlert';
-import UserAccountService from '../Header/UserAccountService';
-import { ClientService } from './Client.service';
-import { validate, validateCase, validateCaseNumbersAreUnique, isFormValid } from './ClientFormValidator';
-import { PageInfo } from '../Layout';
-import { isA11yAllowedInput } from '../../util/events';
-import { clone, stringify } from '../../util/common';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import MaskedDateField from '../common/MaskedDateField';
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import InputMask from 'react-input-mask'
+import { Row, Col, Button } from 'reactstrap'
+import { TextField, Card, CardHeader, CardContent } from '@material-ui/core'
+import { Redirect } from 'react-router-dom'
+import { CountiesService } from './Counties.service'
+import { SensitivityTypesService } from './SensitivityTypes.service'
+import { CloseableAlert, alertType } from '../common/CloseableAlert'
+import UserAccountService from '../Header/UserAccountService'
+import { ClientService } from './Client.service'
+import { validate, validateCase, validateCaseNumbersAreUnique, isFormValid } from './ClientFormValidator'
+import { PageInfo } from '../Layout'
+import { isA11yAllowedInput } from '../../util/events'
+import { clone, stringify } from '../../util/common'
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
+import MaskedDateField from '../common/MaskedDateField'
+import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
 
-import './style.sass';
+import './style.sass'
 
-const FIRST_MIDDLE_NAME_MAX_LENGTH = 20;
-const LAST_NAME_MAX_LENGTH = 25;
-const SUFFIX_MAX_LENGTH = 4;
+const FIRST_MIDDLE_NAME_MAX_LENGTH = 20
+const LAST_NAME_MAX_LENGTH = 25
+const SUFFIX_MAX_LENGTH = 4
 
 const theme = createMuiTheme({
   palette: {
@@ -32,7 +32,7 @@ const theme = createMuiTheme({
       main: '#DA190B',
     },
   },
-});
+})
 
 const styles = theme => ({
   root: {
@@ -86,32 +86,32 @@ const styles = theme => ({
     color: '#fff',
     fontSize: 20,
   },
-});
+})
 
 const inputLabelProps = {
   style: {
     color: '#707070',
     fontSize: 18,
   },
-};
+}
 
 const helperTextProps = {
   style: {
     fontSize: 10,
   },
-};
+}
 
 const emptyCounty = {
   id: 0,
   name: '',
-};
+}
 
 const prepareChildInfo = childInfo => {
   if (childInfo.cases.length === 0) {
-    childInfo.cases.push({ external_id: '' });
+    childInfo.cases.push({ external_id: '' })
   }
-  return childInfo;
-};
+  return childInfo
+}
 
 const prepareChildInfoValidation = (childInfo, isNewForm) => {
   const validation = {
@@ -123,17 +123,17 @@ const prepareChildInfoValidation = (childInfo, isNewForm) => {
     external_id: !isNewForm,
     county: !isNewForm,
     cases: [],
-  };
+  }
 
-  childInfo.cases.map(() => validation.cases.push({ external_id: true }));
+  childInfo.cases.map(() => validation.cases.push({ external_id: true }))
 
-  return validation;
-};
+  return validation
+}
 
 class ClientAddEditForm extends Component {
   constructor(props) {
-    super(props);
-    const { client, isNewForm } = props;
+    super(props)
+    const { client, isNewForm } = props
     this.state = {
       childInfo: prepareChildInfo(client),
       initialSensitivityType: client.sensitivity_type,
@@ -147,53 +147,53 @@ class ClientAddEditForm extends Component {
         shouldRedirect: false,
         successClientId: null,
       },
-    };
+    }
   }
 
   async componentDidMount() {
-    await this.fetchCounties();
-    await this.fetchUserAccount();
-    await this.fetchSensitivityTypes(this.state.childInfo.county);
-    this.handleDefaultCounty(this.state.userCounty.name);
+    await this.fetchCounties()
+    await this.fetchUserAccount()
+    await this.fetchSensitivityTypes(this.state.childInfo.county)
+    this.handleDefaultCounty(this.state.userCounty.name)
   }
 
   fetchCounties() {
-    return CountiesService.fetchCounties().then(counties => this.setState({ counties }));
+    return CountiesService.fetchCounties().then(counties => this.setState({ counties }))
   }
 
   fetchSensitivityTypes(county) {
     return SensitivityTypesService.fetch(county).then(sensitivityTypes => {
-      this.setSensitivityTypes(sensitivityTypes);
-    });
+      this.setSensitivityTypes(sensitivityTypes)
+    })
   }
 
   setSensitivityTypes(sensitivityTypes) {
-    this.setState({ sensitivityTypes });
+    this.setState({ sensitivityTypes })
     if (!sensitivityTypes || sensitivityTypes.length === 0) {
       this.setState({
         childInfo: {
           ...this.state.childInfo,
           sensitivity_type: this.state.initialSensitivityType,
         },
-      });
+      })
     }
   }
 
   fetchUserAccount() {
     return UserAccountService.fetchCurrent()
       .then(user => this.setState({ userCounty: { id: parseInt(user.county_code, 10), name: user.county_name } }))
-      .catch(() => {});
+      .catch(() => {})
   }
 
   handleDefaultCounty(defaultCountyName) {
-    const county = this.state.counties.find(county => county.name === defaultCountyName) || emptyCounty;
-    this.countyValidate(county);
+    const county = this.state.counties.find(county => county.name === defaultCountyName) || emptyCounty
+    this.countyValidate(county)
   }
 
   handleCountyChange = event => {
-    const county = this.state.counties.find(county => county.name === event.target.value) || emptyCounty;
-    this.countyValidate(county);
-  };
+    const county = this.state.counties.find(county => county.name === event.target.value) || emptyCounty
+    this.countyValidate(county)
+  }
 
   countyValidate = county => {
     this.setState({
@@ -201,53 +201,53 @@ class ClientAddEditForm extends Component {
         ...this.state.childInfo,
         county: county,
       },
-    });
-    this.fetchSensitivityTypes(county);
-    this.validateInput('county', county);
+    })
+    this.fetchSensitivityTypes(county)
+    this.validateInput('county', county)
     county.name === this.state.userCounty.name
       ? this.setState({ isUsersCounty: true })
-      : this.setState({ isUsersCounty: false });
-  };
+      : this.setState({ isUsersCounty: false })
+  }
 
   handleSensitivityTypeChange = event => {
-    const sensitivityType = this.state.sensitivityTypes.find(type => type === event.target.value) || null;
+    const sensitivityType = this.state.sensitivityTypes.find(type => type === event.target.value) || null
     this.setState({
       childInfo: {
         ...this.state.childInfo,
         sensitivity_type: sensitivityType,
       },
-    });
-  };
+    })
+  }
 
   handleChange = name => event => {
-    const newValue = event.target.value;
+    const newValue = event.target.value
     this.setState({
       childInfo: {
         ...this.state.childInfo,
         [name]: newValue,
       },
-    });
-    this.validateInput(name, newValue);
-  };
+    })
+    this.validateInput(name, newValue)
+  }
 
   validateInput = (fieldName, inputValue) => {
-    const allValidations = this.state.childInfoValidation;
-    allValidations[fieldName] = validate(fieldName, inputValue);
+    const allValidations = this.state.childInfoValidation
+    allValidations[fieldName] = validate(fieldName, inputValue)
     this.setState({
       childInfoValidation: {
         ...allValidations,
       },
       isSaveButtonDisabled: !isFormValid(allValidations),
-    });
-  };
+    })
+  }
 
   handleChangeCaseNumber = caseIndex => event => {
-    const cases = clone(this.state.childInfo.cases);
-    cases[caseIndex].external_id = event.target.value;
+    const cases = clone(this.state.childInfo.cases)
+    cases[caseIndex].external_id = event.target.value
     const childInfoValidation = {
       ...this.state.childInfoValidation,
       cases: this.validateCaseNumbers(cases),
-    };
+    }
     this.setState({
       childInfo: {
         ...this.state.childInfo,
@@ -255,23 +255,23 @@ class ClientAddEditForm extends Component {
       },
       childInfoValidation,
       isSaveButtonDisabled: !isFormValid(childInfoValidation),
-    });
-  };
+    })
+  }
 
   validateCaseNumbers = cases => {
-    const casesValidations = clone(this.state.childInfoValidation.cases);
+    const casesValidations = clone(this.state.childInfoValidation.cases)
     for (const [index, aCase] of cases.entries()) {
-      casesValidations[index].external_id = validateCase(aCase);
+      casesValidations[index].external_id = validateCase(aCase)
     }
-    const nonUniqueCasesIndices = validateCaseNumbersAreUnique(cases);
-    nonUniqueCasesIndices.forEach(index => (casesValidations[index].external_id = false));
-    return casesValidations;
-  };
+    const nonUniqueCasesIndices = validateCaseNumbersAreUnique(cases)
+    nonUniqueCasesIndices.forEach(index => (casesValidations[index].external_id = false))
+    return casesValidations
+  }
 
   handleSubmit = event => {
-    const childInfo = this.prepareChildForSubmit(clone(this.state.childInfo));
+    const childInfo = this.prepareChildForSubmit(clone(this.state.childInfo))
     if (this.props.isNewForm) {
-      event.preventDefault();
+      event.preventDefault()
       ClientService.addClient(childInfo)
         .then(newChild => {
           this.setState({
@@ -280,9 +280,9 @@ class ClientAddEditForm extends Component {
               shouldRedirect: true,
               successClientId: newChild.id,
             },
-          });
+          })
         })
-        .catch(error => this.handleError(error));
+        .catch(error => this.handleError(error))
     } else {
       ClientService.updateClient(childInfo.id, childInfo)
         .then(updatedChild => {
@@ -292,32 +292,32 @@ class ClientAddEditForm extends Component {
               shouldRedirect: true,
               successClientId: updatedChild.id,
             },
-          });
+          })
         })
-        .catch(error => this.handleError(error));
+        .catch(error => this.handleError(error))
     }
-  };
+  }
 
   handleError = error => {
-    const errorResponse = error.response;
+    const errorResponse = error.response
     if (errorResponse && errorResponse.status === 409) {
       const errorMessage =
         errorResponse.data &&
         errorResponse.data.issue_details &&
         errorResponse.data.issue_details[0] &&
-        errorResponse.data.issue_details[0].technical_message;
-      errorMessage ? this.setState({ error: { message: errorMessage } }) : this.setState({ error });
+        errorResponse.data.issue_details[0].technical_message
+      errorMessage ? this.setState({ error: { message: errorMessage } }) : this.setState({ error })
     }
-  };
+  }
 
   prepareChildForSubmit(childInfo) {
-    const cases = childInfo.cases;
+    const cases = childInfo.cases
     for (let i = cases.length - 1; i >= 0; i--) {
       if (!cases[i].external_id) {
-        cases.splice(i, 1);
+        cases.splice(i, 1)
       }
     }
-    return childInfo;
+    return childInfo
   }
 
   handleCancel = () => {
@@ -325,53 +325,53 @@ class ClientAddEditForm extends Component {
       redirection: {
         shouldRedirect: true,
       },
-    });
-  };
+    })
+  }
 
   handleAddCaseNumber = event => {
     if (isA11yAllowedInput(event)) {
-      const childInfo = this.addCaseNumberToChildInfo();
-      const childInfoValidation = this.addCaseNumberToValidations();
+      const childInfo = this.addCaseNumberToChildInfo()
+      const childInfoValidation = this.addCaseNumberToValidations()
       this.setState({
         childInfo,
         childInfoValidation,
         isSaveButtonDisabled: !isFormValid(childInfoValidation),
-      });
+      })
     }
-  };
+  }
 
   addCaseNumberToChildInfo = () => {
-    const cases = clone(this.state.childInfo.cases);
-    cases.push({ external_id: '' });
+    const cases = clone(this.state.childInfo.cases)
+    cases.push({ external_id: '' })
     return {
       ...this.state.childInfo,
       cases: cases,
-    };
-  };
+    }
+  }
 
   addCaseNumberToValidations = () => {
-    const casesValidation = clone(this.state.childInfoValidation.cases);
-    casesValidation.push({ external_id: true });
+    const casesValidation = clone(this.state.childInfoValidation.cases)
+    casesValidation.push({ external_id: true })
     return {
       ...this.state.childInfoValidation,
       cases: casesValidation,
-    };
-  };
+    }
+  }
 
   redirectPath = childId => {
-    const { redirection, isUsersCounty } = this.state;
-    const { successClientId } = redirection;
-    const isEdit = !!childId;
-    const isCancel = !successClientId;
-    const notUsersCounty = !isUsersCounty;
-    const cancelWhenNotUsersCountyWhileEditing = isEdit && notUsersCounty && isCancel;
-    const isUsersCountyWhileEditing = isUsersCounty && isEdit;
-    return isUsersCountyWhileEditing || cancelWhenNotUsersCountyWhileEditing ? `/clients/${childId}` : '/';
-  };
+    const { redirection, isUsersCounty } = this.state
+    const { successClientId } = redirection
+    const isEdit = !!childId
+    const isCancel = !successClientId
+    const notUsersCounty = !isUsersCounty
+    const cancelWhenNotUsersCountyWhileEditing = isEdit && notUsersCounty && isCancel
+    const isUsersCountyWhileEditing = isUsersCounty && isEdit
+    return isUsersCountyWhileEditing || cancelWhenNotUsersCountyWhileEditing ? `/clients/${childId}` : '/'
+  }
 
   renderNameInputs(field, label, maxLength, isRequired) {
-    const { classes } = this.props;
-    const { childInfo, childInfoValidation } = this.state;
+    const { classes } = this.props
+    const { childInfo, childInfoValidation } = this.state
     return (
       <TextField
         required={isRequired}
@@ -388,13 +388,13 @@ class ClientAddEditForm extends Component {
         margin="normal"
         InputLabelProps={inputLabelProps}
       />
-    );
+    )
   }
 
   renderCountiesDropDown = () => {
-    const { classes } = this.props;
-    const { childInfo, childInfoValidation, counties } = this.state;
-    const isValid = childInfoValidation['county'];
+    const { classes } = this.props
+    const { childInfo, childInfoValidation, counties } = this.state
+    const isValid = childInfoValidation['county']
     return (
       <div className={classes.root}>
         <FormControl required error={!isValid} className={classes.formControl} id={'county-dropdown'}>
@@ -423,12 +423,12 @@ class ClientAddEditForm extends Component {
           <FormHelperText>{!isValid ? 'Please select your County' : null}</FormHelperText>
         </FormControl>
       </div>
-    );
-  };
+    )
+  }
 
   renderSingleCaseNumber = (index, aCase) => {
-    const { classes } = this.props;
-    const { childInfoValidation } = this.state;
+    const { classes } = this.props
+    const { childInfoValidation } = this.state
     return (
       <InputMask
         key={index}
@@ -451,17 +451,17 @@ class ClientAddEditForm extends Component {
           />
         )}
       </InputMask>
-    );
-  };
+    )
+  }
 
   renderCaseNumbers = () => {
-    const { cases } = this.state.childInfo;
-    let renderedCases = [];
+    const { cases } = this.state.childInfo
+    let renderedCases = []
     for (let i = cases.length - 1; i >= 0; i--) {
-      renderedCases.push(this.renderSingleCaseNumber(i, cases[i]));
+      renderedCases.push(this.renderSingleCaseNumber(i, cases[i]))
     }
-    return renderedCases;
-  };
+    return renderedCases
+  }
 
   renderCaseNumbersBlock = () => {
     return (
@@ -479,15 +479,15 @@ class ClientAddEditForm extends Component {
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   renderSensitivityTypeDropDown = () => {
     if (!this.state.sensitivityTypes.length) {
-      return null;
+      return null
     }
-    const { classes } = this.props;
-    const { childInfo, sensitivityTypes } = this.state;
+    const { classes } = this.props
+    const { childInfo, sensitivityTypes } = this.state
     return (
       <div className={classes.root} id={'sensitivity_type_dropdown'}>
         <FormControl required={false} className={'mt-0 ' + classes.formControl}>
@@ -516,12 +516,12 @@ class ClientAddEditForm extends Component {
           </Select>
         </FormControl>
       </div>
-    );
-  };
+    )
+  }
 
   renderFormFooter = () => {
-    const { classes } = this.props;
-    const { isSaveButtonDisabled, isUsersCounty, error } = this.state;
+    const { classes } = this.props
+    const { isSaveButtonDisabled, isUsersCounty, error } = this.state
     return (
       <div className={'add-edit-form-footer'}>
         {!isUsersCounty && (
@@ -553,18 +553,16 @@ class ClientAddEditForm extends Component {
           </Col>
         </Row>
       </div>
-    );
-  };
+    )
+  }
 
   render() {
-    const { classes, isNewForm } = this.props;
-    const { childInfo, childInfoValidation, redirection } = this.state;
-    const { shouldRedirect, successClientId } = redirection;
+    const { classes, isNewForm } = this.props
+    const { childInfo, childInfoValidation, redirection } = this.state
+    const { shouldRedirect, successClientId } = redirection
 
     if (shouldRedirect) {
-      return (
-        <Redirect push to={{ pathname: this.redirectPath(childInfo.id), state: { isNewForm, successClientId } }} />
-      );
+      return <Redirect push to={{ pathname: this.redirectPath(childInfo.id), state: { isNewForm, successClientId } }} />
     }
 
     return (
@@ -630,7 +628,7 @@ class ClientAddEditForm extends Component {
           </div>
         </Card>
       </MuiThemeProvider>
-    );
+    )
   }
 }
 
@@ -638,7 +636,7 @@ ClientAddEditForm.propTypes = {
   classes: PropTypes.object.isRequired,
   client: PropTypes.object,
   isNewForm: PropTypes.bool.isRequired,
-};
+}
 
 ClientAddEditForm.defaultProps = {
   client: {
@@ -652,6 +650,6 @@ ClientAddEditForm.defaultProps = {
     county: emptyCounty,
     cases: [{ external_id: '' }],
   },
-};
+}
 
-export default withStyles(styles)(ClientAddEditForm);
+export default withStyles(styles)(ClientAddEditForm)

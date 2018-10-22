@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { CloseableAlert, alertType } from '../common/CloseableAlert';
+import React, { Component, Fragment } from 'react'
+import { Redirect, Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { CloseableAlert, alertType } from '../common/CloseableAlert'
 import {
   Assessment,
   AssessmentFormHeader,
@@ -9,25 +9,25 @@ import {
   AssessmentService,
   I18nService,
   SecurityService,
-} from './';
-import Typography from '@material-ui/core/Typography';
-import { PageInfo } from '../Layout';
-import { LoadingState, isReadyForAction } from '../../util/loadingHelper';
-import { Print, PrintAssessment } from '../Print';
+} from './'
+import Typography from '@material-ui/core/Typography'
+import { PageInfo } from '../Layout'
+import { LoadingState, isReadyForAction } from '../../util/loadingHelper'
+import { Print, PrintAssessment } from '../Print'
 import {
   AssessmentStatus,
   AssessmentType,
   validateAssessmentForSubmit,
   defaultEmptyAssessment,
-} from './AssessmentHelper';
+} from './AssessmentHelper'
 
-import './style.sass';
-import { getCurrentIsoDate } from '../../util/dateHelper';
-import moment from 'moment';
+import './style.sass'
+import { getCurrentIsoDate } from '../../util/dateHelper'
+import moment from 'moment'
 
 class AssessmentContainer extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       assessment: defaultEmptyAssessment,
       assessmentServiceStatus: LoadingState.idle,
@@ -41,56 +41,56 @@ class AssessmentContainer extends Component {
       isEditable: false,
       shouldPrintNow: false,
       isValidDate: true,
-    };
+    }
   }
 
   async componentDidMount() {
-    const assessmentId = this.props.match.params.id;
-    let isEditable = assessmentId === undefined;
+    const assessmentId = this.props.match.params.id
+    let isEditable = assessmentId === undefined
     if (!isEditable) {
-      isEditable = await SecurityService.checkPermission(`assessment:write:${assessmentId}`);
+      isEditable = await SecurityService.checkPermission(`assessment:write:${assessmentId}`)
     }
-    this.setState({ isEditable: isEditable });
-    assessmentId ? this.fetchAssessment(assessmentId) : this.fetchNewAssessment();
-    this.activeCtrlP();
+    this.setState({ isEditable: isEditable })
+    assessmentId ? this.fetchAssessment(assessmentId) : this.fetchNewAssessment()
+    this.activeCtrlP()
   }
 
   componentDidUpdate() {
     if (this.state.redirection.shouldRedirect) {
-      this.setState({ redirection: { ...this.state.redirection, shouldRedirect: false } });
+      this.setState({ redirection: { ...this.state.redirection, shouldRedirect: false } })
     }
   }
 
   componentWillUnmount() {
-    this.muteCtrlP();
+    this.muteCtrlP()
   }
 
   activeCtrlP = () => {
     if (!this.state.shouldPrintNow) {
-      window.addEventListener('keydown', this.handleCtrlP, false);
+      window.addEventListener('keydown', this.handleCtrlP, false)
     }
-  };
+  }
 
   muteCtrlP = () => {
-    window.removeEventListener('keydown', this.handleCtrlP, false);
-  };
+    window.removeEventListener('keydown', this.handleCtrlP, false)
+  }
 
   handleCtrlP = event => {
     if (event.ctrlKey || event.metaKey) {
       if (event.key === 'p') {
-        this.togglePrintNow();
-        event.preventDefault();
+        this.togglePrintNow()
+        event.preventDefault()
       }
     }
-  };
+  }
 
   async fetchNewAssessment() {
-    this.setState({ assessmentServiceStatus: LoadingState.waiting });
+    this.setState({ assessmentServiceStatus: LoadingState.waiting })
     try {
-      const instrument = await AssessmentService.fetchNewAssessment();
-      return this.onFetchNewAssessmentSuccess(instrument);
+      const instrument = await AssessmentService.fetchNewAssessment()
+      return this.onFetchNewAssessmentSuccess(instrument)
     } catch (e) {
-      this.setState({ assessmentServiceStatus: LoadingState.error });
+      this.setState({ assessmentServiceStatus: LoadingState.error })
     }
   }
 
@@ -106,133 +106,133 @@ class AssessmentContainer extends Component {
       has_caregiver: true,
       completed_as: 'COMMUNIMETRIC',
       can_release_confidential_info: false,
-    };
+    }
     this.setState({
       assessment,
       assessmentServiceStatus: LoadingState.ready,
-    });
-    this.fetchI18n(assessment.instrument_id);
+    })
+    this.fetchI18n(assessment.instrument_id)
   }
 
   async fetchAssessment(id) {
-    this.setState({ assessmentServiceStatus: LoadingState.waiting });
+    this.setState({ assessmentServiceStatus: LoadingState.waiting })
     try {
-      const assessment = await AssessmentService.fetch(id);
-      return this.onFetchAssessmentSuccess(assessment);
+      const assessment = await AssessmentService.fetch(id)
+      return this.onFetchAssessmentSuccess(assessment)
     } catch (e) {
-      this.setState({ assessmentServiceStatus: LoadingState.error });
+      this.setState({ assessmentServiceStatus: LoadingState.error })
     }
   }
 
   onFetchAssessmentSuccess(assessment) {
-    this.updateAssessment(assessment);
-    this.fetchI18n(assessment.instrument_id);
+    this.updateAssessment(assessment)
+    this.fetchI18n(assessment.instrument_id)
   }
 
   async fetchI18n(instrumentId) {
     try {
-      const i18n = await I18nService.fetchByInstrumentId(instrumentId);
-      this.onFetchI18nSuccess(i18n);
+      const i18n = await I18nService.fetchByInstrumentId(instrumentId)
+      this.onFetchI18nSuccess(i18n)
     } catch (e) {
-      this.setState({ i18n: {} });
+      this.setState({ i18n: {} })
     }
   }
 
   onFetchI18nSuccess(i18n) {
     this.setState({
       i18n: i18n,
-    });
+    })
   }
 
   updateAssessment = assessment => {
-    const isValidForSubmit = validateAssessmentForSubmit(assessment);
+    const isValidForSubmit = validateAssessmentForSubmit(assessment)
     this.setState({
       assessment,
       assessmentServiceStatus: LoadingState.ready,
       isValidForSubmit,
-    });
-  };
+    })
+  }
 
   initialSave(assessment) {
     this.setState({
       assessment,
       assessmentServiceStatus: LoadingState.ready,
       shouldRenderSaveSuccessMessage: true,
-    });
-    this.updateUrlWithAssessment(assessment);
+    })
+    this.updateUrlWithAssessment(assessment)
   }
 
   updateUrlWithAssessment(assessment) {
-    this.props.history.push(`/clients/${this.props.client.id}/assessments/${assessment.id}`);
+    this.props.history.push(`/clients/${this.props.client.id}/assessments/${assessment.id}`)
   }
 
   hideSaveSuccessMessage = () => {
-    this.setState({ shouldRenderSaveSuccessMessage: false });
-  };
+    this.setState({ shouldRenderSaveSuccessMessage: false })
+  }
 
   handleSaveAssessment = async () => {
-    this.setState({ assessmentServiceStatus: LoadingState.updating });
-    const assessment = this.state.assessment;
-    assessment.person = this.props.client;
+    this.setState({ assessmentServiceStatus: LoadingState.updating })
+    const assessment = this.state.assessment
+    assessment.person = this.props.client
     if (assessment.id) {
       try {
-        const updatedAssessment = await AssessmentService.update(assessment.id, assessment);
+        const updatedAssessment = await AssessmentService.update(assessment.id, assessment)
         this.setState({
           assessment: updatedAssessment,
           assessmentServiceStatus: LoadingState.ready,
           shouldRenderSaveSuccessMessage: true,
-        });
+        })
       } catch (e) {
-        this.setState({ assessmentServiceStatus: LoadingState.error });
+        this.setState({ assessmentServiceStatus: LoadingState.error })
       }
     } else {
       try {
-        const updatedAssessment = await AssessmentService.postAssessment(assessment);
-        this.initialSave(updatedAssessment);
+        const updatedAssessment = await AssessmentService.postAssessment(assessment)
+        this.initialSave(updatedAssessment)
       } catch (e) {
-        this.setState({ assessmentServiceStatus: LoadingState.error });
+        this.setState({ assessmentServiceStatus: LoadingState.error })
       }
     }
-  };
+  }
 
   handleSubmitAssessment = async () => {
-    this.setState({ assessmentServiceStatus: LoadingState.updating });
-    const assessment = Object.assign({}, this.state.assessment);
-    assessment.status = AssessmentStatus.submitted;
-    assessment.person = this.props.client;
+    this.setState({ assessmentServiceStatus: LoadingState.updating })
+    const assessment = Object.assign({}, this.state.assessment)
+    assessment.status = AssessmentStatus.submitted
+    assessment.person = this.props.client
     if (assessment.id) {
       try {
-        const submittedAssessment = await AssessmentService.update(assessment.id, assessment);
+        const submittedAssessment = await AssessmentService.update(assessment.id, assessment)
         this.setState({
           assessmentServiceStatus: LoadingState.ready,
           redirection: {
             shouldRedirect: true,
             successAssessmentId: submittedAssessment.id,
           },
-        });
+        })
       } catch (e) {
-        this.setState({ assessmentServiceStatus: LoadingState.error });
+        this.setState({ assessmentServiceStatus: LoadingState.error })
       }
     } else {
       try {
-        const submittedAssessment = await AssessmentService.postAssessment(assessment);
-        this.updateUrlWithAssessment(submittedAssessment);
+        const submittedAssessment = await AssessmentService.postAssessment(assessment)
+        this.updateUrlWithAssessment(submittedAssessment)
         this.setState({
           assessmentServiceStatus: LoadingState.ready,
           redirection: {
             shouldRedirect: true,
             successAssessmentId: submittedAssessment.id,
           },
-        });
+        })
       } catch (e) {
-        this.setState({ assessmentServiceStatus: LoadingState.error });
+        this.setState({ assessmentServiceStatus: LoadingState.error })
       }
     }
-  };
+  }
 
-  handleCancelClick = () => this.setState({ redirection: { shouldRedirect: true } });
+  handleCancelClick = () => this.setState({ redirection: { shouldRedirect: true } })
 
-  togglePrintNow = () => this.setState({ shouldPrintNow: !this.state.shouldPrintNow });
+  togglePrintNow = () => this.setState({ shouldPrintNow: !this.state.shouldPrintNow })
 
   renderPrintButton = () => (
     <div
@@ -244,19 +244,19 @@ class AssessmentContainer extends Component {
     >
       <i className={'fa fa-print'} /> Print
     </div>
-  );
+  )
 
   validateDate(date) {
-    return moment(date, 'MM/DD/YYYY', true).isValid();
+    return moment(date, 'MM/DD/YYYY', true).isValid()
   }
 
   handleKeyUp = date => {
-    const dateValue = date.target.value;
-    this.setState({ isValidDate: this.validateDate(dateValue) });
-  };
+    const dateValue = date.target.value
+    this.setState({ isValidDate: this.validateDate(dateValue) })
+  }
 
   render() {
-    const { client, isNewForm } = this.props;
+    const { client, isNewForm } = this.props
     const {
       redirection,
       isValidForSubmit,
@@ -266,14 +266,14 @@ class AssessmentContainer extends Component {
       shouldRenderSaveSuccessMessage,
       isEditable,
       shouldPrintNow,
-    } = this.state;
-    const { shouldRedirect, successAssessmentId } = redirection;
+    } = this.state
+    const { shouldRedirect, successAssessmentId } = redirection
     if (shouldRedirect) {
-      return <Redirect push to={{ pathname: `/clients/${client.id}`, state: { successAssessmentId } }} />;
+      return <Redirect push to={{ pathname: `/clients/${client.id}`, state: { successAssessmentId } }} />
     }
-    const pageTitle = isNewForm ? 'New CANS' : 'CANS Assessment Form';
-    const canPerformUpdates = isReadyForAction(assessmentServiceStatus);
-    const printButton = this.renderPrintButton();
+    const pageTitle = isNewForm ? 'New CANS' : 'CANS Assessment Form'
+    const canPerformUpdates = isReadyForAction(assessmentServiceStatus)
+    const printButton = this.renderPrintButton()
 
     return (
       <Fragment>
@@ -332,7 +332,7 @@ class AssessmentContainer extends Component {
           onSubmitAssessment={this.handleSubmitAssessment}
         />
       </Fragment>
-    );
+    )
   }
 }
 
@@ -341,13 +341,13 @@ AssessmentContainer.propTypes = {
   history: PropTypes.object,
   isNewForm: PropTypes.bool.isRequired,
   match: PropTypes.object,
-};
+}
 
 AssessmentContainer.defaultProps = {
   match: {
     params: {},
   },
   history: {},
-};
+}
 
-export default AssessmentContainer;
+export default AssessmentContainer

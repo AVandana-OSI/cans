@@ -1,59 +1,59 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Row, Col, Label, Input } from 'reactstrap';
-import { resetConfidentialByDefaultItems } from './AssessmentHelper';
-import { formatClientName } from '../Client/Client.helper';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import Radio from '@material-ui/core/Radio';
-import { Alert } from '@cwds/components';
-import { clone, stringify } from '../../util/common';
-import './style.sass';
-import DateField from '../common/DateField';
+import React, { PureComponent, Fragment } from 'react'
+import { Row, Col, Label, Input } from 'reactstrap'
+import { resetConfidentialByDefaultItems } from './AssessmentHelper'
+import { formatClientName } from '../Client/Client.helper'
+import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
+import FormControl from '@material-ui/core/FormControl'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
+import Radio from '@material-ui/core/Radio'
+import { Alert } from '@cwds/components'
+import { clone, stringify } from '../../util/common'
+import './style.sass'
+import DateField from '../common/DateField'
 
 class AssessmentFormHeader extends PureComponent {
-  handleValueChange = event => this.changeFieldAndUpdateAssessment(event.target.name, event.target.value);
+  handleValueChange = event => this.changeFieldAndUpdateAssessment(event.target.name, event.target.value)
 
   handleHasCaregiverChange = event =>
-    this.changeFieldAndUpdateAssessment(event.target.name, event.target.value === 'true');
+    this.changeFieldAndUpdateAssessment(event.target.name, event.target.value === 'true')
 
   changeFieldAndUpdateAssessment(name, value) {
-    const assessment = clone(this.props.assessment);
-    assessment[name] = value;
-    this.props.onAssessmentUpdate(assessment);
+    const assessment = clone(this.props.assessment)
+    assessment[name] = value
+    this.props.onAssessmentUpdate(assessment)
   }
 
   handleCanReleaseInfoChange = event => {
-    const canReleaseInfo = event.target.value === 'true';
-    const assessment = clone(this.props.assessment);
-    assessment.can_release_confidential_info = canReleaseInfo;
+    const canReleaseInfo = event.target.value === 'true'
+    const assessment = clone(this.props.assessment)
+    assessment.can_release_confidential_info = canReleaseInfo
     if (!canReleaseInfo) {
-      resetConfidentialByDefaultItems(assessment);
+      resetConfidentialByDefaultItems(assessment)
     }
-    this.props.onAssessmentUpdate(assessment);
-  };
+    this.props.onAssessmentUpdate(assessment)
+  }
 
   handleSelectCaseNumber = event => {
-    const assessment = clone(this.props.assessment);
-    assessment.the_case = this.findCaseByExternalId(event.target.value);
-    this.props.onAssessmentUpdate(assessment);
-  };
+    const assessment = clone(this.props.assessment)
+    assessment.the_case = this.findCaseByExternalId(event.target.value)
+    this.props.onAssessmentUpdate(assessment)
+  }
 
-  findCaseByExternalId = externalId => (this.props.client.cases || []).find(aCase => aCase.external_id === externalId);
+  findCaseByExternalId = externalId => (this.props.client.cases || []).find(aCase => aCase.external_id === externalId)
 
   toggleUnderSix = () => {
-    const assessment = clone(this.props.assessment);
-    assessment.state.under_six = !assessment.state.under_six;
-    this.props.onAssessmentUpdate(assessment);
-  };
+    const assessment = clone(this.props.assessment)
+    assessment.state.under_six = !assessment.state.under_six
+    this.props.onAssessmentUpdate(assessment)
+  }
 
   renderClientNameAndCounty() {
-    const { first_name: firstName, last_name: lastName } = this.props.client;
-    const county = this.props.assessment.county || {};
-    const countyName = county.name ? `${county.name} County` : '';
+    const { first_name: firstName, last_name: lastName } = this.props.client
+    const county = this.props.assessment.county || {}
+    const countyName = county.name ? `${county.name} County` : ''
     return (
       <Col sm={12}>
         <div className={'child-name-block'}>
@@ -69,7 +69,7 @@ class AssessmentFormHeader extends PureComponent {
           </div>
         ) : null}
       </Col>
-    );
+    )
   }
 
   renderDateSelect() {
@@ -87,7 +87,7 @@ class AssessmentFormHeader extends PureComponent {
           ariaLabelledBy={'assessment-date-label'}
         />
       </Fragment>
-    );
+    )
   }
 
   renderCaseSelect() {
@@ -106,17 +106,17 @@ class AssessmentFormHeader extends PureComponent {
           {this.renderCaseNumbersDropdownOptions()}
         </Input>
       </Fragment>
-    );
+    )
   }
 
   renderCaseNumbersDropdownOptions = () => {
-    const cases = this.props.client.cases || [];
+    const cases = this.props.client.cases || []
     return [...cases, {}].reverse().map(theCase => (
       <option key={theCase.id || 0} value={theCase.external_id}>
         {theCase.external_id}
       </option>
-    ));
-  };
+    ))
+  }
 
   renderCompletedAsSelect() {
     return (
@@ -135,7 +135,7 @@ class AssessmentFormHeader extends PureComponent {
           <option value={'COMMUNIMETRIC'}>Communimetric</option>
         </Input>
       </Fragment>
-    );
+    )
   }
 
   renderConfidentialWarningAlertIfNeeded = () =>
@@ -144,10 +144,10 @@ class AssessmentFormHeader extends PureComponent {
         Since there is no Authorization for Release of Information on file, prior to sharing this CANS assessment redact
         the following domain item numbers: 7, 48, and EC.41.
       </Alert>
-    );
+    )
 
   renderHasCaregiverQuestion() {
-    const hasCaregiver = (this.props.assessment || {}).has_caregiver;
+    const hasCaregiver = (this.props.assessment || {}).has_caregiver
     return (
       <Fragment>
         <Col sm={12}>
@@ -198,11 +198,11 @@ class AssessmentFormHeader extends PureComponent {
           </FormControl>
         </Col>
       </Fragment>
-    );
+    )
   }
 
   renderCanReleaseInfoQuestion() {
-    const canReleaseConfidentialInfo = (this.props.assessment || {}).can_release_confidential_info;
+    const canReleaseConfidentialInfo = (this.props.assessment || {}).can_release_confidential_info
     return (
       <Fragment>
         <Col sm={12}>
@@ -250,11 +250,11 @@ class AssessmentFormHeader extends PureComponent {
           </FormControl>
         </Col>
       </Fragment>
-    );
+    )
   }
 
   renderToggleUnderSixQuestion() {
-    const isUnderSix = this.props.assessment.state.under_six;
+    const isUnderSix = this.props.assessment.state.under_six
     return (
       <Typography variant="body1" style={{ textAlign: 'left' }} className={'assessment-form-header-label'}>
         Age: 0-5
@@ -273,7 +273,7 @@ class AssessmentFormHeader extends PureComponent {
           style={{ marginLeft: '0px', marginRight: '0px' }}
         />
       </Typography>
-    );
+    )
   }
 
   render() {
@@ -296,17 +296,17 @@ class AssessmentFormHeader extends PureComponent {
           <Col xs={12}>{this.renderToggleUnderSixQuestion()}</Col>
         </Row>
       </Fragment>
-    );
+    )
   }
 }
 AssessmentFormHeader.defaultProps = {
   onKeyUp: () => {},
-};
+}
 AssessmentFormHeader.propTypes = {
   assessment: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
   onAssessmentUpdate: PropTypes.func.isRequired,
   onKeyUp: PropTypes.func,
-};
+}
 
-export default AssessmentFormHeader;
+export default AssessmentFormHeader

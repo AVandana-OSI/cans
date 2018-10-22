@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { Route, MemoryRouter } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { render, unmountComponentAtNode } from 'react-dom'
+import { Route, MemoryRouter } from 'react-router-dom'
 
 // This code can be found at:
 // https://reacttraining.com/react-router/web/guides/testing

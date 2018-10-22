@@ -1,7 +1,7 @@
-import React from 'react';
-import { shallow, mount } from 'enzyme';
-import Domain from './Domain';
-import { DomainProgressBar } from './index';
+import React from 'react'
+import { shallow, mount } from 'enzyme'
+import Domain from './Domain'
+import { DomainProgressBar } from './index'
 
 const domainDefault = {
   id: '1',
@@ -20,12 +20,12 @@ const domainDefault = {
       rating: -1,
     },
   ],
-};
+}
 
 const i18nDefault = {
   _title_: 'Title',
   _description_: 'Description',
-};
+}
 
 const domainComponentDefault = (
   <Domain
@@ -42,28 +42,28 @@ const domainComponentDefault = (
     onRemoveCaregiverDomain={() => {}}
     onCaregiverNameUpdate={() => {}}
   />
-);
+)
 
 describe('<Domain />', () => {
   it('renders with no exceptions', () => {
-    expect(() => shallow(domainComponentDefault)).not.toThrow();
-  });
+    expect(() => shallow(domainComponentDefault)).not.toThrow()
+  })
 
   describe('progress bar', () => {
     it('should render progress bar when folded', () => {
-      const wrapper = shallow(domainComponentDefault);
-      expect(wrapper.instance().state.expanded).toBeFalsy();
-      expect(wrapper.find(DomainProgressBar).length).toBe(1);
-    });
+      const wrapper = shallow(domainComponentDefault)
+      expect(wrapper.instance().state.expanded).toBeFalsy()
+      expect(wrapper.find(DomainProgressBar).length).toBe(1)
+    })
 
     it('should render progress bar when extended', () => {
-      const wrapper = shallow(domainComponentDefault);
-      wrapper.instance().handleExpandedChange();
-      wrapper.update();
-      expect(wrapper.instance().state.expanded).toBeTruthy();
-      expect(wrapper.find(DomainProgressBar).length).toBe(1);
-    });
-  });
+      const wrapper = shallow(domainComponentDefault)
+      wrapper.instance().handleExpandedChange()
+      wrapper.update()
+      expect(wrapper.instance().state.expanded).toBeTruthy()
+      expect(wrapper.find(DomainProgressBar).length).toBe(1)
+    })
+  })
 
   describe('caregiver domain', () => {
     it('renders caregiver index and caregiver control buttons', () => {
@@ -71,7 +71,7 @@ describe('<Domain />', () => {
         ...domainDefault,
         is_caregiver_domain: true,
         caregiver_index: 'a',
-      };
+      }
       const domainComponent = (
         <Domain
           key={'1'}
@@ -87,23 +87,23 @@ describe('<Domain />', () => {
           onRemoveCaregiverDomain={() => {}}
           onCaregiverNameUpdate={() => {}}
         />
-      );
-      const wrapper = mount(domainComponent);
-      wrapper.instance().handleExpandedChange();
-      wrapper.update();
-      const foldedText = wrapper.text();
-      expect(foldedText).toMatch(/TITLE/);
-      expect(foldedText).toMatch(/- REMOVE CAREGIVER/);
-      expect(foldedText).toMatch(/\+ ADD CAREGIVER/);
-    });
+      )
+      const wrapper = mount(domainComponent)
+      wrapper.instance().handleExpandedChange()
+      wrapper.update()
+      const foldedText = wrapper.text()
+      expect(foldedText).toMatch(/TITLE/)
+      expect(foldedText).toMatch(/- REMOVE CAREGIVER/)
+      expect(foldedText).toMatch(/\+ ADD CAREGIVER/)
+    })
 
     it('invokes onAddCaregiverDomain() callback', () => {
       const domain = {
         ...domainDefault,
         is_caregiver_domain: true,
         caregiver_index: 'a',
-      };
-      const callbackMock = jest.fn();
+      }
+      const callbackMock = jest.fn()
       const domainComponent = (
         <Domain
           key={'1'}
@@ -119,24 +119,24 @@ describe('<Domain />', () => {
           onRemoveCaregiverDomain={() => {}}
           onCaregiverNameUpdate={() => {}}
         />
-      );
-      const wrapper = mount(domainComponent);
-      wrapper.instance().handleExpandedChange();
-      wrapper.update();
-      const addCaregiverButton = wrapper.find('.caregiver-control').at(1);
-      addCaregiverButton.simulate('click');
-      addCaregiverButton.simulate('keypress', { key: 'Enter' });
-      addCaregiverButton.simulate('keypress', { key: 'Space' });
-      expect(callbackMock.mock.calls.length).toBe(2);
-    });
+      )
+      const wrapper = mount(domainComponent)
+      wrapper.instance().handleExpandedChange()
+      wrapper.update()
+      const addCaregiverButton = wrapper.find('.caregiver-control').at(1)
+      addCaregiverButton.simulate('click')
+      addCaregiverButton.simulate('keypress', { key: 'Enter' })
+      addCaregiverButton.simulate('keypress', { key: 'Space' })
+      expect(callbackMock.mock.calls.length).toBe(2)
+    })
 
     it('invokes onRemoveCaregiverDomain() callback', () => {
       const domain = {
         ...domainDefault,
         is_caregiver_domain: true,
         caregiver_index: 'a',
-      };
-      const callbackMock = jest.fn();
+      }
+      const callbackMock = jest.fn()
       const domainComponent = (
         <Domain
           key={'1'}
@@ -152,16 +152,16 @@ describe('<Domain />', () => {
           onRemoveCaregiverDomain={callbackMock}
           onCaregiverNameUpdate={() => {}}
         />
-      );
-      const wrapper = mount(domainComponent);
-      wrapper.instance().handleExpandedChange();
-      wrapper.update();
-      const removeCaregiverButton = wrapper.find('.caregiver-control').at(0);
-      removeCaregiverButton.simulate('click');
-      removeCaregiverButton.simulate('keypress', { key: 'Enter' });
-      removeCaregiverButton.simulate('keypress', { key: 'Space' });
-      expect(callbackMock.mock.calls.length).toBe(2);
-    });
+      )
+      const wrapper = mount(domainComponent)
+      wrapper.instance().handleExpandedChange()
+      wrapper.update()
+      const removeCaregiverButton = wrapper.find('.caregiver-control').at(0)
+      removeCaregiverButton.simulate('click')
+      removeCaregiverButton.simulate('keypress', { key: 'Enter' })
+      removeCaregiverButton.simulate('keypress', { key: 'Space' })
+      expect(callbackMock.mock.calls.length).toBe(2)
+    })
 
     describe('caregiver name', () => {
       describe('#handleCaregiverNameUpdate()', () => {
@@ -173,7 +173,7 @@ describe('<Domain />', () => {
               is_caregiver_domain: true,
               caregiver_index: 'a',
               caregiver_name: undefined,
-            };
+            }
             const domainComponent = (
               <Domain
                 key={'1'}
@@ -189,20 +189,20 @@ describe('<Domain />', () => {
                 onRemoveCaregiverDomain={() => {}}
                 onCaregiverNameUpdate={() => {}}
               />
-            );
-            const wrapper = mount(domainComponent);
-            wrapper.instance().handleExpandedChange();
-            wrapper.update();
-            const nameInput = wrapper.find('.caregiver-name').at(0);
+            )
+            const wrapper = mount(domainComponent)
+            wrapper.instance().handleExpandedChange()
+            wrapper.update()
+            const nameInput = wrapper.find('.caregiver-name').at(0)
 
             // when
-            nameInput.simulate('change', { target: { value: 'Full Name' } });
+            nameInput.simulate('change', { target: { value: 'Full Name' } })
 
             // then
-            expect(wrapper.state('caregiverName')).toEqual('Full Name');
-            expect(wrapper.find('ExpansionPanelSummary').text()).toMatch(/Full Name/);
-          });
-        });
+            expect(wrapper.state('caregiverName')).toEqual('Full Name')
+            expect(wrapper.find('ExpansionPanelSummary').text()).toMatch(/Full Name/)
+          })
+        })
 
         describe('when caregiver name input blurs', () => {
           it('invokes onCaregiverNameUpdate() callback', () => {
@@ -212,8 +212,8 @@ describe('<Domain />', () => {
               is_caregiver_domain: true,
               caregiver_index: 'a',
               caregiver_name: undefined,
-            };
-            const callbackMock = jest.fn();
+            }
+            const callbackMock = jest.fn()
             const domainComponent = (
               <Domain
                 key={'1'}
@@ -229,23 +229,23 @@ describe('<Domain />', () => {
                 onRemoveCaregiverDomain={() => {}}
                 onCaregiverNameUpdate={callbackMock}
               />
-            );
-            const wrapper = mount(domainComponent);
-            wrapper.instance().handleExpandedChange();
-            wrapper.update();
-            const nameInput = wrapper.find('.caregiver-name').at(0);
-            nameInput.simulate('change', { target: { value: 'Full Name' } });
+            )
+            const wrapper = mount(domainComponent)
+            wrapper.instance().handleExpandedChange()
+            wrapper.update()
+            const nameInput = wrapper.find('.caregiver-name').at(0)
+            nameInput.simulate('change', { target: { value: 'Full Name' } })
 
             // when
-            nameInput.simulate('blur');
+            nameInput.simulate('blur')
 
             // then
-            expect(callbackMock.mock.calls.length).toBe(1);
-            expect(callbackMock.mock.calls[0][0]).toBe('a');
-            expect(callbackMock.mock.calls[0][1]).toBe('Full Name');
-          });
-        });
-      });
-    });
-  });
-});
+            expect(callbackMock.mock.calls.length).toBe(1)
+            expect(callbackMock.mock.calls[0][0]).toBe('a')
+            expect(callbackMock.mock.calls[0][1]).toBe('Full Name')
+          })
+        })
+      })
+    })
+  })
+})

@@ -4,7 +4,7 @@
  * @returns {string}
  */
 export function trimSafely(str) {
-  return str ? str.trim() : '';
+  return str ? str.trim() : ''
 }
 
 /**
@@ -15,7 +15,7 @@ export function trimSafely(str) {
  */
 export function addTrailingSlash(url) {
   if (!url) {
-    return '/';
+    return '/'
   }
-  return url[url.length - 1] === '/' ? url : url + '/';
+  return url[url.length - 1] === '/' ? url : url + '/'
 }

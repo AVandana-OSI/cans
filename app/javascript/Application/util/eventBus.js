@@ -1,31 +1,31 @@
 function EventBus() {
-  const eventCallbacksPairs = [];
+  const eventCallbacksPairs = []
   this.subscribe = (eventType, callback) => {
-    const eventCallbacksPair = findEventCallbacksPair(eventType);
+    const eventCallbacksPair = findEventCallbacksPair(eventType)
 
     if (eventCallbacksPair) {
-      eventCallbacksPair.callbacks.push(callback);
+      eventCallbacksPair.callbacks.push(callback)
     } else {
-      eventCallbacksPairs.push(new EventCallbacksPair(eventType, callback));
+      eventCallbacksPairs.push(new EventCallbacksPair(eventType, callback))
     }
-  };
+  }
   this.post = (eventType, args) => {
-    const eventCallbacksPair = findEventCallbacksPair(eventType);
+    const eventCallbacksPair = findEventCallbacksPair(eventType)
 
     if (!eventCallbacksPair) {
-      return;
+      return
     }
 
-    eventCallbacksPair.callbacks.forEach(callback => callback(args));
-  };
+    eventCallbacksPair.callbacks.forEach(callback => callback(args))
+  }
   const findEventCallbacksPair = eventType => {
-    return eventCallbacksPairs.find(eventObject => eventObject.eventType === eventType);
-  };
+    return eventCallbacksPairs.find(eventObject => eventObject.eventType === eventType)
+  }
 }
 
 function EventCallbacksPair(eventType, callback) {
-  this.eventType = eventType;
-  this.callbacks = [callback];
+  this.eventType = eventType
+  this.callbacks = [callback]
 }
 
-export const eventBus = new EventBus();
+export const eventBus = new EventBus()

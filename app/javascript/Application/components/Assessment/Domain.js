@@ -1,59 +1,59 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import Divider from '@material-ui/core/Divider';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Input } from 'reactstrap';
-import { DomainProgressBar, Item } from './';
-import { shouldDomainBeRendered } from './AssessmentHelper';
-import { getI18nByCode } from './I18nHelper';
-import { isA11yAllowedInput } from '../../util/events';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
+import Divider from '@material-ui/core/Divider'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { Input } from 'reactstrap'
+import { DomainProgressBar, Item } from './'
+import { shouldDomainBeRendered } from './AssessmentHelper'
+import { getI18nByCode } from './I18nHelper'
+import { isA11yAllowedInput } from '../../util/events'
 
-import './style.sass';
+import './style.sass'
 
 const mapPropsToState = props => ({
   title: (props.i18n['_title_'] || '').toUpperCase(),
   description: props.i18n['_description_'] || 'No Description',
   caregiverName: props.domain.caregiver_name || '',
-});
+})
 
 /* eslint-disable camelcase */
 class Domain extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       ...mapPropsToState(props),
       expanded: false,
-    };
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState(mapPropsToState(nextProps));
+    this.setState(mapPropsToState(nextProps))
   }
 
   handleExpandedChange = () => {
     this.setState({
       expanded: !this.state.expanded,
-    });
-  };
+    })
+  }
 
   renderItems = items => {
-    const i18nAll = this.props.i18nAll || {};
+    const i18nAll = this.props.i18nAll || {}
     const {
       isAssessmentUnderSix,
       onRatingUpdate,
       onConfidentialityUpdate,
       domain,
       canReleaseConfidentialInfo,
-    } = this.props;
-    const caregiverIndex = domain.caregiver_index;
+    } = this.props
+    const caregiverIndex = domain.caregiver_index
     return items.map((item, index) => {
-      const { id, code } = item;
-      const itemI18n = getI18nByCode(i18nAll, code);
+      const { id, code } = item
+      const itemI18n = getI18nByCode(i18nAll, code)
       return (
         <div key={index}>
           <Item
@@ -68,29 +68,29 @@ class Domain extends Component {
           />
           <Divider />
         </div>
-      );
-    });
-  };
+      )
+    })
+  }
 
   handleAddCaregiverDomain = event => {
     if (isA11yAllowedInput(event)) {
-      this.props.onAddCaregiverDomain(this.props.domain.caregiver_index);
+      this.props.onAddCaregiverDomain(this.props.domain.caregiver_index)
     }
-  };
+  }
 
   handleRemoveCaregiverDomain = event => {
     if (isA11yAllowedInput(event)) {
-      this.props.onRemoveCaregiverDomain(this.props.domain.caregiver_index);
+      this.props.onRemoveCaregiverDomain(this.props.domain.caregiver_index)
     }
-  };
+  }
 
   handleInternalCaregiverNameUpdate = event => {
-    this.setState({ caregiverName: event.target.value });
-  };
+    this.setState({ caregiverName: event.target.value })
+  }
 
   handleCaregiverNameUpdate = () => {
-    this.props.onCaregiverNameUpdate(this.props.domain.caregiver_index, this.state.caregiverName);
-  };
+    this.props.onCaregiverNameUpdate(this.props.domain.caregiver_index, this.state.caregiverName)
+  }
 
   renderCaregiverName = () => {
     return (
@@ -105,8 +105,8 @@ class Domain extends Component {
           onBlur={this.handleCaregiverNameUpdate}
         />
       </div>
-    );
-  };
+    )
+  }
 
   renderCaregiverDomainControls() {
     return (
@@ -138,14 +138,14 @@ class Domain extends Component {
           </ul>
         </h5>
       </div>
-    );
+    )
   }
 
   render = () => {
-    const { isAssessmentUnderSix, domain, index } = this.props;
-    const { items, is_caregiver_domain } = domain;
-    const { title, description, caregiverName, expanded } = this.state;
-    const progressBar = <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />;
+    const { isAssessmentUnderSix, domain, index } = this.props
+    const { items, is_caregiver_domain } = domain
+    const { title, description, caregiverName, expanded } = this.state
+    const progressBar = <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />
     return shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
       <Fragment>
         <ExpansionPanel
@@ -180,8 +180,8 @@ class Domain extends Component {
         </ExpansionPanel>
         {!expanded && progressBar}
       </Fragment>
-    ) : null;
-  };
+    ) : null
+  }
 }
 /* eslint-enable camelcase */
 
@@ -198,6 +198,6 @@ Domain.propTypes = {
   onConfidentialityUpdate: PropTypes.func.isRequired,
   onRatingUpdate: PropTypes.func.isRequired,
   onRemoveCaregiverDomain: PropTypes.func.isRequired,
-};
+}
 
-export default Domain;
+export default Domain

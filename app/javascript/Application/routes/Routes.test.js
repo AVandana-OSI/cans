@@ -1,25 +1,25 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import { executeTest } from './Routes.test.util';
-import { AssessmentContainer } from '../components/Assessment';
-import { ClientsContainer, ClientAddEditForm } from '../components/Client';
-import { childInfoJson } from '../components/Client/Client.helper.test';
-import { Routes } from './';
-import { Route, Switch } from 'react-router-dom';
+import React from 'react'
+import { shallow } from 'enzyme'
+import { executeTest } from './Routes.test.util'
+import { AssessmentContainer } from '../components/Assessment'
+import { ClientsContainer, ClientAddEditForm } from '../components/Client'
+import { childInfoJson } from '../components/Client/Client.helper.test'
+import { Routes } from './'
+import { Route, Switch } from 'react-router-dom'
 
 describe('<Router />', () => {
   describe('#render', () => {
-    const getWrapper = () => shallow(<Routes />);
-    const getLength = component => getWrapper().find(component).length;
+    const getWrapper = () => shallow(<Routes />)
+    const getLength = component => getWrapper().find(component).length
 
     it('renders with 1 <Switch /> component', () => {
-      expect(getLength(Switch)).toBe(1);
-    });
+      expect(getLength(Switch)).toBe(1)
+    })
 
     it('renders with 4 <Route /> component', () => {
-      expect(getLength(Route)).toBe(6);
-    });
-  });
+      expect(getLength(Route)).toBe(6)
+    })
+  })
 
   /**
    * To test that a configured route is working, create a new
@@ -35,9 +35,9 @@ describe('<Router />', () => {
   describe('route config', () => {
     describe('/', () => {
       it('navigates to clients list page', () => {
-        executeTest(<ClientsContainer />, '/', '');
-      });
-    });
+        executeTest(<ClientsContainer />, '/', '')
+      })
+    })
 
     describe('/assessments', () => {
       it('navigates to assessments', () => {
@@ -45,9 +45,9 @@ describe('<Router />', () => {
           <AssessmentContainer client={childInfoJson} isNewForm={false} />,
           '/clients/:clientId/assessments',
           'Communimetric'
-        );
-      });
-    });
+        )
+      })
+    })
 
     describe('/edit assessments', () => {
       it('navigates to assessments', () => {
@@ -55,20 +55,20 @@ describe('<Router />', () => {
           <AssessmentContainer client={childInfoJson} isNewForm={false} />,
           '/clients/:clientId/assessments/:id',
           'Communimetric'
-        );
-      });
-    });
+        )
+      })
+    })
 
     describe('/clients/new', () => {
       it('navigates to client add form page', () => {
-        executeTest(<ClientAddEditForm isNewForm={true} />, '/clients/new', 'Child/Youth');
-      });
-    });
+        executeTest(<ClientAddEditForm isNewForm={true} />, '/clients/new', 'Child/Youth')
+      })
+    })
 
     describe('/clients/edit/:id', () => {
       it('navigates to client edit form page', () => {
-        executeTest(<ClientAddEditForm isNewForm={false} />, '/clients/edit/:id', 'Child/Youth');
-      });
-    });
-  });
-});
+        executeTest(<ClientAddEditForm isNewForm={false} />, '/clients/edit/:id', 'Child/Youth')
+      })
+    })
+  })
+})

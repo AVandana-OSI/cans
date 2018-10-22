@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import Button from '@cwds/components/lib/Button';
+import React, { Fragment } from 'react'
+import Button from '@cwds/components/lib/Button'
 
 /**
  * Replacing PagerButtonFactory from @cwds/components library to solve
@@ -8,7 +8,7 @@ import Button from '@cwds/components/lib/Button';
  */
 // eslint-disable-next-line react/display-name
 const PaginationButtonFactory = ({ direction }) => props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
   return (
     <Fragment>
       <span className="sr-only">{children}</span>
@@ -16,7 +16,7 @@ const PaginationButtonFactory = ({ direction }) => props => {
         <i aria-hidden="true" className={`fa fa-chevron-${direction}`} />
       </Button>
     </Fragment>
-  );
-};
+  )
+}
 
-export default PaginationButtonFactory;
+export default PaginationButtonFactory

@@ -1,70 +1,70 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Container, Row, Col } from 'reactstrap';
-import { SideNav } from './';
-import { Client, ClientAddEditForm, ClientsContainer, ClientService } from '../Client';
-import BreadCrumbsBuilder from './BreadCrumbsBuilder';
-import { navigation } from '../../util/constants';
-import { AssessmentContainer } from '../Assessment';
-import { SearchContainer } from '../Search';
-import Sticker from 'react-stickyfill';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Container, Row, Col } from 'reactstrap'
+import { SideNav } from './'
+import { Client, ClientAddEditForm, ClientsContainer, ClientService } from '../Client'
+import BreadCrumbsBuilder from './BreadCrumbsBuilder'
+import { navigation } from '../../util/constants'
+import { AssessmentContainer } from '../Assessment'
+import { SearchContainer } from '../Search'
+import Sticker from 'react-stickyfill'
 
 class Page extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isLoaded: false,
       client: undefined,
-    };
+    }
   }
 
   async componentDidMount() {
-    const client = await this.fetchClientIfNeeded();
-    await this.setState({ client, isLoaded: true });
+    const client = await this.fetchClientIfNeeded()
+    await this.setState({ client, isLoaded: true })
   }
 
   async componentDidUpdate(prevProps) {
-    if (prevProps === this.props) return;
-    const client = await this.fetchClientIfNeeded();
-    await this.setState({ client });
+    if (prevProps === this.props) return
+    const client = await this.fetchClientIfNeeded()
+    await this.setState({ client })
   }
 
   async fetchClientIfNeeded() {
-    let client;
-    const { clientId } = this.props.match.params;
+    let client
+    const { clientId } = this.props.match.params
     if (clientId) {
-      client = await ClientService.fetch(clientId).catch(() => {});
+      client = await ClientService.fetch(clientId).catch(() => {})
     }
-    return client;
+    return client
   }
 
   renderContent() {
     const params = {
       ...this.props,
       ...this.state,
-    };
+    }
     switch (this.props.navigateTo) {
       case navigation.CHILD_LIST:
-        return <ClientsContainer />;
+        return <ClientsContainer />
       case navigation.CHILD_PROFILE:
-        return this.state.client && <Client {...params} />;
+        return this.state.client && <Client {...params} />
       case navigation.CHILD_PROFILE_ADD:
-        return <ClientAddEditForm isNewForm={true} {...params} />;
+        return <ClientAddEditForm isNewForm={true} {...params} />
       case navigation.CHILD_PROFILE_EDIT:
-        return this.state.client && <ClientAddEditForm isNewForm={false} {...params} />;
+        return this.state.client && <ClientAddEditForm isNewForm={false} {...params} />
       case navigation.ASSESSMENT_ADD:
-        return this.state.client && <AssessmentContainer isNewForm={true} {...params} />;
+        return this.state.client && <AssessmentContainer isNewForm={true} {...params} />
       case navigation.ASSESSMENT_EDIT:
-        return this.state.client && <AssessmentContainer isNewForm={false} {...params} />;
+        return this.state.client && <AssessmentContainer isNewForm={false} {...params} />
       case navigation.CLIENT_SEARCH:
-        return <SearchContainer searchTitle={'Search Clients Only'} searchPrompt={'Search CWS-CMS for clients only'} />;
+        return <SearchContainer searchTitle={'Search Clients Only'} searchPrompt={'Search CWS-CMS for clients only'} />
       default:
-        return null;
+        return null
     }
   }
 
   render() {
-    if (!this.state.isLoaded) return null;
+    if (!this.state.isLoaded) return null
     return (
       <Container>
         <BreadCrumbsBuilder navigateTo={this.props.navigateTo} client={this.state.client} />
@@ -81,7 +81,7 @@ class Page extends Component {
           </Col>
         </Row>
       </Container>
-    );
+    )
   }
 }
 
@@ -94,10 +94,10 @@ Page.propTypes = {
     }).isRequired,
   }).isRequired,
   navigateTo: PropTypes.oneOf(Object.values(navigation)).isRequired,
-};
+}
 
 Page.defaultProps = {
   history: {},
-};
+}
 
-export default Page;
+export default Page

@@ -1,38 +1,38 @@
-import { formatClientName } from './Client.helper';
+import { formatClientName } from './Client.helper'
 
 describe('Client.helper', () => {
   describe('formatClientName', () => {
     describe('client with firstName, midleName ', () => {
       it('returns lastName, firstName', () => {
-        const client = { first_name: 'first', last_name: 'last' };
-        const expectedName = formatClientName(client);
+        const client = { first_name: 'first', last_name: 'last' }
+        const expectedName = formatClientName(client)
 
-        expect(expectedName).toEqual('last, first');
-      });
+        expect(expectedName).toEqual('last, first')
+      })
 
       it('returns lastName, firstName middle', () => {
-        const client = { first_name: 'first', last_name: 'last', middle_name: 'middle' };
-        const expectedName = formatClientName(client);
+        const client = { first_name: 'first', last_name: 'last', middle_name: 'middle' }
+        const expectedName = formatClientName(client)
 
-        expect(expectedName).toEqual('last, first middle');
-      });
+        expect(expectedName).toEqual('last, first middle')
+      })
 
       it('returns lastName, firstName, suffix', () => {
-        const client = { first_name: 'first', last_name: 'last', suffix: 'suffix' };
-        const expectedName = formatClientName(client);
+        const client = { first_name: 'first', last_name: 'last', suffix: 'suffix' }
+        const expectedName = formatClientName(client)
 
-        expect(expectedName).toEqual('last, first, suffix');
-      });
+        expect(expectedName).toEqual('last, first, suffix')
+      })
 
       it('returns lastName, firstName middle, suffix', () => {
-        const client = { first_name: 'first', last_name: 'last', middle_name: 'middle', suffix: 'suffix' };
-        const expectedName = formatClientName(client);
+        const client = { first_name: 'first', last_name: 'last', middle_name: 'middle', suffix: 'suffix' }
+        const expectedName = formatClientName(client)
 
-        expect(expectedName).toEqual('last, first middle, suffix');
-      });
-    });
-  });
-});
+        expect(expectedName).toEqual('last, first middle, suffix')
+      })
+    })
+  })
+})
 
 export const childInfoJson = {
   county: { id: 5, name: 'Calaveras', external_id: '1072', export_id: '05' },
@@ -45,7 +45,7 @@ export const childInfoJson = {
   metadata: {
     editable: true,
   },
-};
+}
 
 export const personsJson = [
   {
@@ -81,4 +81,4 @@ export const personsJson = [
       editable: true,
     },
   },
-];
+]

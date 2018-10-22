@@ -1,44 +1,44 @@
-import React, { Component } from 'react';
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { TIMEOUT_EVENT } from './../../util/constants';
-import { eventBus } from './../../util/eventBus';
-import { SecurityService } from './Security.service';
+import React, { Component } from 'react'
+import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
+import { TIMEOUT_EVENT } from './../../util/constants'
+import { eventBus } from './../../util/eventBus'
+import { SecurityService } from './Security.service'
 
-import './style.sass';
-import { addTrailingSlash } from '../../util/formatters';
+import './style.sass'
+import { addTrailingSlash } from '../../util/formatters'
 
-const logoutUrl = `${addTrailingSlash(process.env.CANS_BASE_PATH)}user/logout`;
+const logoutUrl = `${addTrailingSlash(process.env.CANS_BASE_PATH)}user/logout`
 
 export class TimeoutWarning extends Component {
   constructor(context) {
-    super(context);
+    super(context)
     this.state = {
       isOpened: false,
-    };
-    this.refresh = this.refresh.bind(this);
-    this.logout = this.logout.bind(this);
-    this.onTimeoutEvent = this.onTimeoutEvent.bind(this);
+    }
+    this.refresh = this.refresh.bind(this)
+    this.logout = this.logout.bind(this)
+    this.onTimeoutEvent = this.onTimeoutEvent.bind(this)
   }
 
   componentDidMount() {
-    eventBus.subscribe(TIMEOUT_EVENT, this.onTimeoutEvent);
+    eventBus.subscribe(TIMEOUT_EVENT, this.onTimeoutEvent)
   }
 
   onTimeoutEvent() {
     this.setState({
       isOpened: true,
-    });
+    })
   }
 
   refresh() {
-    SecurityService.refresh();
+    SecurityService.refresh()
     this.setState({
       isOpened: false,
-    });
+    })
   }
 
   logout() {
-    window.location.href = logoutUrl;
+    window.location.href = logoutUrl
   }
 
   render() {
@@ -61,8 +61,8 @@ export class TimeoutWarning extends Component {
           </Button>
         </ModalFooter>
       </Modal>
-    );
+    )
   }
 }
 
-export default TimeoutWarning;
+export default TimeoutWarning

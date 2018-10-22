@@ -1,46 +1,46 @@
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { CloseableAlert } from './CloseableAlert';
-import { globalAlertService } from '../../util/GlobalAlertService';
-import { clone } from '../../util/common';
+import React, { Component } from 'react'
+import { Container, Row, Col } from 'reactstrap'
+import { CloseableAlert } from './CloseableAlert'
+import { globalAlertService } from '../../util/GlobalAlertService'
+import { clone } from '../../util/common'
 
-let nextKey = 0;
+let nextKey = 0
 
 export class GlobalAlert extends Component {
   constructor(context) {
-    super(context);
+    super(context)
     this.state = {
       alerts: [],
-    };
-    globalAlertService.subscribe(this.onAlertEvent);
+    }
+    globalAlertService.subscribe(this.onAlertEvent)
   }
 
   onAlertEvent = ({ message, type }) => {
-    const alerts = clone(this.state.alerts);
+    const alerts = clone(this.state.alerts)
     alerts.push({
       message: message,
       type: type,
-    });
+    })
 
     this.setState({
       alerts: alerts,
-    });
-  };
+    })
+  }
 
   onAlertClose = index => {
-    const alerts = clone(this.state.alerts);
-    alerts.splice(index, 1);
+    const alerts = clone(this.state.alerts)
+    alerts.splice(index, 1)
     this.setState({
       alerts: alerts,
-    });
-  };
+    })
+  }
 
   render() {
     if (!this.state.alerts.length) {
-      return null;
+      return null
     }
 
-    const alerts = this.state.alerts;
+    const alerts = this.state.alerts
     return (
       <Container>
         {alerts.map((alert, index) => (
@@ -58,6 +58,6 @@ export class GlobalAlert extends Component {
           </Row>
         ))}
       </Container>
-    );
+    )
   }
 }

@@ -1,8 +1,8 @@
-import { apiGet, apiPost, apiPut } from '../../App.api';
+import { apiGet, apiPost, apiPut } from '../../App.api'
 
 export class ClientService {
   static fetch(id) {
-    return apiGet(`/people/${id}`);
+    return apiGet(`/people/${id}`)
   }
 
   static search({ firstName, middleName, lastName, dob, pagination: { page, pageSize } }) {
@@ -16,17 +16,17 @@ export class ClientService {
         page,
         page_size: pageSize,
       },
-    };
-    return apiPost('/people/_search', payload);
+    }
+    return apiPost('/people/_search', payload)
   }
 
   static addClient(childInfoObj) {
-    return apiPost(`/people`, childInfoObj);
+    return apiPost(`/people`, childInfoObj)
   }
 
   static updateClient(id, childInfoObj) {
-    return apiPut(`/people/${id}`, childInfoObj);
+    return apiPut(`/people/${id}`, childInfoObj)
   }
 }
 
-export default ClientService;
+export default ClientService
