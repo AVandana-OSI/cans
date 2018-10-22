@@ -10,9 +10,9 @@ import ClientService from '../Client/Client.service'
 import { LoadingState } from '../../util/loadingHelper'
 // import { isEnterKeyPressed } from '../../util/events';
 // import Button from '@material-ui/core/Button/Button';
-import Card from '@material-ui/core/Card/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
+// import Card from '@material-ui/core/Card/Card'
+// import CardHeader from '@material-ui/core/CardHeader'
+// import CardContent from '@material-ui/core/CardContent'
 // import DataGrid from '@cwds/components/lib/DataGrid';
 import PersonSearchForm from './PersonSearchForm'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
@@ -38,7 +38,7 @@ class SearchContainer extends Component {
         pageSize: 10,
       },
       records: [],
-      clientsStatus: LoadingState.idle,
+      // clientsStatus: LoadingState.idle,
     }
   }
 
@@ -47,12 +47,12 @@ class SearchContainer extends Component {
   }
 
   fetchClients = () => {
-    this.setState({ clientsStatus: LoadingState.waiting })
+    // this.setState({ clientsStatus: LoadingState.waiting })
     return ClientService.search({ ...this.state.filter, pagination: this.state.pagination })
       .then(this.onFetchClientsSuccess)
       .catch(error => {
         console.log(error)
-        this.setState({ clientsStatus: LoadingState.error })
+        // this.setState({ clientsStatus: LoadingState.error })
       })
   }
 
@@ -65,7 +65,7 @@ class SearchContainer extends Component {
         pages,
       },
       records: searchResult.records,
-      clientsStatus: LoadingState.ready,
+      // clientsStatus: LoadingState.ready,
     })
   }
 

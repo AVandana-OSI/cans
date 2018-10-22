@@ -73,7 +73,7 @@ class SearchAssessmentHistory extends Component {
         })
         .catch(error => {
           console.log(error)
-          this.setState({ clientsStatus: LoadingState.error })
+          // this.setState({ clientsStatus: LoadingState.error })
         })
     }
   }
