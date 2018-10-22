@@ -1,0 +1,35 @@
+@import '../../styles/global/card.sass'
+@import "./../../styles/global/typography.sass"
+@import "./../../styles/global/colors.sass"
+
+//**************************
+//  SearchContainer
+//**************************
+.client-search-container
+  margin-top: 1.4rem
+
+//**************************
+//  SearchAssessmentHistory
+//**************************
+.card-header.card-header-search
+  padding: 1.5rem 3rem
+  h4
+    margin: 0
+.card-body.card-body-search
+  padding: 0 3rem
+  .history-item.search-history-item:last-child
+    border-bottom: none
+  .history-item.search-history-item
+    border-bottom: 1px solid #EBEBEA
+    padding: 1.4rem 0
+    margin-top: 0
+    margin-bottom: 0
+    .row:first-child
+      padding-bottom: .5rem
+    .in-progress-icon
+      font-size: 3rem
+      // color: $aspen
+    .assessment-status 
+      font-weight: bolder
+      line-height: 3rem
+      padding-left: 0

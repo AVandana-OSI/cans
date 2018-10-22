@@ -16,12 +16,10 @@ import './style.sass'
 class ClientAssessmentHistory extends Component {
   constructor(context) {
     super(context)
-
     const { successAssessmentId } = (this.props.location || {}).state || {}
     if (successAssessmentId && this.props.history) {
       this.props.history.replace({ ...this.props.location, state: {} })
     }
-
     this.state = {
       assessments: [],
       fetchStatus: LoadingState.idle,

@@ -57,7 +57,7 @@ class Page extends Component {
       case navigation.ASSESSMENT_EDIT:
         return this.state.client && <AssessmentContainer isNewForm={false} {...params} />
       case navigation.CLIENT_SEARCH:
-        return <SearchContainer searchTitle={'Search Clients Only'} searchPrompt={'Search CWS-CMS for clients only'} />
+        return <SearchContainer />
       default:
         return null
     }

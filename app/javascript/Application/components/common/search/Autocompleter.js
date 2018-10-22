@@ -1,30 +1,30 @@
-import PersonSuggestion from '../PersonSuggestion';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import Autocomplete from 'react-autocomplete';
-import SuggestionHeader from '../SuggestionHeader';
+import PersonSuggestion from '../PersonSuggestion'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import Autocomplete from 'react-autocomplete'
+import SuggestionHeader from '../SuggestionHeader'
 // import { canUserAddClient } from '../../../util/authorization';
 // import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
 // import ShowMoreResults from '../common/ShowMoreResults'
 // import {logEvent} from 'utils/analytics'
 // import moment from 'moment';
-import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 
-const MIN_SEARCHABLE_CHARS = 2;
+const MIN_SEARCHABLE_CHARS = 2
 
 const addPosAndSetAttr = results => {
-  const one = 1;
+  const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
-    results[i].posInSet = i + one;
-    results[i].setSize = len;
+    results[i].posInSet = i + one
+    results[i].setSize = len
   }
-};
+}
 
-const itemClassName = isHighlighted => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`;
+const itemClassName = isHighlighted => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       menuVisible: false,
       searchTerm: '',
@@ -42,14 +42,14 @@ export default class Autocompleter extends Component {
           posInSet: 0,
           setSize: 0,
           suggestionHeader: false,
-          fullName: 'Casey Test',
-          first_name: 'Casey',
+          fullName: 'Gus A Test',
+          first_name: 'Gus',
           middle_name: '',
-          last_name: 'Test',
+          last_name: 'A Test',
           suffix: '',
           dateOfBirth: '2018/10/01',
           dob: '2018-10-01',
-          external_id: 50000,
+          external_id: 50001,
           isCsec: false,
           isDeceased: false,
           gender: 'male',
@@ -81,16 +81,16 @@ export default class Autocompleter extends Component {
           isProbationYouth: false,
         },
       ],
-    };
+    }
 
-    this.onFocus = this.onFocus.bind(this);
-    this.hideMenu = this.hideMenu.bind(this);
-    this.onItemSelect = this.onItemSelect.bind(this);
-    this.renderMenu = this.renderMenu.bind(this);
-    this.onChangeInput = this.onChangeInput.bind(this);
-    this.renderItem = this.renderItem.bind(this);
-    this.isSelectable = this.isSelectable.bind(this);
-    this.shouldItemRender = this.shouldItemRender.bind(this);
+    this.onFocus = this.onFocus.bind(this)
+    this.hideMenu = this.hideMenu.bind(this)
+    this.onItemSelect = this.onItemSelect.bind(this)
+    this.renderMenu = this.renderMenu.bind(this)
+    this.onChangeInput = this.onChangeInput.bind(this)
+    this.renderItem = this.renderItem.bind(this)
+    this.isSelectable = this.isSelectable.bind(this)
+    this.shouldItemRender = this.shouldItemRender.bind(this)
   }
 
   // constructAddress() {
@@ -127,14 +127,14 @@ export default class Autocompleter extends Component {
   // }
 
   isSearchable(value) {
-    return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS;
+    return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
   }
 
   hideMenu() {
     if (this.inputRef) {
-      this.inputRef.setAttribute('aria-activedescendant', '');
+      this.inputRef.setAttribute('aria-activedescendant', '')
     }
-    this.setState({ menuVisible: false });
+    this.setState({ menuVisible: false })
   }
 
   // loadMoreResults() {
@@ -157,7 +157,7 @@ export default class Autocompleter extends Component {
   // }
 
   isSelectable(person) {
-    return person.isSealed;
+    return person.isSealed
     // canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride);
   }
 
@@ -169,9 +169,9 @@ export default class Autocompleter extends Component {
     // this.hideMenu();
 
     if (!item.suggestionHeader) {
-      console.log(`Selected Client `, item);
+      console.log(`Selected Client `, item)
       // if we did not click on the suggestion header, then redirect
-      this.setState({ redirection: { shouldRedirect: true, selectedClient: item, successClientId: item.external_id } });
+      this.setState({ redirection: { shouldRedirect: true, selectedClient: item, successClientId: item.external_id } })
     }
   }
 
@@ -179,10 +179,10 @@ export default class Autocompleter extends Component {
     // const { isSelectable, staffId, startTime } = this.props;
 
     if (this.isSelectable(item)) {
-      window.alert('You are not authorized to add this person.'); // eslint-disable-line no-alert
-      return;
+      window.alert('You are not authorized to add this person.') // eslint-disable-line no-alert
+      return
     }
-    this.onSelect(item);
+    this.onSelect(item)
   }
 
   // onItemSelect(_value, item) {
@@ -206,35 +206,35 @@ export default class Autocompleter extends Component {
 
   onFocus() {
     if (this.isSearchable(this.state.searchTerm)) {
-      this.setState({ menuVisible: true });
+      this.setState({ menuVisible: true })
     } else {
-      this.hideMenu();
+      this.hideMenu()
     }
   }
 
   renderMenu(items, _searchTerm, _style) {
-    return <div className="autocomplete-menu">{items}</div>;
+    return <div className="autocomplete-menu">{items}</div>
   }
 
   renderEachItem(item, id, isHighlighted) {
     // const {total, results, searchTerm} = this.props
-    const total = this.state.results.length;
-    const results = this.state.results;
-    const searchTerm = this.state.searchTerm;
+    const total = this.state.results.length
+    const results = this.state.results
+    const searchTerm = this.state.searchTerm
 
-    const key = `${item.posInSet}-of-${item.setSize}`;
+    const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
         <div id={id} key={key} aria-live="polite">
           <SuggestionHeader currentNumberOfResults={results.length} total={total} searchTerm={searchTerm} />
         </div>
-      );
+      )
     }
     return (
       <div id={id} key={key} className={itemClassName(isHighlighted)}>
         <PersonSuggestion {...item} />
       </div>
-    );
+    )
   }
 
   renderItem(item, isHighlighted, _styles) {
@@ -245,17 +245,17 @@ export default class Autocompleter extends Component {
     // const canLoadMoreResults = results && total > results.length
     // const buttonClassName = canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
     // const className = itemClassName(isHighlighted) + buttonClassName
-    const key = `${item.posInSet}-of-${item.setSize}`;
-    const id = `search-result-${key}`;
+    const key = `${item.posInSet}-of-${item.setSize}`
+    const id = `search-result-${key}`
 
-    return this.renderEachItem(item, id, isHighlighted);
+    return this.renderEachItem(item, id, isHighlighted)
   }
 
   // getPeopleEffect({searchTerm, isClientOnly, searchAddress, sort}) {
   getPeopleEffect({ searchTerm }) {
-    const uri = 'http://jsonplaceholder.typicode.com/posts/1';
+    const uri = 'http://jsonplaceholder.typicode.com/posts/1'
     // const uri = 'https://web.preint.cwds.io/intake/api/v1/people?search_term=ca&is_client_only=false'
-    return window.fetch(uri);
+    return window.fetch(uri)
 
     // return call(get, '/api/v1/people', {
     //   search_term: searchTerm,
@@ -266,22 +266,22 @@ export default class Autocompleter extends Component {
   }
 
   onChangeInput(_, searchTerm) {
-    this.setState({ searchTerm });
+    this.setState({ searchTerm })
 
     if (this.isSearchable(searchTerm)) {
-      this.setState({ menuVisible: true });
+      this.setState({ menuVisible: true })
       this.getPeopleEffect({ searchTerm })
         .then(response => {
-          return response.json();
+          return response.json()
         })
         .then(json => {
           // console.log(`onChangeInput API Response -`, JSON.stringify(json));
-        });
+        })
 
       // const response = this.getPeopleEffect({searchTerm})
       // console.log(`onChangeInput API Response -`, response)
     } else {
-      this.hideMenu();
+      this.hideMenu()
     }
 
     // const {onSearch, onChange, isAddressIncluded} = this.props
@@ -298,20 +298,20 @@ export default class Autocompleter extends Component {
     const newProps = {
       ...props,
       ref: el => {
-        this.inputRef = el;
-        props.ref(el);
+        this.inputRef = el
+        props.ref(el)
       },
-    };
-    return <input {...newProps} />;
+    }
+    return <input {...newProps} />
   }
 
   shouldItemRender(item, searchTerm) {
     if (item.suggestionHeader) {
-      return true;
+      return true
     } else if (item.fullName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   }
 
@@ -321,12 +321,12 @@ export default class Autocompleter extends Component {
     // const createNewPerson = { createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same' };
     // const suggestionHeader = [{ suggestionHeader: 'suggestion Header' }];
     // const canLoadMoreResults = results && total > results.length;
-    addPosAndSetAttr(this.state.results); // Sequentually numbering items ***
+    addPosAndSetAttr(this.state.results) // Sequentually numbering items ***
     // const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
-    const { id } = this.props;
-    const suggestionHeader = [{ suggestionHeader: 'suggestion Header', fullName: '' }];
-    const newResults = suggestionHeader.concat(this.state.results);
+    const { id } = this.props
+    const suggestionHeader = [{ suggestionHeader: 'suggestion Header', fullName: '' }]
+    const newResults = suggestionHeader.concat(this.state.results)
 
     return (
       <Autocomplete
@@ -344,19 +344,19 @@ export default class Autocompleter extends Component {
         onSelect={this.onItemSelect}
         shouldItemRender={this.shouldItemRender}
       />
-    );
+    )
   }
 
   render() {
-    const { redirection } = this.state;
-    const { shouldRedirect, successClientId } = redirection;
+    const { redirection } = this.state
+    const { shouldRedirect, successClientId } = redirection
     if (shouldRedirect) {
       return (
         <Redirect push to={{ pathname: `clients/${successClientId}`, state: { isNewForm: true, successClientId } }} />
-      );
+      )
       // return <Redirect push to={{ pathname: `/clients/new`, state: { selectedClient } }} />;
     }
-    return this.renderAutocomplete();
+    return this.renderAutocomplete()
   }
 }
 Autocompleter.defaultProps = {
@@ -368,7 +368,7 @@ Autocompleter.defaultProps = {
   staffId: '',
   startTime: '',
   total: 0,
-};
+}
 Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
   id: PropTypes.string,
@@ -379,6 +379,6 @@ Autocompleter.propTypes = {
   staffId: PropTypes.string,
   startTime: PropTypes.string,
   total: PropTypes.number,
-};
+}
 
-Autocompleter.displayName = 'Autocompleter';
+Autocompleter.displayName = 'Autocompleter'
