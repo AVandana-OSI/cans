@@ -18,12 +18,12 @@ const getActionVerbByStatus = status => {
   }
 };
 
-const renderLock = status => {
+const renderIcon = status => {
   switch (status) {
     case 'IN_PROGRESS':
-      return <i className="fa fa-unlock-alt fa-3x unlocked-icon" aria-hidden="true" />;
+      return <i className="fa fa-spinner fa-2x" aria-hidden="true" />;
     case 'SUBMITTED':
-      return <i className="fa fa-lock fa-3x locked-icon" aria-hidden="true" />;
+      return <i className="fa fa-check-circle fa-2x" aria-hidden="true" />;
     default:
       return null;
   }
@@ -62,8 +62,13 @@ class SearchAssessmentHistoryRecord extends Component {
     return (
       <Container className={'history-item'}>
         <Row>
-          <Col xs="1">{renderLock(status)}</Col>
+          <Col xs="1">{renderIcon(status)}</Col>
           <Col xs="11">
+            <span>In Progress</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12">
             <Row>
               <Col xs="12">
                 <Link to={`/clients/${person.id}/assessments/${id}`} className={'underlined'}>

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { AssessmentService } from '../Assessment/Assessment.service';
 import { CloseableAlert, alertType } from '../common/CloseableAlert';
 import { LoadingState } from '../../util/loadingHelper';
+import moment from 'moment';
 
 import '../Client/style.sass';
 
@@ -26,6 +27,7 @@ class SearchAssessmentHistory extends Component {
       assessments: [],
       fetchStatus: LoadingState.idle,
       shouldRenderSuccessMessage: !!successAssessmentId,
+      numAssessments: 3,
     };
   }
 
@@ -73,9 +75,9 @@ class SearchAssessmentHistory extends Component {
               return assessment;
             }
           });
-
+          const sortedAssessments = this.sortAssessmentsByDate('desc', assessments);
           this.setState({
-            assessments,
+            assessments: sortedAssessments.slice(0, this.state.numAssessments),
             fetchStatus: LoadingState.ready,
           });
         })
@@ -84,6 +86,18 @@ class SearchAssessmentHistory extends Component {
           this.setState({ clientsStatus: LoadingState.error });
         });
     }
+  }
+
+  sortAssessmentsByDate(direction, assessments) {
+    const newAssessmentList = assessments.map(assessment => {
+      const momentObj = moment(assessment.created_timestamp);
+      assessment.moment = momentObj;
+      return assessment;
+    });
+    newAssessmentList.sort((left, right) => {
+      return direction === 'asc' ? left.moment.diff(right.moment) : right.moment.diff(left.moment);
+    });
+    return newAssessmentList;
   }
 }
 

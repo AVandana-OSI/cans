@@ -98,7 +98,6 @@ class SearchContainer extends Component {
   render = () => {
     const { records } = this.state;
     const clientIds = this.getClientIdsFromRecords(records);
-    // console.log(`render clientIds`, clientIds);
     return (
       <Fragment>
         {this.renderPersonSearchForm()}
