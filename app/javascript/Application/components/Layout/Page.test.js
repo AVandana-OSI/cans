@@ -8,6 +8,7 @@ import { navigation } from '../../util/constants'
 import AssessmentContainer from '../Assessment/AssessmentContainer'
 import ClientAddEditForm from '../Client/ClientAddEditForm'
 import Client from '../Client/Client'
+import SearchContainer from '../Search/SearchContainer'
 
 describe('<Page />', () => {
   describe('layout', () => {
@@ -21,6 +22,7 @@ describe('<Page />', () => {
 
       expect(sideNav.length).toBe(1)
       expect(sideNav.dive().find({ text: 'County Client List' }).length).toBe(1)
+      expect(sideNav.dive().find({ text: 'Client Search' }).length).toBe(1)
     })
 
     it('renders with <BreadCrumbsBuilder /> links', async () => {
@@ -70,5 +72,15 @@ describe('when adding Assessment', () => {
     const wrapper = getWrapper(navigation.CHILD_PROFILE)
     await wrapper.instance().componentDidMount()
     expect(wrapper.find(Client).length).toBe(1)
+  })
+})
+
+describe('when searching for clients', () => {
+  const getWrapper = navigateTo => shallow(<Page match={{ params: {} }} location={{}} navigateTo={navigateTo} />)
+  it('renders < SearchContainer />', async () => {
+    jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
+    const wrapper = getWrapper(navigation.CLIENT_SEARCH)
+    await wrapper.instance().componentDidMount()
+    expect(wrapper.find(SearchContainer).length).toBe(1)
   })
 })

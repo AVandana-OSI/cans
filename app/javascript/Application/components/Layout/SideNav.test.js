@@ -11,8 +11,8 @@ describe('the <SideNav /> view', () => {
     expect(getLength('nav')).toBe(1)
   })
 
-  it('renders with 1 <SideNavLink /> component', () => {
-    expect(getLength(SideNavLink)).toBe(1)
+  it('renders with 2 <SideNavLink /> component', () => {
+    expect(getLength(SideNavLink)).toBe(2)
   })
 })
 

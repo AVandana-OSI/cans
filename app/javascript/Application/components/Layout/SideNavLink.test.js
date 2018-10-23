@@ -54,7 +54,7 @@ describe('<SideNavLink /> onClick', () => {
     })
   })
 
-  describe('when key pressed for accessability', () => {
+  describe('when key pressed for accessibility', () => {
     it('call onClick', () => {
       const onClickFunction = jest.fn()
       const wrapper = mount(

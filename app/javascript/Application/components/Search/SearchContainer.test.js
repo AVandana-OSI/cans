@@ -1,56 +1,51 @@
-import React from 'react';
-import { SearchContainer } from './index';
-// import { childInfoJson } from '../Client/Client.helper.test';
-// import ClientService from '../Client/Client.service';
-import { shallow, mount } from 'enzyme';
+import React from 'react'
+import { SearchContainer } from './index'
+import { childInfoJson } from '../Client/Client.helper.test'
+import ClientService from '../Client/Client.service'
+import { shallow, mount } from 'enzyme'
 // import { PageInfo } from '../Layout';
-import Typography from '@material-ui/core/Typography/Typography';
-import { MemoryRouter, Link } from 'react-router-dom';
-// import { assessment, updatedAssessment, initialAssessment, instrument } from './assessment.mocks.test';
+import PersonSearchForm from './PersonSearchForm'
+import SearchAssessmentHistory from './SearchAssessmentHistory'
+import Typography from '@material-ui/core/Typography/Typography'
+import { MemoryRouter, Link } from 'react-router-dom'
+import { assessment, updatedAssessment, initialAssessment, instrument } from '../Assessment/assessment.mocks.test'
 // import { LoadingState } from '../../util/loadingHelper';
-// import { CloseableAlert } from '../common/CloseableAlert';
-// import { getCurrentIsoDate } from '../../util/dateHelper';
 
-jest.useFakeTimers();
+jest.useFakeTimers()
 
-const defaultProps = {
-  searchPrompt: 'Search CWS-CMS for clients only',
-  searchTitle: 'Search Clients Only',
-};
+const defaultProps = {}
 
-const mountWithRouter = async component => mount(<MemoryRouter initialEntries={['/random']}>{component}</MemoryRouter>);
+const mountWithRouter = async component => mount(<MemoryRouter initialEntries={['/random']}>{component}</MemoryRouter>)
 
 describe('<SearchContainer />', () => {
   describe('init SearchContainer', () => {
     describe('page layout', () => {
-      const props = {
-        //
-      };
+      const props = {}
 
       beforeEach(() => {
         //
-      });
+      })
 
-      const getLength = (wrapper, component) => wrapper.find(component).length;
+      const getLength = (wrapper, component) => wrapper.find(component).length
 
       // it('renders with 1 <PageInfo /> component', () => {
       //   const wrapper = shallow(<SearchContainer {...props} />);
       //   expect(getLength(wrapper, PageInfo)).toBe(1);
       // });
-    });
+    })
 
     describe('page title', () => {
       it('should be "Search Clients Only" for new assessment', () => {
-        const wrapper = shallow(<SearchContainer {...defaultProps} />);
+        const wrapper = shallow(<SearchContainer {...defaultProps} />)
         // const pageInfoText = wrapper
         //   .find('PageInfo')
         //   .render()
         //   .text();
         // expect(pageInfoText).toMatch(/New CANS/);
         // expect(pageInfoText).toMatch(/Print/);
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('Search Component', () => {
     describe('Search Field', () => {
@@ -75,7 +70,7 @@ describe('<SearchContainer />', () => {
       //   });
       //   expect(wrapper.find('Redirect').exists()).toBe(false);
       // });
-    });
+    })
 
     describe('handleOnChange', () => {
       // let wrapper;
@@ -102,6 +97,6 @@ describe('<SearchContainer />', () => {
       //   instance.handleKeyUp({ target: {} });
       //   expect(instance.state.isValidDate).toEqual(false);
       // });
-    });
-  });
-});
+    })
+  })
+})

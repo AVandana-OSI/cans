@@ -12,9 +12,7 @@ const navsWithChildYouthListCrumb = [
   navigation.CHILD_PROFILE_ADD,
   navigation.CHILD_PROFILE_EDIT,
 ]
-
 const navsWithChildProfileCrumb = [navigation.CHILD_PROFILE_EDIT, navigation.ASSESSMENT_ADD, navigation.ASSESSMENT_EDIT]
-
 const navsWithClientSearchCrumb = [navigation.CLIENT_SEARCH]
 
 const addChildYouthListCrumbIfNeeded = (elements, navigateTo) => {

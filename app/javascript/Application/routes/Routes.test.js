@@ -3,6 +3,7 @@ import { shallow } from 'enzyme'
 import { executeTest } from './Routes.test.util'
 import { AssessmentContainer } from '../components/Assessment'
 import { ClientsContainer, ClientAddEditForm } from '../components/Client'
+import { SearchContainer } from '../components/Search'
 import { childInfoJson } from '../components/Client/Client.helper.test'
 import { Routes } from './'
 import { Route, Switch } from 'react-router-dom'
@@ -16,8 +17,8 @@ describe('<Router />', () => {
       expect(getLength(Switch)).toBe(1)
     })
 
-    it('renders with 4 <Route /> component', () => {
-      expect(getLength(Route)).toBe(6)
+    it('renders with 7 <Route /> components', () => {
+      expect(getLength(Route)).toBe(7)
     })
   })
 
@@ -68,6 +69,12 @@ describe('<Router />', () => {
     describe('/clients/edit/:id', () => {
       it('navigates to client edit form page', () => {
         executeTest(<ClientAddEditForm isNewForm={false} />, '/clients/edit/:id', 'Child/Youth')
+      })
+    })
+
+    describe('/search', () => {
+      it('navigates to client search page', () => {
+        executeTest(<SearchContainer />, '/search', 'Search Clients Only')
       })
     })
   })
