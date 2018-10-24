@@ -44,6 +44,7 @@ class SearchContainer extends Component {
   onFetchClientsSuccess = searchResult => {
     const pagination = this.state.pagination
     const pages = calculatePages(searchResult.total_records, pagination.pageSize)
+
     this.setState({
       pagination: {
         ...pagination,
@@ -52,9 +53,6 @@ class SearchContainer extends Component {
       records: searchResult.records,
     })
   }
-
-  renderAccessRestrictions = client =>
-    client.sensitivity_type === 'SENSITIVE' ? 'Sensitive' : client.sensitivity_type === 'SEALED' ? 'Sealed' : null
 
   renderSearchAssessmentHistory(clientIds) {
     return <SearchAssessmentHistory clientIds={clientIds} numAssessments={3} historyTitle={assessmentHistoryTitle} />
@@ -68,7 +66,7 @@ class SearchContainer extends Component {
 
   render = () => {
     const { records } = this.state
-    const clientIds = this.getClientIdsFromRecords(records)
+    const clientIds = records ? this.getClientIdsFromRecords(records) : []
     return <div className="client-search-container">{this.renderSearchAssessmentHistory(clientIds)}</div>
   }
 }

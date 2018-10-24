@@ -46,6 +46,14 @@ describe('<SearchAssessmentHistory', () => {
     })
   })
 
+  describe('card header', () => {
+    it('should be "Assessment History"', () => {
+      const wrapper = getShallowWrapper()
+      const cardTitle = wrapper.find('h4').text()
+      expect(cardTitle).toMatch(/Assessment History/)
+    })
+  })
+
   describe('assessment history', () => {
     describe('when 3 records', () => {
       it('renders 3 assessments', async () => {
