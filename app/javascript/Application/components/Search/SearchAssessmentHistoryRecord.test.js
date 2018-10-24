@@ -59,7 +59,7 @@ describe('<SearchAssessmentHistory', () => {
       .get(0)
       .props.children.filter(el => el.type !== 'br')
     expect(assessmentInfo).toEqual([
-      'Saved on 06/06/2015 by Name 1 LastName 1',
+      'Saved on 06/06/2015 by Name 1 Last Name 1',
       'Case: 4444-333-4444-88888888',
       'County: Alameda',
     ])
@@ -74,6 +74,6 @@ describe('<SearchAssessmentHistory', () => {
       .find('.item-info')
       .get(0)
       .props.children.filter(el => el.type !== 'br')
-    expect(timestamp).toEqual(['Saved on 06/06/2018 by Name 3 LastName 3', 'Case: ', 'County: Alameda'])
+    expect(timestamp).toEqual(['Saved on 06/06/2018 by Name 3 Last Name 3', 'Case: ', 'County: Alameda'])
   })
 })

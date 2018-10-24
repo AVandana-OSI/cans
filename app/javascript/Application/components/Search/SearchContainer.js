@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ClientService from '../Client/Client.service'
+import GetClients from '../Client/Client.service'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
 import './style.sass'
 
@@ -36,10 +36,7 @@ class SearchContainer extends Component {
   }
 
   fetchClients = () => {
-    return ClientService.search({
-      ...this.state.filter,
-      pagination: this.state.pagination,
-    })
+    return GetClients.search({ ...this.state.filter, pagination: this.state.pagination })
       .then(this.onFetchClientsSuccess)
       .catch(err => {
         throw err
