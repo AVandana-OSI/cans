@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { GlobalHeader } from 'react-wood-duck'
 import { trimSafely, addTrailingSlash } from '../../util/formatters'
-import UserAccountService from './UserAccountService'
+import UserAccountService from '../common/UserAccountService'
 
 const logoutUrl = `${addTrailingSlash(process.env.CANS_BASE_PATH)}user/logout`
 

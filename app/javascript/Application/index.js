@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import '@cwds/core/dist/styles.css'
 import 'react-wood-duck/dist/styles/application.css'
 import App from './App'
 import { timeoutService } from './util/TimeoutService'

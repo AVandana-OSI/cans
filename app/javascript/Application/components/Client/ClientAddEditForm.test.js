@@ -5,7 +5,7 @@ import { ClientService } from './Client.service'
 import { childInfoJson } from './Client.helper.test'
 import { SensitivityTypesService } from './SensitivityTypes.service'
 import { CountiesService } from './Counties.service'
-import UserAccountService from '../Header/UserAccountService'
+import UserAccountService from '../common/UserAccountService'
 import { CloseableAlert } from '../common/CloseableAlert'
 
 jest.mock('./SensitivityTypes.service')

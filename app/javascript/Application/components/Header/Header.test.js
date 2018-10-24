@@ -2,8 +2,8 @@ import React from 'react'
 import { mount } from 'enzyme'
 import Header from './Header'
 
-jest.mock('./UserAccountService')
-const UserAccountService = require('./UserAccountService').default
+jest.mock('../common/UserAccountService')
+const UserAccountService = require('../common/UserAccountService').default
 
 describe('Header', () => {
   describe('when logged in', () => {

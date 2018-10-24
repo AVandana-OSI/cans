@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@cwds/components": "0.2.0-alpha.20",
+    "@cwds/core": "^0.3.0",
     "@material-ui/core": "^3.1.1",
     "@material-ui/icons": "^3.0.1",
     "@rails/webpacker": "3.5",
@@ -37,7 +38,6 @@
     "react-widgets-moment": "^4.0.20",
     "react-wood-duck": "^0.1.57",
     "reactstrap": "^6.0.1",
-    "sanitize-html": "^1.19.1",
     "universal-cookie": "^3.0.4"
   },
   "devDependencies": {

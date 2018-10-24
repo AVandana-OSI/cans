@@ -7,11 +7,17 @@ class UserAccountService {
     timeout: 15000,
   })
 
+  static cachedUser = null
+
   static fetchCurrent() {
-    return this.httpClient
-      .get('/user/account')
-      .then(response => response.data)
-      .catch(handleError)
+    this.cachedUser =
+      this.cachedUser ||
+      this.httpClient
+        .get('/user/account')
+        .then(response => response.data)
+        .catch(handleError)
+
+    return this.cachedUser
   }
 }
 

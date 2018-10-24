@@ -28,6 +28,12 @@ Rails.application.routes.draw do
     resources :sensitivity_types, only: [:index] do
     end
 
+    resources :staff, only: [] do
+      collection do
+        get 'subordinates', to: 'staff#subordinates_index'
+      end
+    end
+
     get 'security/check_permission/:permission', to: 'security#check_permission'
     get 'security/refresh', to: 'security#refresh'
   end

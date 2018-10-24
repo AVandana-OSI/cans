@@ -6,6 +6,11 @@ describe('UserAccountService', () => {
 
     beforeEach(() => {
       getSpy = jest.spyOn(UserAccountService.httpClient, 'get')
+      UserAccountService.cachedUser = null
+    })
+
+    afterEach(() => {
+      UserAccountService.cachedUser = null
     })
 
     it('has a timeout of 15 seconds', () => {
@@ -21,6 +26,15 @@ describe('UserAccountService', () => {
       expect(getSpy).not.toHaveBeenCalled()
       UserAccountService.fetchCurrent()
       expect(getSpy).toHaveBeenCalledWith('/user/account')
+    })
+
+    it('calls the backend service only once, to save time', () => {
+      getSpy.mockReturnValue(Promise.resolve(42))
+      expect(getSpy).not.toHaveBeenCalled()
+      const firstPromise = UserAccountService.fetchCurrent()
+      const secondPromise = UserAccountService.fetchCurrent()
+      expect(getSpy).toHaveBeenCalledTimes(1)
+      expect(secondPromise).toBe(firstPromise)
     })
 
     describe('when could not fetch data', () => {

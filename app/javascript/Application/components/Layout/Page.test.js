@@ -9,6 +9,7 @@ import AssessmentContainer from '../Assessment/AssessmentContainer'
 import ClientAddEditForm from '../Client/ClientAddEditForm'
 import Client from '../Client/Client'
 import SearchContainer from '../Search/SearchContainer'
+import { SupervisorDashboard } from '../Supervisor'
 
 describe('<Page />', () => {
   describe('layout', () => {
@@ -33,45 +34,51 @@ describe('<Page />', () => {
       expect(breadCrumbsBuilder.length).toBe(1)
     })
   })
-})
 
-describe('when adding Assessment', () => {
-  const getWrapper = navigateTo =>
-    shallow(<Page match={{ params: { clientId: '1001' } }} location={{}} navigateTo={navigateTo} />)
+  describe('when adding Assessment', () => {
+    const getWrapper = navigateTo =>
+      shallow(<Page match={{ params: { clientId: '1001' } }} location={{}} navigateTo={navigateTo} />)
 
-  it('renders < AssessmentContainer on Add/>', async () => {
-    jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
-    const wrapper = getWrapper(navigation.ASSESSMENT_ADD)
-    await wrapper.instance().componentDidMount()
-    expect(wrapper.find(AssessmentContainer).length).toBe(1)
+    it('renders < AssessmentContainer on Add/>', async () => {
+      jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
+      const wrapper = getWrapper(navigation.ASSESSMENT_ADD)
+      await wrapper.instance().componentDidMount()
+      expect(wrapper.find(AssessmentContainer).length).toBe(1)
+    })
+
+    it('renders < AssessmentContainer on Edit />', async () => {
+      jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
+      const wrapper = getWrapper(navigation.ASSESSMENT_EDIT)
+      await wrapper.instance().componentDidMount()
+      expect(wrapper.find(AssessmentContainer).length).toBe(1)
+    })
+
+    it('renders < ClientAddEditForm for Edit Profile/>', async () => {
+      jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
+      const wrapper = getWrapper(navigation.CHILD_PROFILE_EDIT)
+      await wrapper.instance().componentDidMount()
+      expect(wrapper.find(ClientAddEditForm).length).toBe(1)
+    })
+
+    it('renders < ClientAddEditForm for Add CANS/>', async () => {
+      jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
+      const wrapper = getWrapper(navigation.CHILD_PROFILE_ADD)
+      await wrapper.instance().componentDidMount()
+      expect(wrapper.find(ClientAddEditForm).length).toBe(1)
+    })
+
+    it('renders < Client />', async () => {
+      jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
+      const wrapper = getWrapper(navigation.CHILD_PROFILE)
+      await wrapper.instance().componentDidMount()
+      expect(wrapper.find(Client).length).toBe(1)
+    })
   })
 
-  it('renders < AssessmentContainer on Edit />', async () => {
-    jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
-    const wrapper = getWrapper(navigation.ASSESSMENT_EDIT)
+  it('renders <SupervisorDashboard /> when navigated to', async () => {
+    const wrapper = shallow(<Page match={{ params: {} }} location={{}} navigateTo={navigation.STAFF_LIST} />)
     await wrapper.instance().componentDidMount()
-    expect(wrapper.find(AssessmentContainer).length).toBe(1)
-  })
-
-  it('renders < ClientAddEditForm for Edit Profile/>', async () => {
-    jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
-    const wrapper = getWrapper(navigation.CHILD_PROFILE_EDIT)
-    await wrapper.instance().componentDidMount()
-    expect(wrapper.find(ClientAddEditForm).length).toBe(1)
-  })
-
-  it('renders < ClientAddEditForm for Add CANS/>', async () => {
-    jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
-    const wrapper = getWrapper(navigation.CHILD_PROFILE_ADD)
-    await wrapper.instance().componentDidMount()
-    expect(wrapper.find(ClientAddEditForm).length).toBe(1)
-  })
-
-  it('renders < Client />', async () => {
-    jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
-    const wrapper = getWrapper(navigation.CHILD_PROFILE)
-    await wrapper.instance().componentDidMount()
-    expect(wrapper.find(Client).length).toBe(1)
+    expect(wrapper.find(SupervisorDashboard).exists()).toBe(true)
   })
 })
 
