@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ClientService from '../Client/Client.service'
-import { LoadingState } from '../../util/loadingHelper'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
 import './style.sass'
 
@@ -26,6 +25,7 @@ class SearchContainer extends Component {
         pageSize: 10,
       },
       records: [],
+      numAssessments: 3,
     }
   }
 
@@ -54,8 +54,14 @@ class SearchContainer extends Component {
     })
   }
 
-  renderSearchAssessmentHistory(clientIds) {
-    return <SearchAssessmentHistory clientIds={clientIds} numAssessments={3} historyTitle={assessmentHistoryTitle} />
+  renderSearchAssessmentHistory(numAssessments, clientIds) {
+    return (
+      <SearchAssessmentHistory
+        clientIds={clientIds}
+        numAssessments={numAssessments}
+        historyTitle={assessmentHistoryTitle}
+      />
+    )
   }
 
   getClientIdsFromRecords(records) {
@@ -65,9 +71,11 @@ class SearchContainer extends Component {
   }
 
   render = () => {
-    const { records } = this.state
+    const { records, numAssessments } = this.state
     const clientIds = records ? this.getClientIdsFromRecords(records) : []
-    return <div className="client-search-container">{this.renderSearchAssessmentHistory(clientIds)}</div>
+    return (
+      <div className="client-search-container">{this.renderSearchAssessmentHistory(numAssessments, clientIds)}</div>
+    )
   }
 }
 

@@ -3,14 +3,14 @@ export const GENDERS_LEGACY = Object.freeze({
   F: 'Female',
   U: 'Unknown',
   I: 'Intersex',
-});
+})
 
 const GENDERS = Object.freeze({
   male: 'Male',
   female: 'Female',
   intersex: 'Intersex',
   unknown: 'Unknown',
-});
+})
 
 export const GENDER_CODES = Object.freeze({
   male: 'M',
@@ -21,6 +21,6 @@ export const GENDER_CODES = Object.freeze({
   F: 'F',
   U: 'U',
   I: 'I',
-});
+})
 
-export default GENDERS;
+export default GENDERS

@@ -1,13 +1,13 @@
-import AddressInfo from './AddressInfo';
-import AgeInfo from './AgeInfo';
-import GenderRaceAndEthnicity from './GenderRaceAndEthnicity';
-import Languages from './LanguageInfo';
-import PropTypes from 'prop-types';
-import React from 'react';
-import PhoneNumberInfo from './PhoneNumberInfo';
+import AddressInfo from './AddressInfo'
+import AgeInfo from './AgeInfo'
+import GenderRaceAndEthnicity from './GenderRaceAndEthnicity'
+import Languages from './LanguageInfo'
+import PropTypes from 'prop-types'
+import React from 'react'
+import PhoneNumberInfo from './PhoneNumberInfo'
 // import legacySourceFormatter from '../../util/legacySourceFormatter';
-import sanitizeHtml from 'sanitize-html';
-import AvatarImg from '../../../../assets/images/default-profile.svg';
+import sanitizeHtml from 'sanitize-html'
+import AvatarImg from '../../../../assets/images/default-profile.svg'
 
 const PersonSuggestion = ({
   fullName,
@@ -30,7 +30,7 @@ const PersonSuggestion = ({
     dangerouslySetInnerHTML: {
       __html: sanitizeHtml(field, { allowedTags: ['em'] }),
     },
-  });
+  })
 
   // const legacySourceString = legacySourceFormatter(legacyDescriptor || {});
 
@@ -70,8 +70,8 @@ const PersonSuggestion = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 PersonSuggestion.defaultProps = {
   address: {},
   dateOfBirth: '',
@@ -88,7 +88,7 @@ PersonSuggestion.defaultProps = {
   phoneNumber: {},
   races: [],
   ssn: '',
-};
+}
 PersonSuggestion.propTypes = {
   address: PropTypes.object,
   dateOfBirth: PropTypes.string,
@@ -105,6 +105,6 @@ PersonSuggestion.propTypes = {
   phoneNumber: PropTypes.object,
   races: PropTypes.array,
   ssn: PropTypes.string,
-};
+}
 
-export default PersonSuggestion;
+export default PersonSuggestion

@@ -68,7 +68,7 @@ class SearchAssessmentHistory extends Component {
         })
         .catch(error => {
           console.log(error)
-          this.setState({ clientsStatus: LoadingState.error })
+          this.setState({ fetchStatus: LoadingState.error })
         })
     }
   }
@@ -87,11 +87,9 @@ class SearchAssessmentHistory extends Component {
 }
 
 SearchAssessmentHistory.propTypes = {
-  clientIds: PropTypes.array,
-}
-
-SearchAssessmentHistory.defaultProps = {
-  clientIds: [],
+  clientIds: PropTypes.array.isRequired,
+  historyTitle: PropTypes.string.isRequired,
+  numAssessments: PropTypes.number.isRequired,
 }
 
 export default SearchAssessmentHistory

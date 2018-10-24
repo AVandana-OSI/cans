@@ -30,7 +30,7 @@ describe('<SearchContainer />', () => {
 
     describe('client service', () => {
       it('should be called during componentDidMount', () => {
-        const wrapper = prepareWrapper(personsJson)
+        prepareWrapper(personsJson)
         expect(clientServiceFetchSpy).toHaveBeenCalledTimes(1)
       })
     })

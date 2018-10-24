@@ -1,6 +1,5 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme'
-import { MemoryRouter } from 'react-router-dom'
+import { shallow } from 'enzyme'
 import Grid from '@material-ui/core/Grid/Grid'
 import { SearchAssessmentHistory } from './index'
 import AssessmentService from '../Assessment/Assessment.service'
