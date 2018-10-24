@@ -62,7 +62,7 @@ describe('<Router />', () => {
     it('renders a child assessment edit route', () => {
       testRoute('/clients/:clientId/assessments/:id', navigation.ASSESSMENT_EDIT)
     })
-    
+
     it('renders a search route', () => {
       testRoute('/search', navigation.CLIENT_SEARCH)
     })
@@ -127,7 +127,7 @@ describe('<Router />', () => {
         executeTest(<SearchContainer />, '/search', 'Assessment History')
       })
     })
-    
+
     describe('/staff', () => {
       it('navigates to the supervisor dashboard', () => {
         executeTest(<SupervisorDashboard />, '/staff', 'Assigned Staff')
