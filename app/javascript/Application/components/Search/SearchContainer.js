@@ -1,20 +1,6 @@
-import React, { Component, Fragment } from 'react'
-// import { Link } from 'react-router-dom';
-// import { Row, Col, Label, Input, Button as ButtonReactStrap } from 'reactstrap';
+import React, { Component } from 'react'
 import ClientService from '../Client/Client.service'
-// import PaginationButtonFactory from '../common/pagination/PaginationButtonFactory';
-// import Pagination from '../common/pagination/Pagination';
-// import DateField from '../common/DateField';
-// import { formatClientName } from './Client.helper';
-// import { isoToLocalDate } from '../../util/dateHelper';
 import { LoadingState } from '../../util/loadingHelper'
-// import { isEnterKeyPressed } from '../../util/events';
-// import Button from '@material-ui/core/Button/Button';
-// import Card from '@material-ui/core/Card/Card'
-// import CardHeader from '@material-ui/core/CardHeader'
-// import CardContent from '@material-ui/core/CardContent'
-// import DataGrid from '@cwds/components/lib/DataGrid';
-import PersonSearchForm from './PersonSearchForm'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
 import './style.sass'
 
@@ -27,6 +13,8 @@ const initialFilterState = {
   dob: '',
 }
 
+const assessmentHistoryTitle = 'Assessment History'
+
 class SearchContainer extends Component {
   constructor(props) {
     super(props)
@@ -38,7 +26,6 @@ class SearchContainer extends Component {
         pageSize: 10,
       },
       records: [],
-      // clientsStatus: LoadingState.idle,
     }
   }
 
@@ -47,12 +34,10 @@ class SearchContainer extends Component {
   }
 
   fetchClients = () => {
-    // this.setState({ clientsStatus: LoadingState.waiting })
     return ClientService.search({ ...this.state.filter, pagination: this.state.pagination })
       .then(this.onFetchClientsSuccess)
       .catch(error => {
         console.log(error)
-        // this.setState({ clientsStatus: LoadingState.error })
       })
   }
 
@@ -65,26 +50,14 @@ class SearchContainer extends Component {
         pages,
       },
       records: searchResult.records,
-      // clientsStatus: LoadingState.ready,
     })
   }
 
   renderAccessRestrictions = client =>
     client.sensitivity_type === 'SENSITIVE' ? 'Sensitive' : client.sensitivity_type === 'SEALED' ? 'Sealed' : null
 
-  renderPersonSearchForm() {
-    return (
-      <PersonSearchForm
-        searchTitle={'Search Clients Only'}
-        searchPrompt={'Search CWS-CMS for clients only'}
-        // isClientOnly={false}
-        // onSelect={person => this.onSelectPerson(person)}
-      />
-    )
-  }
-
   renderSearchAssessmentHistory(clientIds) {
-    return <SearchAssessmentHistory clientIds={clientIds} historyTitle={'Assessment History'} />
+    return <SearchAssessmentHistory clientIds={clientIds} numAssessments={3} historyTitle={assessmentHistoryTitle} />
   }
 
   getClientIdsFromRecords(records) {
@@ -96,12 +69,7 @@ class SearchContainer extends Component {
   render = () => {
     const { records } = this.state
     const clientIds = this.getClientIdsFromRecords(records)
-    return (
-      <Fragment>
-        {this.renderPersonSearchForm()}
-        {this.renderSearchAssessmentHistory(clientIds)}
-      </Fragment>
-    )
+    return <div className="client-search-container">{this.renderSearchAssessmentHistory(clientIds)}</div>
   }
 }
 

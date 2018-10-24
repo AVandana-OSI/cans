@@ -74,7 +74,7 @@ describe('<Router />', () => {
 
     describe('/search', () => {
       it('navigates to client search page', () => {
-        executeTest(<SearchContainer />, '/search', 'Search Clients Only')
+        executeTest(<SearchContainer />, '/search', 'Assessment History')
       })
     })
   })
