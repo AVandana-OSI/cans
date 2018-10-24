@@ -38,8 +38,7 @@ const assessmentWithNoUpdateInfo = {
   },
 }
 
-const getShallowWrapper = assessment =>
-  shallow(<SearchAssessmentHistoryRecord assessment={assessment} />)
+const getShallowWrapper = assessment => shallow(<SearchAssessmentHistoryRecord assessment={assessment} />)
 
 describe('<SearchAssessmentHistory', () => {
   it('renders IN_PROGRESS assessment with all fields', () => {
@@ -75,10 +74,6 @@ describe('<SearchAssessmentHistory', () => {
       .find('.item-info')
       .get(0)
       .props.children.filter(el => el.type !== 'br')
-    expect(timestamp).toEqual([
-      'Saved on 06/06/2018 by Name 3 LastName 3',
-      'Case: ',
-      'County: Alameda',
-    ])
+    expect(timestamp).toEqual(['Saved on 06/06/2018 by Name 3 LastName 3', 'Case: ', 'County: Alameda'])
   })
 })

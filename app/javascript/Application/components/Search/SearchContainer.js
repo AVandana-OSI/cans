@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ClientService from '../Client/Client.service'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
-import { LoadingState } from '../../util/loadingHelper'
 import './style.sass'
 
 const calculatePages = (recordsCount, pageSize) => {
@@ -29,7 +28,6 @@ class SearchContainer extends Component {
       },
       records: [],
       numAssessments: 3,
-      clientsStatus: LoadingState.ready,
     }
   }
 
@@ -38,21 +36,19 @@ class SearchContainer extends Component {
   }
 
   fetchClients = () => {
-    this.setState({ clientsStatus: LoadingState.waiting })
     return ClientService.search({
       ...this.state.filter,
       pagination: this.state.pagination,
     })
       .then(this.onFetchClientsSuccess)
-      .catch(() => this.setState({ clientsStatus: LoadingState.error }))
+      .catch(err => {
+        throw err
+      })
   }
 
   onFetchClientsSuccess = searchResult => {
     const pagination = this.state.pagination
-    const pages = calculatePages(
-      searchResult.total_records,
-      pagination.pageSize
-    )
+    const pages = calculatePages(searchResult.total_records, pagination.pageSize)
 
     this.setState({
       pagination: {
@@ -60,7 +56,6 @@ class SearchContainer extends Component {
         pages,
       },
       records: searchResult.records,
-      clientsStatus: LoadingState.ready,
     })
   }
 
@@ -81,12 +76,10 @@ class SearchContainer extends Component {
   }
 
   render = () => {
-    const { records, numAssessments, clientsStatus } = this.state
+    const { records, numAssessments } = this.state
     const clientIds = records ? this.getClientIdsFromRecords(records) : []
     return (
-      <div className="client-search-container">
-        {this.renderSearchAssessmentHistory(numAssessments, clientIds)}
-      </div>
+      <div className="client-search-container">{this.renderSearchAssessmentHistory(numAssessments, clientIds)}</div>
     )
   }
 }

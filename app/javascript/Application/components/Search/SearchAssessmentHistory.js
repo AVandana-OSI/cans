@@ -28,40 +28,28 @@ class SearchAssessmentHistory extends Component {
 
       return Promise.all(promises)
         .then(assessmentData => {
-          const assessments = [].concat
-            .apply([], assessmentData)
-            .filter(assessment => {
-              if (assessment.status === 'IN_PROGRESS') {
-                return assessment
-              }
-            })
-          const sortedAssessments = this.sortAssessmentsByDate(
-            'desc',
-            assessments
-          )
+          const assessments = [].concat(...assessmentData).filter(assessment => {
+            if (assessment.status === 'IN_PROGRESS') {
+              return assessment
+            }
+          })
+          const sortedAssessments = this.sortAssessmentsByDate('desc', assessments)
           this.setState({
             assessments: sortedAssessments.slice(0, this.props.numAssessments),
             fetchStatus: LoadingState.ready,
           })
         })
-        .catch(error => {
-          this.setState({ fetchStatus: LoadingState.error })
+        .catch(err => {
+          throw err
         })
     }
   }
 
   renderAssessments = (assessments, fetchStatus) => {
     return fetchStatus === LoadingState.ready && assessments.length === 0 ? (
-      <div id="no-data">
-        No assessments currently exist for this child/youth.
-      </div>
+      <div id="no-data">No assessments currently exist for this child/youth.</div>
     ) : (
-      assessments.map(assessment => (
-        <SearchAssessmentHistoryRecord
-          assessment={assessment}
-          key={assessment.id}
-        />
-      ))
+      assessments.map(assessment => <SearchAssessmentHistoryRecord assessment={assessment} key={assessment.id} />)
     )
   }
 
@@ -72,9 +60,7 @@ class SearchAssessmentHistory extends Component {
       return assessment
     })
     newAssessmentList.sort((left, right) => {
-      return direction === 'asc'
-        ? left.moment.diff(right.moment)
-        : right.moment.diff(left.moment)
+      return direction === 'asc' ? left.moment.diff(right.moment) : right.moment.diff(left.moment)
     })
     return newAssessmentList
   }
@@ -90,9 +76,7 @@ class SearchAssessmentHistory extends Component {
           </div>
           <div className="card-body card-body-search">
             <div className="row">
-              <div className="col-md-12">
-                {this.renderAssessments(assessments, fetchStatus)}
-              </div>
+              <div className="col-md-12">{this.renderAssessments(assessments, fetchStatus)}</div>
             </div>
           </div>
         </div>

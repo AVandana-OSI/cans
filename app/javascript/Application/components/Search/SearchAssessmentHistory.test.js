@@ -90,9 +90,7 @@ describe('<SearchAssessmentHistory', () => {
 
         // then
         const message = wrapper.find('#no-data').text()
-        expect(message).toBe(
-          'No assessments currently exist for this child/youth.'
-        )
+        expect(message).toBe('No assessments currently exist for this child/youth.')
       })
     })
   })
