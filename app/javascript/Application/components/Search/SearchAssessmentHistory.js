@@ -16,12 +16,67 @@ class SearchAssessmentHistory extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.clientIds !== prevProps.clientIds) {
+      const { clientIds } = this.props
+
+      const promises = clientIds.map(clientId => {
+        if (clientId) {
+          return AssessmentService.search({ person_id: clientId })
+        }
+      })
+
+      return Promise.all(promises)
+        .then(assessmentData => {
+          const assessments = [].concat
+            .apply([], assessmentData)
+            .filter(assessment => {
+              if (assessment.status === 'IN_PROGRESS') {
+                return assessment
+              }
+            })
+          const sortedAssessments = this.sortAssessmentsByDate(
+            'desc',
+            assessments
+          )
+          this.setState({
+            assessments: sortedAssessments.slice(0, this.props.numAssessments),
+            fetchStatus: LoadingState.ready,
+          })
+        })
+        .catch(error => {
+          this.setState({ fetchStatus: LoadingState.error })
+        })
+    }
+  }
+
   renderAssessments = (assessments, fetchStatus) => {
     return fetchStatus === LoadingState.ready && assessments.length === 0 ? (
-      <div id="no-data">No assessments currently exist for this child/youth.</div>
+      <div id="no-data">
+        No assessments currently exist for this child/youth.
+      </div>
     ) : (
-      assessments.map(assessment => <SearchAssessmentHistoryRecord assessment={assessment} key={assessment.id} />)
+      assessments.map(assessment => (
+        <SearchAssessmentHistoryRecord
+          assessment={assessment}
+          key={assessment.id}
+        />
+      ))
     )
+  }
+
+  sortAssessmentsByDate(direction, assessments) {
+    const newAssessmentList = assessments.map(assessment => {
+      const momentObj = moment(assessment.created_timestamp)
+      assessment.moment = momentObj
+      return assessment
+    })
+    newAssessmentList.sort((left, right) => {
+      return direction === 'asc'
+        ? left.moment.diff(right.moment)
+        : right.moment.diff(left.moment)
+    })
+    return newAssessmentList
   }
 
   render() {
@@ -35,54 +90,14 @@ class SearchAssessmentHistory extends Component {
           </div>
           <div className="card-body card-body-search">
             <div className="row">
-              <div className="col-md-12">{this.renderAssessments(assessments, fetchStatus)}</div>
+              <div className="col-md-12">
+                {this.renderAssessments(assessments, fetchStatus)}
+              </div>
             </div>
           </div>
         </div>
       </Grid>
     )
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.clientIds !== prevProps.clientIds) {
-      const { clientIds } = this.props
-
-      const promises = clientIds.map(clientId => {
-        if (clientId) {
-          return AssessmentService.search({ person_id: clientId })
-        }
-      })
-
-      return Promise.all(promises)
-        .then(assessmentData => {
-          const assessments = [].concat.apply([], assessmentData).filter(assessment => {
-            if (assessment.status === 'IN_PROGRESS') {
-              return assessment
-            }
-          })
-          const sortedAssessments = this.sortAssessmentsByDate('desc', assessments)
-          this.setState({
-            assessments: sortedAssessments.slice(0, this.props.numAssessments),
-            fetchStatus: LoadingState.ready,
-          })
-        })
-        .catch(error => {
-          console.log(error)
-          this.setState({ fetchStatus: LoadingState.error })
-        })
-    }
-  }
-
-  sortAssessmentsByDate(direction, assessments) {
-    const newAssessmentList = assessments.map(assessment => {
-      const momentObj = moment(assessment.created_timestamp)
-      assessment.moment = momentObj
-      return assessment
-    })
-    newAssessmentList.sort((left, right) => {
-      return direction === 'asc' ? left.moment.diff(right.moment) : right.moment.diff(left.moment)
-    })
-    return newAssessmentList
   }
 }
 

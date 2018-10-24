@@ -16,9 +16,24 @@ const params = {
 const getShallowWrapper = () => {
   AssessmentService.search.mockReturnValue(
     Promise.resolve([
-      { id: 1, person: { id: 100 }, status: 'IN_PROGRESS', county: { name: 'Yolo' } },
-      { id: 2, person: { id: 200 }, status: 'IN_PROGRESS', county: { name: 'Yolo' } },
-      { id: 3, person: { id: 300 }, status: 'IN_PROGRESS', county: { name: 'Yolo' } },
+      {
+        id: 1,
+        person: { id: 100 },
+        status: 'IN_PROGRESS',
+        county: { name: 'Yolo' },
+      },
+      {
+        id: 2,
+        person: { id: 200 },
+        status: 'IN_PROGRESS',
+        county: { name: 'Yolo' },
+      },
+      {
+        id: 3,
+        person: { id: 300 },
+        status: 'IN_PROGRESS',
+        county: { name: 'Yolo' },
+      },
     ])
   )
   return shallow(<SearchAssessmentHistory {...params} />)
@@ -54,7 +69,7 @@ describe('<SearchAssessmentHistory', () => {
   })
 
   describe('assessment history', () => {
-    describe('when 3 records', () => {
+    describe('when 3 assessments', () => {
       it('renders 3 assessments', async () => {
         // given + when
         const wrapper = await prepareWrapper([
@@ -68,14 +83,16 @@ describe('<SearchAssessmentHistory', () => {
       })
     })
 
-    describe('when 0 records', () => {
+    describe('when there are zero assessments', () => {
       it('renders the empty message', async () => {
         // given + when
         const wrapper = await prepareWrapper([])
 
         // then
         const message = wrapper.find('#no-data').text()
-        expect(message).toBe('No assessments currently exist for this child/youth.')
+        expect(message).toBe(
+          'No assessments currently exist for this child/youth.'
+        )
       })
     })
   })

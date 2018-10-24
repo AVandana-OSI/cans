@@ -6,7 +6,7 @@ import SearchAssessmentHistoryRecord from './SearchAssessmentHistoryRecord'
 jest.mock('../Assessment/Assessment.service')
 
 const assessmentInProgress = {
-  id: 97501,
+  id: 97500,
   person: { id: 1 },
   status: 'IN_PROGRESS',
   the_case: {
@@ -16,7 +16,7 @@ const assessmentInProgress = {
   updated_timestamp: '2015-06-06T15:37:32.000Z',
   updated_by: {
     first_name: 'Name 1',
-    last_name: 'LastName 1',
+    last_name: 'Last Name 1',
   },
   county: {
     name: 'Alameda',
@@ -24,21 +24,22 @@ const assessmentInProgress = {
 }
 
 const assessmentWithNoUpdateInfo = {
-  id: 97503,
+  id: 97502,
   person: { id: 1 },
   status: 'IN_PROGRESS',
   event_date: '2018-01-05',
   created_timestamp: '2018-06-06T15:37:32.000Z',
   created_by: {
     first_name: 'Name 3',
-    last_name: 'LastName 3',
+    last_name: 'Last Name 3',
   },
   county: {
     name: 'Alameda',
   },
 }
 
-const getShallowWrapper = assessment => shallow(<SearchAssessmentHistoryRecord assessment={assessment} />)
+const getShallowWrapper = assessment =>
+  shallow(<SearchAssessmentHistoryRecord assessment={assessment} />)
 
 describe('<SearchAssessmentHistory', () => {
   it('renders IN_PROGRESS assessment with all fields', () => {
@@ -65,7 +66,7 @@ describe('<SearchAssessmentHistory', () => {
     ])
   })
 
-  it('renders assessment with no update info (create info only)', async () => {
+  it('renders assessment with no updated_by info (create info only)', async () => {
     // given + when
     const wrapper = getShallowWrapper(assessmentWithNoUpdateInfo)
 
@@ -74,6 +75,10 @@ describe('<SearchAssessmentHistory', () => {
       .find('.item-info')
       .get(0)
       .props.children.filter(el => el.type !== 'br')
-    expect(timestamp).toEqual(['Saved on 06/06/2018 by Name 3 LastName 3', 'Case: ', 'County: Alameda'])
+    expect(timestamp).toEqual([
+      'Saved on 06/06/2018 by Name 3 LastName 3',
+      'Case: ',
+      'County: Alameda',
+    ])
   })
 })
