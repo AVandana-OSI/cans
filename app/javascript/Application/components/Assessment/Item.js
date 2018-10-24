@@ -181,7 +181,10 @@ class Item extends Component {
     const itemNumber = isAssessmentUnderSix ? under_six_id : above_six_id
     const { isExpanded, title, description, qtcDescriptions, ratingDescriptions } = this.state
     const isBooleanRating = rating_type === 'BOOLEAN'
-    const classes = classNames('item-expand-icon', { 'fa fa-plus': !isExpanded, 'fa fa-minus': isExpanded })
+    const classes = classNames('item-expand-icon', {
+      'fa fa-chevron-right': !isExpanded,
+      'fa fa-chevron-down': isExpanded,
+    })
     return shouldItemBeRendered(isAssessmentUnderSix, item) ? (
       <div>
         <Paper>

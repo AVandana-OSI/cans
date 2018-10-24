@@ -15,7 +15,7 @@ const validAssessment = {
   completed_as: 'COMMUNIMETRIC',
   can_release_confidential_info: false,
   assessment_type: 'INITIAL',
-  status: 'SUBMITTED',
+  status: 'COMPLETED',
   has_caregiver: true,
   state: {
     under_six: false,

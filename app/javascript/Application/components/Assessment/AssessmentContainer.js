@@ -198,7 +198,7 @@ class AssessmentContainer extends Component {
   handleSubmitAssessment = async () => {
     this.setState({ assessmentServiceStatus: LoadingState.updating })
     const assessment = Object.assign({}, this.state.assessment)
-    assessment.status = AssessmentStatus.submitted
+    assessment.status = AssessmentStatus.completed
     assessment.person = this.props.client
     if (assessment.id) {
       try {
@@ -291,8 +291,8 @@ class AssessmentContainer extends Component {
         {LoadingState.ready === assessmentServiceStatus &&
           isEditable && (
             <Typography variant="headline" className={'submit-validation-message'}>
-              Prior to clicking the Submit button the Assessment Date and all assessment ratings for the child/youth and
-              applicable caregiver(s) must be completed.
+              The Assessment Date and all assessment ratings must be completed before the Complete button becomes
+              active.
             </Typography>
           )}
         {shouldRenderSaveSuccessMessage ? (

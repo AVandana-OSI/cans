@@ -70,7 +70,7 @@ class ClientAssessmentHistory extends Component {
               {shouldRenderSuccessMessage && (
                 <CloseableAlert
                   type={alertType.SUCCESS}
-                  message={'Success! CANS assessment has been submitted.'}
+                  message={'Success! CANS assessment has been completed.'}
                   isCloseable
                   isAutoCloseable
                 />

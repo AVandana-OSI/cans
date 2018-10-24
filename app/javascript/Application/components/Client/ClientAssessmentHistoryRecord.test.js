@@ -26,7 +26,7 @@ const assessmentInProgress = {
 const assessmentSubmitted = {
   id: 97502,
   person: { id: 1 },
-  status: 'SUBMITTED',
+  status: 'COMPLETED',
   event_date: '2018-01-05',
   updated_timestamp: '2018-06-06T15:37:32.000Z',
   updated_by: {
@@ -80,7 +80,7 @@ describe('<ClientAssessmentHistory', () => {
     ])
   })
 
-  it('renders SUBMITTED assessment with all fields', async () => {
+  it('renders COMPLETED assessment with all fields', async () => {
     // given + when
     const wrapper = getShallowWrapper(assessmentSubmitted)
 
@@ -97,7 +97,7 @@ describe('<ClientAssessmentHistory', () => {
       .find('.item-info')
       .get(0)
       .props.children.filter(el => el.type !== 'br')
-    expect(timestamp).toEqual(['Submitted on 06/06/2018 by Name 2 LastName 2', 'Case: ', 'County: Alameda'])
+    expect(timestamp).toEqual(['Completed on 06/06/2018 by Name 2 LastName 2', 'Case: ', 'County: Alameda'])
   })
 
   it('renders assessment with no update info (create info only)', async () => {

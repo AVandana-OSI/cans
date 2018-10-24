@@ -10,7 +10,7 @@ export const AssessmentType = Object.freeze({
 
 export const AssessmentStatus = Object.freeze({
   inProgress: 'IN_PROGRESS',
-  submitted: 'SUBMITTED',
+  completed: 'COMPLETED',
   approved: 'APPROVED',
 })
 

@@ -332,7 +332,7 @@ describe('<AssessmentContainer />', () => {
           has_caregiver: true,
           person: childInfoJson,
           state: { domains: [] },
-          status: 'SUBMITTED',
+          status: 'COMPLETED',
         }
         expect(assessmentServicePostSpy).toHaveBeenCalledWith(expectedArgument)
       })
@@ -345,7 +345,7 @@ describe('<AssessmentContainer />', () => {
         assessmentServicePutSpy.mockReturnValue(Promise.resolve(assessment))
         wrapper.setState({ assessment: { id: 1 } })
         wrapper.instance().handleSubmitAssessment()
-        expect(assessmentServicePutSpy).toHaveBeenCalledWith(1, { id: 1, person: childInfoJson, status: 'SUBMITTED' })
+        expect(assessmentServicePutSpy).toHaveBeenCalledWith(1, { id: 1, person: childInfoJson, status: 'COMPLETED' })
       })
     })
   })

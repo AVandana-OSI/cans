@@ -11,7 +11,7 @@ services:
       - cans
 
   postgres:
-    image: cwds/postgresql_data:0.9.4_680-RC
+    image: cwds/postgresql_data:0.10.1_684-RC
     hostname: postgresql_data
     expose:
       - 5432
@@ -41,7 +41,7 @@ services:
       - cans
 
   cans-api:
-    image: cwds/cans-api:0.9.4
+    image: cwds/cans-api:0.10.1_269-RC
     hostname: cans-api
     depends_on:
       - db2

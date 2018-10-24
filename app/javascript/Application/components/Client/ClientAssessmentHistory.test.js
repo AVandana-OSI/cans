@@ -115,7 +115,7 @@ describe('<ClientAssessmentHistory', () => {
         // then
         const alert = history.find('CloseableAlert')
         expect(alert.length).toBe(1)
-        expect(alert.render().text()).toBe('Success! CANS assessment has been submitted.')
+        expect(alert.render().text()).toBe('Success! CANS assessment has been completed.')
       })
 
       it('is not rendered when no successAssessmentId', () => {

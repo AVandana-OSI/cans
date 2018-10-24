@@ -30,7 +30,7 @@ class AssessmentFormFooter extends PureComponent {
             disabled={!isSubmitButtonEnabled}
             onClick={onSubmitAssessment}
           >
-            Submit
+            Complete
           </Button>
         </Col>
       </Row>

@@ -121,8 +121,8 @@ module ResourceHelper
     fetch_strengths_domain
     fetch_caregiver_domain
     fetch_traumatic_domain
-    click_button 'Submit'
-    expect(page).to have_content 'Success! CANS assessment has been submitted.'
+    click_button 'Complete'
+    expect(page).to have_content 'Success! CANS assessment has been completed.'
     save_assessment_form_age_0_5 client
   end
 
@@ -384,10 +384,10 @@ module ResourceHelper
     click_button 'New CANS'
     click_button 'Save'
     expect(page).to have_content 'Success! CANS assessment has been saved'
-    fill_and_submit_assessment_form_age_0_5 client
+    fill_and_complete_assessment_form_age_0_5 client
   end
 
-  def fill_and_submit_assessment_form_age_0_5(_client)
+  def fill_and_complete_assessment_form_age_0_5(_client)
     fetch_challenges_domain
     fetch_functioning_domain
     fetch_risk_behaviors_domain
@@ -396,7 +396,7 @@ module ResourceHelper
     fetch_dyadic_domain
     fetch_caregiver_resources_domain
     fetch_minor_traumatic_domain
-    click_button 'Submit'
+    click_button 'Complete'
   end
 
   def fetch_challenges_domain

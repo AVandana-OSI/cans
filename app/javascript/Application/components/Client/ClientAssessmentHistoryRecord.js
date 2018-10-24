@@ -11,8 +11,8 @@ const getActionVerbByStatus = status => {
   switch (status) {
     case 'IN_PROGRESS':
       return 'Saved'
-    case 'SUBMITTED':
-      return 'Submitted'
+    case 'COMPLETED':
+      return 'Completed'
     default:
       return 'Updated'
   }
@@ -22,7 +22,7 @@ const renderLock = status => {
   switch (status) {
     case 'IN_PROGRESS':
       return <i className="fa fa-unlock-alt fa-3x unlocked-icon" aria-hidden="true" />
-    case 'SUBMITTED':
+    case 'COMPLETED':
       return <i className="fa fa-lock fa-3x locked-icon" aria-hidden="true" />
     default:
       return null
