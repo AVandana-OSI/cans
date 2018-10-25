@@ -10,14 +10,7 @@ class SideNavLink extends PureComponent {
     const { isActive, text, href, onClick } = this.props
     const classes = classNames('sidebar-item', { active: isActive })
     return (
-      <div
-        id="side-nav"
-        className={classes}
-        onClick={() => onClick()}
-        onKeyDown={() => onClick()}
-        role="link"
-        tabIndex={0}
-      >
+      <div className={classes} onClick={() => onClick()} onKeyDown={() => onClick()} role="link" tabIndex={0}>
         <Link to={href}>{text}</Link>
       </div>
     )
