@@ -30,8 +30,8 @@ plugins:
     enabled: true
 exclude_patterns:
   - "config/"
-  - "/client/**/node_modules/"
-  - "script/"
+  - "coverage/"
+  - "node_modules/"
   - "**/spec/"
   - "**/test/"
   - "**/tests/"
