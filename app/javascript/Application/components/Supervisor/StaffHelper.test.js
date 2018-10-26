@@ -21,5 +21,10 @@ describe('StaffHelper', () => {
       const person = { ...staff[0], in_progress_count: null }
       expect(() => checkStaffPropType(person)).toThrow()
     })
+
+    it('returns an error if there is no clients_count', () => {
+      const person = { ...staff[0], clients_count: null }
+      expect(() => checkStaffPropType(person)).toThrow()
+    })
   })
 })

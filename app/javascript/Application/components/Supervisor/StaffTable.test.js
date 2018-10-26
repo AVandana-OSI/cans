@@ -31,4 +31,18 @@ describe('<StaffTable />', () => {
     const grid = render(mockStaff)
     expect(grid.props().data).toBe(mockStaff)
   })
+
+  it('centers the Total Clients column', () => {
+    const columns = render([]).props().columns
+    const totalColumn = columns.find(column => column.Header === 'Total Clients')
+    expect(totalColumn.className).toBe('text-center')
+    expect(totalColumn.headerClassName).toBe('text-center')
+  })
+
+  it('centers the In Progress column', () => {
+    const columns = render([]).props().columns
+    const progressColumn = columns.find(column => column.Header === 'In Progress')
+    expect(progressColumn.className).toBe('text-center')
+    expect(progressColumn.headerClassName).toBe('text-center')
+  })
 })

@@ -10,8 +10,16 @@ const columns = [
     accessor: staff => `${staff.staff_person.last_name}, ${staff.staff_person.first_name}`,
   },
   {
+    Header: 'Total Clients',
+    accessor: 'clients_count',
+    className: 'text-center',
+    headerClassName: 'text-center',
+  },
+  {
     Header: 'In Progress',
     accessor: 'in_progress_count',
+    className: 'text-center',
+    headerClassName: 'text-center',
   },
 ]
 
