@@ -1,16 +1,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { Container, Row, Col } from 'reactstrap'
-import { isoToLocalDate } from '../../util/dateHelper'
 import AssessmentRecordIcon from '../common/AssessmentRecordIcon'
+import AssessmentLink from '../common/AssessmentLink'
 import AssessmentRecordInfo from '../common/AssessmentRecordInfo'
 import { getDisplayAssessmentStatus } from '../Assessment/AssessmentHelper'
 
 class SearchAssessmentHistoryRecord extends PureComponent {
   render() {
-    const { id, event_date: eventDate, status, person } = this.props.assessment
-    const formattedEventDate = isoToLocalDate(eventDate)
+    const { status } = this.props.assessment
+
     return (
       <Container className={'history-item search-history-item'}>
         <Row>
@@ -22,11 +21,7 @@ class SearchAssessmentHistoryRecord extends PureComponent {
         <Row>
           <Col xs="12">
             <Row>
-              <Col xs="12">
-                <Link to={`/clients/${person.id}/assessments/${id}`} className={'underlined'}>
-                  {`${formattedEventDate} CANS`}
-                </Link>
-              </Col>
+              <Col xs="12">{<AssessmentLink assessment={this.props.assessment} />}</Col>
             </Row>
             <Row>
               <Col xs="12">{<AssessmentRecordInfo assessment={this.props.assessment} />}</Col>

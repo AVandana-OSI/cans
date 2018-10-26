@@ -1,9 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Link } from 'react-router-dom'
 import { Container } from 'reactstrap'
 import SearchAssessmentHistoryRecord from './SearchAssessmentHistoryRecord'
 import AssessmentRecordIcon from '../common/AssessmentRecordIcon'
+import AssessmentLink from '../common/AssessmentLink'
 import AssessmentRecordInfo from '../common/AssessmentRecordInfo'
 import { assessmentInProgress, assessmentWithNoUpdateInfo } from '../Assessment/assessment.mocks.test'
 
@@ -40,18 +40,12 @@ describe('<SearchAssessmentHistory', () => {
       expect(wrapper.find('.assessment-status span').text()).toEqual('In Progress')
     })
 
-    it('renders a Link component', () => {
+    it('renders an AssessmentLink component', () => {
       // given + when
       const wrapper = getShallowWrapper(assessmentInProgress)
 
       // then
-      expect(wrapper.find(Link).length).toEqual(1)
-      expect(
-        wrapper
-          .find(Link)
-          .children()
-          .text()
-      ).toEqual('10/10/2015 CANS')
+      expect(wrapper.find(AssessmentLink).length).toEqual(1)
     })
 
     it('renders a AssessmentRecordInfo component', () => {
@@ -91,18 +85,12 @@ describe('<SearchAssessmentHistory', () => {
       expect(wrapper.find('.assessment-status span').text()).toEqual('In Progress')
     })
 
-    it('renders a Link component', () => {
+    it('renders an AssessmentLink component', () => {
       // given + when
       const wrapper = getShallowWrapper(assessmentWithNoUpdateInfo)
 
       // then
-      expect(wrapper.find(Link).length).toEqual(1)
-      expect(
-        wrapper
-          .find(Link)
-          .children()
-          .text()
-      ).toEqual('01/05/2018 CANS')
+      expect(wrapper.find(AssessmentLink).length).toEqual(1)
     })
 
     it('renders a AssessmentRecordInfo component', () => {
