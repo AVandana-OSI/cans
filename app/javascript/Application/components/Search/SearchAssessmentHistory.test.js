@@ -83,15 +83,24 @@ describe('<SearchAssessmentHistory', () => {
       })
     })
 
-    describe('when there are zero assessments', () => {
-      it('renders the empty message', async () => {
-        // given + when
-        const wrapper = await prepareWrapper([])
+    it('renders the empty message when there are zero assessments', async () => {
+      // given + when
+      const wrapper = await prepareWrapper([])
 
-        // then
-        const message = wrapper.find('#no-data').text()
-        expect(message).toBe('No assessments currently exist for this child/youth.')
-      })
+      // then
+      const message = wrapper.find('#no-data').text()
+      expect(message).toBe('No assessments currently exist for the clients.')
     })
+
+    // describe('when there are zero assessments', () => {
+    //   it('renders the empty message', async () => {
+    //     // given + when
+    //     const wrapper = await prepareWrapper([])
+
+    //     // then
+    //     const message = wrapper.find('#no-data').text()
+    //     expect(message).toBe('No assessments currently exist for the clients.')
+    //   })
+    // })
   })
 })

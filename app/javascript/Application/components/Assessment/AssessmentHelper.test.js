@@ -3,6 +3,9 @@ import {
   resetConfidentialByDefaultItems,
   shouldDomainBeRendered,
   shouldItemBeRendered,
+  AssessmentStatus,
+  getActionVerbByStatus,
+  getDisplayAssessmentStatus,
 } from './AssessmentHelper'
 import { clone } from '../../util/common'
 
@@ -204,6 +207,34 @@ describe('AssessmentHelper', () => {
       it('should return true when the assessment is not under six', () => {
         expect(shouldItemBeRendered(false, item)).toBeTruthy()
       })
+    })
+  })
+
+  describe('#getActionVerbByStatus', () => {
+    it('should return "Saved" when the assessment status is IN_PROGRESS', () => {
+      expect(getActionVerbByStatus(AssessmentStatus.inProgress)).toEqual('Saved')
+    })
+
+    it('should return "Completed" when the assessment status is COMPLETED', () => {
+      expect(getActionVerbByStatus(AssessmentStatus.completed)).toEqual('Completed')
+    })
+
+    it('should return "Updated" when the assessment status is not IN_PROGRESS or COMPLETED', () => {
+      expect(getActionVerbByStatus('updated')).toEqual('Updated')
+    })
+  })
+
+  describe('#getDisplayAssessmentStatus', () => {
+    it('should return "In Progress" when the assessment status is IN_PROGRESS', () => {
+      expect(getDisplayAssessmentStatus(AssessmentStatus.inProgress)).toEqual('In Progress')
+    })
+
+    it('should return "Completed" when the assessment status is COMPLETED', () => {
+      expect(getDisplayAssessmentStatus(AssessmentStatus.completed)).toEqual('Completed')
+    })
+
+    it('should return "Updated" when the assessment status is not IN_PROGRESS or COMPLETED', () => {
+      expect(getDisplayAssessmentStatus('updated')).toEqual('Updated')
     })
   })
 })

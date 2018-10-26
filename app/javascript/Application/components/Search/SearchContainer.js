@@ -67,9 +67,7 @@ class SearchContainer extends Component {
   }
 
   getClientIdsFromRecords(records) {
-    return records.map(record => {
-      return record.id
-    })
+    return records.map(record => record.id)
   }
 
   render = () => {

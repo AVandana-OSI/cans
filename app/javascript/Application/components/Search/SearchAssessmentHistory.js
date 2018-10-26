@@ -28,11 +28,7 @@ class SearchAssessmentHistory extends Component {
 
       return Promise.all(promises)
         .then(assessmentData => {
-          const assessments = [].concat(...assessmentData).filter(assessment => {
-            if (assessment.status === 'IN_PROGRESS') {
-              return assessment
-            }
-          })
+          const assessments = [].concat(...assessmentData).filter(assessment => assessment.status === 'IN_PROGRESS')
           const sortedAssessments = this.sortAssessmentsByDate('desc', assessments)
           this.setState({
             assessments: sortedAssessments.slice(0, this.props.numAssessments),
@@ -47,7 +43,7 @@ class SearchAssessmentHistory extends Component {
 
   renderAssessments = (assessments, fetchStatus) => {
     return fetchStatus === LoadingState.ready && assessments.length === 0 ? (
-      <div id="no-data">No assessments currently exist for this child/youth.</div>
+      <div id="no-data">No assessments currently exist for the clients.</div>
     ) : (
       assessments.map(assessment => <SearchAssessmentHistoryRecord assessment={assessment} key={assessment.id} />)
     )
@@ -55,9 +51,7 @@ class SearchAssessmentHistory extends Component {
 
   sortAssessmentsByDate(direction, assessments) {
     const newAssessmentList = assessments.map(assessment => {
-      const momentObj = moment(assessment.created_timestamp)
-      assessment.moment = momentObj
-      return assessment
+      return { ...assessment, moment: moment(assessment.created_timestamp) }
     })
     newAssessmentList.sort((left, right) => {
       return direction === 'asc' ? left.moment.diff(right.moment) : right.moment.diff(left.moment)

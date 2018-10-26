@@ -71,3 +71,25 @@ export function shouldDomainBeRendered(isAssessmentUnderSix, domain) {
 export function shouldItemBeRendered(isAssessmentUnderSix, item) {
   return (isAssessmentUnderSix && item.under_six_id) || (!isAssessmentUnderSix && item.above_six_id)
 }
+
+export function getActionVerbByStatus(status) {
+  switch (status) {
+    case AssessmentStatus.inProgress:
+      return 'Saved'
+    case AssessmentStatus.completed:
+      return 'Completed'
+    default:
+      return 'Updated'
+  }
+}
+
+export function getDisplayAssessmentStatus(status) {
+  switch (status) {
+    case AssessmentStatus.inProgress:
+      return 'In Progress'
+    case AssessmentStatus.completed:
+      return 'Completed'
+    default:
+      return 'Updated'
+  }
+}
