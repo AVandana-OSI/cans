@@ -14,7 +14,11 @@ class AssessmentRecordInfo extends Component {
       the_case: theCase,
       status,
       county,
+      person,
     } = assessment
+    const clientName = `${person.first_name} ${person.middle_name} ${person.last_name} ${
+      person.suffix === '' ? '' : ', ' + person.suffix
+    }`
     const actionVerb = getActionVerbByStatus(status)
     const formattedTimestamp = isoToLocalDate(updatedTimestamp || createdTimestamp)
     const user = updatedBy || createdBy || {}
@@ -22,6 +26,7 @@ class AssessmentRecordInfo extends Component {
     const caseNumber = (theCase || {}).external_id || ''
     return (
       <Typography variant={'title'} color={'textSecondary'} className={'item-info'}>
+        <p>{`Client name: ${clientName}`}</p>
         <p>{`${actionVerb} on ${formattedTimestamp} by ${updatedByName}`}</p>
         <p>{`Case: ${caseNumber}`}</p>
         <p>{`County: ${county.name}`}</p>
