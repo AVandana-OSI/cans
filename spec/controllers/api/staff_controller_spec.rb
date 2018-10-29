@@ -41,8 +41,8 @@ module Api
     end
 
     describe '#social_worker_clients' do
-      let(:user_id) {100}
-      let(:clients) { [{ id: 1, first_name: 'Jim' },{ id: 2, first_name: 'Mike' }] }
+      let(:user_id) { 100 }
+      let(:clients) { [{ id: 1, first_name: 'Jim' }, { id: 2, first_name: 'Mike' }] }
       let(:clients_response) do
         instance_double('Faraday::Response', body: clients, status: 200)
       end
@@ -52,11 +52,13 @@ module Api
         allow(Staff::StaffRepository).to receive(:new)
           .with('token')
           .and_return(staff_repository)
-        allow(staff_repository).to receive(:social_worker_clients).with('100').and_return(clients_response)
+        allow(staff_repository)
+          .to receive(:social_worker_clients)
+          .with('100')
+          .and_return(clients_response)
         get :social_worker_clients, params: { id: 100 }
         expect(response.body).to eq clients.to_json
       end
     end
-
   end
 end

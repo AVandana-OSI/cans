@@ -25,7 +25,6 @@ module Staff
           expect(staff_repository.social_worker_clients('0X5')).to eq(response)
         end
       end
-
     end
   end
 end
