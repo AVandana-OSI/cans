@@ -1,5 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
+import { Row, Col } from 'reactstrap'
 import { Page, SideNav } from './'
 import BreadCrumbsBuilder from './BreadCrumbsBuilder'
 import { childInfoJson } from '../Client/Client.helper.test'
@@ -30,6 +31,19 @@ describe('<Page />', () => {
       const breadCrumbsBuilder = wrapper.find(BreadCrumbsBuilder)
 
       expect(breadCrumbsBuilder.length).toBe(1)
+    })
+
+    it('splits sidebar and main content 3:9', async () => {
+      const wrapper = getWrapper()
+      await wrapper.instance().componentDidMount()
+      const cols = wrapper.find(Row).find(Col)
+      const sideCol = cols.at(0)
+      const mainCol = cols.at(1)
+
+      expect(sideCol.props().xs).toEqual('3')
+      expect(sideCol.find(SideNav).exists()).toEqual(true)
+      expect(mainCol.props().xs).toEqual('9')
+      expect(mainCol.props().role).toEqual('main')
     })
   })
 
