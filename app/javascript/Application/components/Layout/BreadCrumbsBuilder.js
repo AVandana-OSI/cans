@@ -17,7 +17,7 @@ const navsWithChildProfileCrumb = [navigation.CHILD_PROFILE_EDIT, navigation.ASS
 
 const addChildYouthListCrumbIfNeeded = (elements, navigateTo) => {
   if (navsWithChildYouthListCrumb.includes(navigateTo)) {
-    elements.push(<Link to={''}>COUNTY CLIENT LIST</Link>)
+    elements.push(<Link to={'/clients'}>COUNTY CLIENT LIST</Link>)
   }
 }
 

@@ -29,7 +29,7 @@ describe('toggleActiveLink', () => {
     const wrapper = getWrapper()
     expect(wrapper.state().activeLink).toEqual('')
     wrapper.find('[text="County Client List"]').simulate('click')
-    expect(wrapper.state().activeLink).toEqual('/')
+    expect(wrapper.state().activeLink).toEqual('/clients')
   })
 })
 

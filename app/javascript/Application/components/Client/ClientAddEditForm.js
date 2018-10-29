@@ -366,7 +366,7 @@ class ClientAddEditForm extends Component {
     const notUsersCounty = !isUsersCounty
     const cancelWhenNotUsersCountyWhileEditing = isEdit && notUsersCounty && isCancel
     const isUsersCountyWhileEditing = isUsersCounty && isEdit
-    return isUsersCountyWhileEditing || cancelWhenNotUsersCountyWhileEditing ? `/clients/${childId}` : '/'
+    return isUsersCountyWhileEditing || cancelWhenNotUsersCountyWhileEditing ? `/clients/${childId}` : '/clients'
   }
 
   renderNameInputs(field, label, maxLength, isRequired) {

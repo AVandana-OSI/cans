@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Container, Row, Col } from 'reactstrap'
 import Typography from '@material-ui/core/Typography'
 import { isoToLocalDate } from '../../util/dateHelper'
+import { StatusIcon } from '../common/StatusIcon'
 
 import './style.sass'
 
@@ -15,17 +16,6 @@ const getActionVerbByStatus = status => {
       return 'Completed'
     default:
       return 'Updated'
-  }
-}
-
-const renderLock = status => {
-  switch (status) {
-    case 'IN_PROGRESS':
-      return <i className="fa fa-unlock-alt fa-3x unlocked-icon" aria-hidden="true" />
-    case 'COMPLETED':
-      return <i className="fa fa-lock fa-3x locked-icon" aria-hidden="true" />
-    default:
-      return null
   }
 }
 
@@ -62,8 +52,14 @@ class ClientAssessmentHistoryRecord extends Component {
     return (
       <Container className={'history-item'}>
         <Row>
-          <Col xs="1">{renderLock(status)}</Col>
-          <Col xs="11">
+          <Col xs="12">
+            <div className="float-left">
+              <StatusIcon status={status} />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12">
             <Row>
               <Col xs="12">
                 <Link to={`/clients/${person.id}/assessments/${id}`} className={'underlined'}>

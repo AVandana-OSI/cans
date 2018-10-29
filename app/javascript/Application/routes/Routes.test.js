@@ -8,6 +8,7 @@ import { Routes } from './'
 import { Route, Switch } from 'react-router-dom'
 import { SupervisorDashboard } from '../components/Supervisor'
 import { navigation } from '../util/constants'
+import RoleRedirect from './RoleRedirect'
 
 describe('<Router />', () => {
   describe('#render', () => {
@@ -38,8 +39,17 @@ describe('<Router />', () => {
       expect(getLength(Switch)).toBe(1)
     })
 
+    it('renders a root route that redirects based on Role', () => {
+      const route = getWrapper()
+        .find(Route)
+        .find({ path: '/' })
+      expect(route.exists()).toBe(true)
+      expect(route.props().exact).toBe(true)
+      expect(route.find(RoleRedirect).exists()).toBe(true)
+    })
+
     it('renders a client list route', () => {
-      testRoute('/', navigation.CHILD_LIST)
+      testRoute('/clients', navigation.CHILD_LIST)
     })
 
     it('renders a new client route', () => {
@@ -79,7 +89,7 @@ describe('<Router />', () => {
    *   executeTest(Home, /home', 'Welcome!')
    */
   describe('route config', () => {
-    describe('/', () => {
+    describe('/clients', () => {
       it('navigates to clients list page', () => {
         executeTest(<ClientsContainer />, '/', '')
       })

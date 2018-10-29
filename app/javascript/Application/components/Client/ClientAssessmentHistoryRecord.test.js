@@ -23,7 +23,7 @@ const assessmentInProgress = {
   },
 }
 
-const assessmentSubmitted = {
+const assessmentCompleted = {
   id: 97502,
   person: { id: 1 },
   status: 'COMPLETED',
@@ -55,14 +55,12 @@ const assessmentWithNoUpdateInfo = {
 
 const getShallowWrapper = assessment => shallow(<ClientAssessmentHistoryRecord assessment={assessment} />)
 
-describe('<ClientAssessmentHistory', () => {
+describe('ClientAssessmentHistory', () => {
   it('renders IN_PROGRESS assessment with all fields', () => {
     // given + when
     const wrapper = getShallowWrapper(assessmentInProgress)
 
     // then
-    expect(wrapper.find('.locked-icon').length).toEqual(0)
-    expect(wrapper.find('.unlocked-icon').length).toEqual(1)
     expect(
       wrapper
         .find(Link)
@@ -82,11 +80,9 @@ describe('<ClientAssessmentHistory', () => {
 
   it('renders COMPLETED assessment with all fields', async () => {
     // given + when
-    const wrapper = getShallowWrapper(assessmentSubmitted)
+    const wrapper = getShallowWrapper(assessmentCompleted)
 
     // then
-    expect(wrapper.find('.locked-icon').length).toEqual(1)
-    expect(wrapper.find('.unlocked-icon').length).toEqual(0)
     expect(
       wrapper
         .find(Link)
