@@ -39,5 +39,24 @@ module Api
         expect(response.body).to eq subordinates.to_json
       end
     end
+
+    describe '#social_worker_clients' do
+      let(:user_id) {100}
+      let(:clients) { [{ id: 1, first_name: 'Jim' },{ id: 2, first_name: 'Mike' }] }
+      let(:clients_response) do
+        instance_double('Faraday::Response', body: clients, status: 200)
+      end
+
+      it 'returns clients assigned to the social worker' do
+        request.session[:token] = 'token'
+        allow(Staff::StaffRepository).to receive(:new)
+          .with('token')
+          .and_return(staff_repository)
+        allow(staff_repository).to receive(:social_worker_clients).with('100').and_return(clients_response)
+        get :social_worker_clients, params: { id: 100 }
+        expect(response.body).to eq clients.to_json
+      end
+    end
+
   end
 end

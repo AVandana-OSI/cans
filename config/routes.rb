@@ -32,6 +32,9 @@ Rails.application.routes.draw do
       collection do
         get 'subordinates', to: 'staff#subordinates_index'
       end
+      member do
+        get 'people', to: 'staff#social_worker_clients'
+      end
     end
 
     get 'security/check_permission/:permission', to: 'security#check_permission'

@@ -1,4 +1,5 @@
 import { apiGet, apiPost, apiPut } from '../../App.api'
+import { fakeJson } from './ClientSocialWorkerDummyJson'
 
 export class ClientService {
   static fetch(id) {
@@ -18,6 +19,20 @@ export class ClientService {
       },
     }
     return apiPost('/people/_search', payload)
+  }
+
+  static socialWorkerClient(id) {
+    const fakeapi = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (id) resolve(fakeJson)
+      }, 500)
+    })
+
+    return fakeapi
+  }
+
+  static socialWorkerClientDev(id) {
+    return apiGet(`/staff/${id}/people`)
   }
 
   static addClient(childInfoObj) {

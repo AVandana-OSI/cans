@@ -1,4 +1,4 @@
-import { formatClientName } from './Client.helper'
+import { formatClientName, formatClientStatus } from './Client.helper'
 
 describe('Client.helper', () => {
   describe('formatClientName', () => {
@@ -30,6 +30,36 @@ describe('Client.helper', () => {
 
         expect(expectedName).toEqual('last, first middle, suffix')
       })
+    })
+  })
+
+  describe('formatClientStatus', () => {
+    it('returns In process', () => {
+      const status = 'IN_PROGRESS'
+      const expectedStatus = formatClientStatus(status)
+
+      expect(expectedStatus).toEqual('In process')
+    })
+
+    it('returns Completed', () => {
+      const status = 'COMPLETED'
+      const expectedStatus = formatClientStatus(status)
+
+      expect(expectedStatus).toEqual('Completed')
+    })
+
+    it('returns No priorCANS', () => {
+      const status = 'NO_PRIOR_CANS'
+      const expectedStatus = formatClientStatus(status)
+
+      expect(expectedStatus).toEqual('No priorCANS')
+    })
+
+    it('returns Unknown', () => {
+      const status = ''
+      const expectedStatus = formatClientStatus(status)
+
+      expect(expectedStatus).toEqual('Unknown')
     })
   })
 })
@@ -82,3 +112,64 @@ export const personsJson = [
     },
   },
 ]
+
+export const socialWorkerClientsJson = [
+  {
+    id: 137545,
+    first_name: 'Yasmeen',
+    middle_name: '',
+    last_name: 'Bailey',
+    suffix: '',
+    dob: '2000-10-01',
+    reminder_date: '2017-09-24',
+    status: 'IN_PROGRESS',
+  },
+  {
+    id: 117503,
+    first_name: 'Selmer',
+    middle_name: '',
+    last_name: 'ashirian',
+    suffix: '',
+    dob: '2010-05-24',
+    reminder_date: '2016-08-02',
+    status: 'COMPLETED',
+  },
+  {
+    id: 112501,
+    first_name: 'Trenton',
+    middle_name: '',
+    last_name: 'Bayer',
+    suffix: '',
+    dob: '2003-01-01',
+    reminder_date: '2017-05-14',
+    status: 'NO_PRIOR_CANS',
+  },
+  {
+    id: 117504,
+    first_name: 'Jacey',
+    middle_name: '',
+    last_name: 'Bogan',
+    suffix: '',
+    dob: '2018-10-26',
+    reminder_date: '2018-10-26',
+    status: 'NO_PRIOR_CANS',
+  },
+  {
+    id: 150000,
+    first_name: 'Hailee',
+    middle_name: '',
+    last_name: 'Brown',
+    suffix: '',
+    dob: '2010-10-10',
+    reminder_date: '2017-12-22',
+    status: 'IN_PROGRESS',
+  },
+]
+
+describe('All mock data are defined', () => {
+  it('is defined', () => {
+    expect(socialWorkerClientsJson).toBeDefined()
+    expect(personsJson).toBeDefined()
+    expect(childInfoJson).toBeDefined()
+  })
+})
