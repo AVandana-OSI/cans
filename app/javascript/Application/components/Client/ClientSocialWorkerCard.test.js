@@ -5,14 +5,14 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import DataGrid from '@cwds/components/lib/DataGrid'
 import ClientSocialWorkerCard from './ClientSocialWorkerCard'
-import socialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
+import SocialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
 import { socialWorkerClientsJson } from './Client.helper.test'
 
 describe('<ClientSocialWorkerCard />', () => {
   let fakProps = {
     title: { type: 'object' },
     data: socialWorkerClientsJson,
-    columns: socialWorkerCardTemplate.whiteFourCols(),
+    columns: SocialWorkerCardTemplate.whiteFourCols(),
     defaultSorted: [
       {
         id: 'fullName',

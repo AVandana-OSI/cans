@@ -1,4 +1,4 @@
-import socialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
+import SocialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
 describe(' ClientSocialWorkerCardTempate ', () => {
   const client = {
     id: 0,
@@ -16,7 +16,7 @@ describe(' ClientSocialWorkerCardTempate ', () => {
     original: { id: 2 },
   }
 
-  const template = socialWorkerCardTemplate.whiteFourCols
+  const template = SocialWorkerCardTemplate.whiteFourCols
 
   it('will return an array with length 4 because this a 4 columns template', () => {
     const expectedReturn = template()

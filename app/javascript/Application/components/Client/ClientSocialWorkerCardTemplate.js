@@ -3,7 +3,7 @@ import { formatClientName, formatClientStatus } from './Client.helper'
 import React from 'react'
 import './style.sass'
 import { Link } from 'react-router-dom'
-class socialWorkerCardTemplate extends React.Component {
+class SocialWorkerCardTemplate extends React.Component {
   static whiteFourCols = client => {
     const template = [
       {
@@ -66,4 +66,4 @@ class socialWorkerCardTemplate extends React.Component {
   }
 }
 
-export default socialWorkerCardTemplate
+export default SocialWorkerCardTemplate

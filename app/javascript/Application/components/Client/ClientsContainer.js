@@ -3,7 +3,7 @@ import './style.sass'
 import ClientSocialWorkerCard from './ClientSocialWorkerCard'
 import ClientService from './Client.service'
 import UserAccountService from '../common/UserAccountService'
-import socialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
+import SocialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
 import { LoadingState } from '../../util/loadingHelper'
 import { handleError } from '../../util/ApiErrorHandler'
 import { failedFetching } from './Client.helper'
@@ -50,7 +50,7 @@ class ClientsContainer extends Component {
         <span className="client-list-records-amount">({recordsAmount})</span>
       </span>
     )
-    const template = socialWorkerCardTemplate.whiteFourCols()
+    const template = SocialWorkerCardTemplate.whiteFourCols()
     const loading = dataStatus === LoadingState.waiting
 
     const defaultSortSetting = [
