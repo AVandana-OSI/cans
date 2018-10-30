@@ -34,23 +34,10 @@ describe('<ClientsContainer />', () => {
   it('will render ClientSocialWorkerCard', async () => {
     expect(wrapper.find(ClientSocialWorkerCard).exists()).toBe(true)
   })
-})
 
-describe('ClientRecordsChk works well', () => {
-  let wrapper
-  let checker
-  let target
-  beforeEach(() => {
-    wrapper = shallow(<ClientsContainer />, { disableLifecycleMethods: true })
-    checker = wrapper.instance().ClientRecordsChk
-    target = handleError.mockReturnValue(true)
-  })
-
-  afterEach(() => {
-    handleError.mockClear()
-  })
-
-  it('global alert will be triggered with records which is not an array', async () => {
+  it('ClientRecordsChk works well,global alert will be triggered with records which is not an array', () => {
+    const checker = wrapper.instance().ClientRecordsChk
+    const target = handleError.mockReturnValue(true)
     checker(null)
     checker({ key: 'value' })
     checker(undefined)
@@ -58,10 +45,5 @@ describe('ClientRecordsChk works well', () => {
     checker(100)
     checker('')
     expect(target).toHaveBeenCalledTimes(6)
-  })
-
-  it('global alert will NOT be triggered when there is no record', async () => {
-    checker([])
-    expect(target).toHaveBeenCalledTimes(0)
   })
 })
