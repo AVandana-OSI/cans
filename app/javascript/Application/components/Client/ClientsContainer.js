@@ -50,7 +50,7 @@ class ClientsContainer extends Component {
         <span className="client-list-records-amount">({recordsAmount})</span>
       </span>
     )
-    const template = SocialWorkerCardTemplate.whiteFourCols()
+    const template = SocialWorkerCardTemplate()
     const loading = dataStatus === LoadingState.waiting
 
     const defaultSortSetting = [

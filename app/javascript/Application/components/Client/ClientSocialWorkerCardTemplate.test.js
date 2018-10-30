@@ -11,12 +11,7 @@ describe(' ClientSocialWorkerCardTempate ', () => {
     status: 'NO_PRIOR_CANS',
   }
 
-  const cellProps = {
-    value: 'this is Cell',
-    original: { id: 2 },
-  }
-
-  const template = SocialWorkerCardTemplate.whiteFourCols
+  const template = SocialWorkerCardTemplate
 
   it('will return an array with length 4 because this a 4 columns template', () => {
     const expectedReturn = template()
@@ -35,12 +30,10 @@ describe(' ClientSocialWorkerCardTempate ', () => {
   })
 
   it('all accessor works', () => {
-    const accessorCell = template()[0].Cell(cellProps)
     const accessorFullName = template()[0].accessor(client)
     const accessorDoB = template()[1].accessor(client)
     const accessorStatus = template()[2].accessor(client)
     const accessorReminderDate = template()[3].accessor(client)
-    expect(accessorCell.key).toEqual('2')
     expect(accessorFullName).toEqual('Green, Jim Alen, Mr.')
     expect(accessorDoB).toEqual('01/01/2000')
     expect(accessorStatus).toEqual('No priorCANS')

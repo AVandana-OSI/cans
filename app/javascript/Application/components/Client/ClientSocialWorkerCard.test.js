@@ -12,7 +12,7 @@ describe('<ClientSocialWorkerCard />', () => {
   let fakProps = {
     title: { type: 'object' },
     data: socialWorkerClientsJson,
-    columns: SocialWorkerCardTemplate.whiteFourCols(),
+    columns: SocialWorkerCardTemplate(),
     defaultSorted: [
       {
         id: 'fullName',

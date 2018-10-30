@@ -8,6 +8,7 @@ export const fakeJson = [
     dob: '2000-10-01',
     reminder_date: '2017-09-24',
     status: 'IN_PROGRESS',
+    external_id: 137545,
   },
   {
     id: 117503,
@@ -26,7 +27,6 @@ export const fakeJson = [
     last_name: 'Bayer',
     suffix: '',
     dob: '2003-01-01',
-    reminder_date: '2017-05-14',
     status: 'NO_PRIOR_CANS',
   },
   {
