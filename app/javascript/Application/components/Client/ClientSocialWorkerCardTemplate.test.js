@@ -1,4 +1,4 @@
-import SocialWorkerCardTemplate from './ClientSocialWorkerCardTemplate'
+import { SocialWorkerCardTemplate } from './ClientSocialWorkerCardTemplate'
 describe(' ClientSocialWorkerCardTempate ', () => {
   const client = {
     id: 0,

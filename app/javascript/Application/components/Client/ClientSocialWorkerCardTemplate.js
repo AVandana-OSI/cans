@@ -3,7 +3,7 @@ import { formatClientName, formatClientStatus } from './Client.helper'
 import ClientCardTemplateNameCell from './ClientCardTemplateNameCell'
 import './style.sass'
 
-const SocialWorkerCardTemplate = client => {
+export function SocialWorkerCardTemplate(client) {
   const template = [
     {
       id: 'fullName',
@@ -57,5 +57,3 @@ const SocialWorkerCardTemplate = client => {
 
   return template
 }
-
-export default SocialWorkerCardTemplate
