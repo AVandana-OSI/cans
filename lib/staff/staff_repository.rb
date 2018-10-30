@@ -9,6 +9,6 @@ module Staff
 
     def subordinates_index
       @http_service.call('/staff/subordinates', :get, @token)
-    end
+    end 
   end
 end

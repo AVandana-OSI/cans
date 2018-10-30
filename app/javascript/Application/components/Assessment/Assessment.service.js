@@ -13,6 +13,9 @@ export class AssessmentService {
   static search(searchRequest) {
     return apiPost('/assessments/_search', searchRequest)
   }
+  static getAllAssessments(searchRequest) {
+    return apiPost('/staff/assessments', searchRequest)
+  }
   static postAssessment(assessment) {
     return apiPost('/assessments', assessment)
   }

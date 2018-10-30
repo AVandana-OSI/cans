@@ -11,7 +11,7 @@ class SearchAssessmentHistoryRecord extends PureComponent {
     const { status } = this.props.assessment
 
     return (
-      <Container className={'history-item search-history-item'}>
+      <Container className={'search-history-item'}>
         <Row>
           <Col xs="1">{<AssessmentRecordIcon status={status} />}</Col>
           <Col xs="11" className="assessment-status">

@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Grid from '@material-ui/core/Grid/Grid'
+import { Card, CardHeader, CardBody } from '@cwds/components/lib/Cards'
+import CardTitle from '@cwds/components/lib/Cards/CardTitle'
 import { SearchAssessmentHistory } from './index'
 import AssessmentService from '../Assessment/Assessment.service'
 import SearchAssessmentHistoryRecord from './SearchAssessmentHistoryRecord'
@@ -8,13 +9,11 @@ import SearchAssessmentHistoryRecord from './SearchAssessmentHistoryRecord'
 jest.mock('../Assessment/Assessment.service')
 
 const params = {
-  clientIds: [],
-  historyTitle: 'Assessment History',
   numAssessments: 3,
 }
 
 const getShallowWrapper = () => {
-  AssessmentService.search.mockReturnValue(
+  AssessmentService.getAllAssessments.mockReturnValue(
     Promise.resolve([
       {
         id: 1,
@@ -41,29 +40,40 @@ const getShallowWrapper = () => {
 
 const prepareWrapper = async mockedAssessments => {
   // given
-  AssessmentService.search.mockReturnValue(Promise.resolve(mockedAssessments))
+  AssessmentService.getAllAssessments.mockReturnValue(Promise.resolve(mockedAssessments))
   const wrapper = shallow(<SearchAssessmentHistory {...params} />)
 
   // when
-  wrapper.setProps({ clientIds: [1004, 1005] })
-  await wrapper.instance().componentDidUpdate(params)
+  await wrapper.instance().componentDidMount()
 
   return wrapper
 }
 
 describe('<SearchAssessmentHistory', () => {
   describe('components', () => {
-    const getLength = component => getShallowWrapper().find(component).length
+    const wrapper = getShallowWrapper()
 
-    it('renders with 1 <Grid /> component', () => {
-      expect(getLength(Grid)).toBe(1)
+    it('renders a card', () => {
+      expect(wrapper.find(Card).exists()).toBe(true)
+    })
+
+    it('renders a card header', () => {
+      expect(wrapper.find(CardHeader).exists()).toBe(true)
+    })
+
+    it('renders a card title', () => {
+      expect(wrapper.find(CardTitle).exists()).toBe(true)
+    })
+
+    it('renders a card body', () => {
+      expect(wrapper.find(CardBody).exists()).toBe(true)
     })
   })
 
-  describe('card header', () => {
+  describe('card title', () => {
     it('should be "Assessment History"', () => {
       const wrapper = getShallowWrapper()
-      const cardTitle = wrapper.find('h4').text()
+      const cardTitle = wrapper.find(CardTitle).props().children
       expect(cardTitle).toMatch(/Assessment History/)
     })
   })
@@ -83,24 +93,15 @@ describe('<SearchAssessmentHistory', () => {
       })
     })
 
-    it('renders the empty message when there are zero assessments', async () => {
-      // given + when
-      const wrapper = await prepareWrapper([])
+    describe('renders 0 assessments', () => {
+      it('renders the empty message when there are zero assessments', async () => {
+        // given + when
+        const wrapper = await prepareWrapper([])
 
-      // then
-      const message = wrapper.find('#no-data').text()
-      expect(message).toBe('No assessments currently exist for the clients.')
+        // then
+        const message = wrapper.find('#no-data').text()
+        expect(message).toBe('No assessments currently exist for the clients.')
+      })
     })
-
-    // describe('when there are zero assessments', () => {
-    //   it('renders the empty message', async () => {
-    //     // given + when
-    //     const wrapper = await prepareWrapper([])
-
-    //     // then
-    //     const message = wrapper.find('#no-data').text()
-    //     expect(message).toBe('No assessments currently exist for the clients.')
-    //   })
-    // })
   })
 })

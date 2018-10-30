@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
 import SearchAssessmentHistoryRecord from './SearchAssessmentHistoryRecord'
 import { AssessmentService } from '../Assessment/Assessment.service'
 import { LoadingState } from '../../util/loadingHelper'
 import moment from 'moment'
+import { Card, CardHeader, CardBody } from '@cwds/components/lib/Cards'
+import CardTitle from '@cwds/components/lib/Cards/CardTitle'
 
 class SearchAssessmentHistory extends Component {
   constructor(props) {
@@ -16,29 +17,25 @@ class SearchAssessmentHistory extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.clientIds !== prevProps.clientIds) {
-      const { clientIds } = this.props
+  async componentDidMount() {
+    await this.fetchAllAssessments()
+  }
 
-      const promises = clientIds.map(clientId => {
-        if (clientId) {
-          return AssessmentService.search({ person_id: clientId })
-        }
+  fetchAllAssessments = () => {
+    AssessmentService.getAllAssessments({
+      person_id: 0,
+    })
+      .then(assessments => {
+        const filteredAssessments = assessments.filter(assessment => assessment.status === 'IN_PROGRESS')
+        const sortedAssessments = this.sortAssessmentsByDate('desc', filteredAssessments)
+        this.setState({
+          assessments: sortedAssessments.slice(0, this.props.numAssessments),
+          fetchStatus: LoadingState.ready,
+        })
       })
-
-      return Promise.all(promises)
-        .then(assessmentData => {
-          const assessments = [].concat(...assessmentData).filter(assessment => assessment.status === 'IN_PROGRESS')
-          const sortedAssessments = this.sortAssessmentsByDate('desc', assessments)
-          this.setState({
-            assessments: sortedAssessments.slice(0, this.props.numAssessments),
-            fetchStatus: LoadingState.ready,
-          })
-        })
-        .catch(err => {
-          throw err
-        })
-    }
+      .catch(err => {
+        throw err
+      })
   }
 
   renderAssessments = (assessments, fetchStatus) => {
@@ -60,28 +57,19 @@ class SearchAssessmentHistory extends Component {
   }
 
   render() {
-    const { historyTitle } = this.props
     const { assessments, fetchStatus } = this.state
     return (
-      <Grid item xs={12}>
-        <div className="card double-gap-bottom hidden-print">
-          <div className="card-header card-header-search">
-            <h4>{historyTitle}</h4>
-          </div>
-          <div className="card-body card-body-search">
-            <div className="row">
-              <div className="col-md-12">{this.renderAssessments(assessments, fetchStatus)}</div>
-            </div>
-          </div>
-        </div>
-      </Grid>
+      <Card className="card hidden-print">
+        <CardHeader className="card-header-search">
+          <CardTitle>{'Assessment History'}</CardTitle>
+        </CardHeader>
+        <CardBody className="card-body-search">{this.renderAssessments(assessments, fetchStatus)}</CardBody>
+      </Card>
     )
   }
 }
 
 SearchAssessmentHistory.propTypes = {
-  clientIds: PropTypes.array.isRequired,
-  historyTitle: PropTypes.string.isRequired,
   numAssessments: PropTypes.number.isRequired,
 }
 

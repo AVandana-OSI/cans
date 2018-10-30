@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     resources :staff, only: [] do
       collection do
         get 'subordinates', to: 'staff#subordinates_index'
+        post 'assessments', to: 'assessments#getAllAssessments'
       end
     end
 
