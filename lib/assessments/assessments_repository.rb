@@ -21,10 +21,10 @@ module Assessments
 
     def update(id, payload)
       @http_service.call("/assessments/#{id}", :put, @token, payload)
-    end   
+    end
 
-    def getAllAssessments(payload)
+    def get_all(payload)
       @http_service.call('/staff/assessments', :post, @token, payload)
-    end         
+    end
   end
 end
