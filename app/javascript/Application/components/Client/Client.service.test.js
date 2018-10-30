@@ -22,7 +22,7 @@ describe('ClientService', () => {
     })
   })
 
-  describe('#socialWorkerClientDev', () => {
+  describe('#socialWorkerClient', () => {
     const apiGetSpy = jest.spyOn(apiEndpoints, 'apiGet')
 
     beforeEach(() => {
@@ -33,7 +33,7 @@ describe('ClientService', () => {
       const id = '0X5'
       const mockClientData = { id: 15000, name: 'test client' }
       apiGetSpy.mockReturnValue(mockClientData)
-      const clientData = await ClientService.socialWorkerClientDev(id)
+      const clientData = await ClientService.socialWorkerClient(id)
       expect(clientData).toBe(mockClientData)
       expect(apiGetSpy).toHaveBeenCalledTimes(1)
       expect(apiGetSpy).toHaveBeenCalledWith(`/staff/${id}/people`)

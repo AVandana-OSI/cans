@@ -36,7 +36,7 @@ describe(' ClientSocialWorkerCardTempate ', () => {
     const accessorReminderDate = template()[3].accessor(client)
     expect(accessorFullName).toEqual('Green, Jim Alen, Mr.')
     expect(accessorDoB).toEqual('01/01/2000')
-    expect(accessorStatus).toEqual('No priorCANS')
+    expect(accessorStatus).toEqual('No prior CANS')
     expect(accessorReminderDate).toEqual('10/26/2018')
   })
 })

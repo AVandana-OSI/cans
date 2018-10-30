@@ -12,6 +12,7 @@ const ClientSocialWorkerTemplateCell = props => {
 
 ClientSocialWorkerTemplateCell.propTypes = {
   original: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired,
 }
 
 export default ClientSocialWorkerTemplateCell

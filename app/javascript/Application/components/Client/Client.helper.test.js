@@ -34,11 +34,11 @@ describe('Client.helper', () => {
   })
 
   describe('formatClientStatus', () => {
-    it('returns In process', () => {
+    it('returns In progress', () => {
       const status = 'IN_PROGRESS'
       const expectedStatus = formatClientStatus(status)
 
-      expect(expectedStatus).toEqual('In process')
+      expect(expectedStatus).toEqual('In progress')
     })
 
     it('returns Completed', () => {
@@ -52,7 +52,7 @@ describe('Client.helper', () => {
       const status = 'NO_PRIOR_CANS'
       const expectedStatus = formatClientStatus(status)
 
-      expect(expectedStatus).toEqual('No priorCANS')
+      expect(expectedStatus).toEqual('No prior CANS')
     })
 
     it('returns Unknown', () => {

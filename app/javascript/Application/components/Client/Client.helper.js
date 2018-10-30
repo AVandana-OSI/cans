@@ -1,3 +1,5 @@
+import { ClientStatus } from '../../util/constants'
+
 export function formatClientName({ first_name: firstName, middle_name: middleName, last_name: lastName, suffix }) {
   let result = `${lastName}, ${firstName}`
   if (middleName) {
@@ -10,16 +12,15 @@ export function formatClientName({ first_name: firstName, middle_name: middleNam
 }
 
 export function formatClientStatus(status) {
-  switch (status) {
-    case 'IN_PROGRESS':
-      return 'In process'
-    case 'COMPLETED':
-      return 'Completed'
-    case 'NO_PRIOR_CANS':
-      return 'No priorCANS'
-    default:
-      return 'Unknown'
+  if (!ClientStatus.hasOwnProperty(status)) {
+    status = 'UNKNOWN'
+    return formatClientStatus(status)
+  } else {
+    for (var key in ClientStatus) {
+      if (status === key) {
+        return ClientStatus[key]
+      }
+    }
   }
 }
-
 export const failedFetching = { message: 'Fail to fetch data from server side!' }

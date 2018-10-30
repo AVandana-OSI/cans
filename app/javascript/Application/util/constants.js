@@ -13,3 +13,10 @@ export const navigation = Object.freeze({
   ASSESSMENT_EDIT: 'ASSESSMENT_EDIT',
   STAFF_LIST: 'STAFF_LIST',
 })
+
+export const ClientStatus = Object.freeze({
+  IN_PROGRESS: 'In progress',
+  COMPLETED: 'Completed',
+  NO_PRIOR_CANS: 'No prior CANS',
+  UNKNOWN: 'Unknown',
+})
