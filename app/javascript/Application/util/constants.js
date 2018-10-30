@@ -18,5 +18,4 @@ export const ClientStatus = Object.freeze({
   IN_PROGRESS: 'In progress',
   COMPLETED: 'Completed',
   NO_PRIOR_CANS: 'No prior CANS',
-  UNKNOWN: 'Unknown',
 })

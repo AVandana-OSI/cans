@@ -8,9 +8,6 @@ export function SocialWorkerCardTemplate(client) {
     {
       id: 'fullName',
       Header: 'Client Name',
-      headerStyle: {
-        fontSize: '1.3rem',
-      },
       accessor: client => {
         return formatClientName(client)
       },
@@ -21,7 +18,6 @@ export function SocialWorkerCardTemplate(client) {
       Header: 'DOB',
       headerStyle: {
         textAlign: 'center',
-        fontSize: '1.3rem',
       },
       accessor: client => isoToLocalDate(client.dob),
       className: 'client-list-table-cell-center',
@@ -32,7 +28,6 @@ export function SocialWorkerCardTemplate(client) {
       Header: 'CANS Status',
       headerStyle: {
         textAlign: 'center',
-        fontSize: '1.3rem',
       },
       accessor: client => {
         return formatClientStatus(client.status)
@@ -45,7 +40,6 @@ export function SocialWorkerCardTemplate(client) {
       Header: 'Reminder Date',
       headerStyle: {
         textAlign: 'center',
-        fontSize: '1.3rem',
       },
       accessor: client => {
         return isoToLocalDate(client.reminder_date)
@@ -54,6 +48,5 @@ export function SocialWorkerCardTemplate(client) {
       sortable: false,
     },
   ]
-
   return template
 }

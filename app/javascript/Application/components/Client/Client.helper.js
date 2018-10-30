@@ -13,8 +13,7 @@ export function formatClientName({ first_name: firstName, middle_name: middleNam
 
 export function formatClientStatus(status) {
   if (!ClientStatus.hasOwnProperty(status)) {
-    status = 'UNKNOWN'
-    return formatClientStatus(status)
+    return 'Unknown'
   } else {
     for (var key in ClientStatus) {
       if (status === key) {
