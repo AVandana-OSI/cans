@@ -34,6 +34,8 @@ class Page extends Component {
     const { clientId } = this.props.match.params
     if (clientId) {
       client = await ClientService.fetch(clientId).catch(() => {})
+      // temporary fix while in process of switching to legacy client data
+      client.identifier = client.external_id
     }
     return client
   }

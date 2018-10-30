@@ -12,11 +12,12 @@ import { DomainProgressBar, Item } from './'
 import { shouldDomainBeRendered } from './AssessmentHelper'
 import { getI18nByCode } from './I18nHelper'
 import { isA11yAllowedInput } from '../../util/events'
+import Grid from '@material-ui/core/Grid'
 
 import './style.sass'
 
 const mapPropsToState = props => ({
-  title: (props.i18n['_title_'] || '').toUpperCase(),
+  title: props.i18n['_title_'] || '',
   description: props.i18n['_description_'] || 'No Description',
   caregiverName: props.domain.caregiver_name || '',
 })
@@ -91,7 +92,6 @@ class Domain extends Component {
   handleCaregiverNameUpdate = () => {
     this.props.onCaregiverNameUpdate(this.props.domain.caregiver_index, this.state.caregiverName)
   }
-
   renderCaregiverName = () => {
     return (
       <div className={'caregiver-name-wrapper'}>
@@ -119,6 +119,7 @@ class Domain extends Component {
                 onKeyPress={this.handleRemoveCaregiverDomain}
                 className={'caregiver-control'}
                 role={'button'}
+                aria-label="remove caregiver button"
                 tabIndex={0}
               >
                 - REMOVE CAREGIVER
@@ -130,6 +131,7 @@ class Domain extends Component {
                 onKeyPress={this.handleAddCaregiverDomain}
                 className={'caregiver-control'}
                 role={'button'}
+                aria-label="add caregiver button"
                 tabIndex={0}
               >
                 + ADD CAREGIVER
@@ -148,29 +150,37 @@ class Domain extends Component {
     const progressBar = <DomainProgressBar isAssessmentUnderSix={isAssessmentUnderSix} domain={domain} />
     return shouldDomainBeRendered(isAssessmentUnderSix, domain) ? (
       <Fragment>
-        <ExpansionPanel
-          expanded={expanded}
-          onChange={this.handleExpandedChange}
-          style={{ backgroundColor: '#114161' }}
-          elevation={0}
-        >
+        <ExpansionPanel expanded={expanded} onChange={this.handleExpandedChange} elevation={0}>
           <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon id={`domain${index}-expand`} style={{ height: '28px', color: 'white' }} />}
-            style={{ minHeight: '28px' }}
+            expandIcon={
+              <ExpandMoreIcon id={`domain${index}-expand`} style={{ height: '28px', color: '#000000', padding: '0' }} />
+            }
           >
-            <Typography variant="title" style={{ color: 'white' }}>
-              {title} {caregiverName && `- ${caregiverName}`}
-            </Typography>
-            {description ? (
-              <Tooltip title={description} placement="top" classes={{ tooltip: 'domain-tooltip' }}>
-                <i className="fa fa-question-circle domain-help-icon" />
-              </Tooltip>
-            ) : null}
+            <Grid container direction="row" justify="flex-end" alignItems="flex-end" spacing={0} style={{ padding: 0 }}>
+              <Grid item xs={9}>
+                <Typography variant="title" style={{ color: '#0e6f89', fontSize: 16 }}>
+                  {title} {caregiverName && `- ${caregiverName}`}
+                  {description ? (
+                    <Tooltip title={description} placement="top" classes={{ tooltip: 'domain-tooltip' }}>
+                      <i className="fa fa-question-circle domain-help-icon" />
+                    </Tooltip>
+                  ) : null}
+                </Typography>
+              </Grid>
+              <Grid item xs={3}>
+                {progressBar}
+              </Grid>
+            </Grid>
           </ExpansionPanelSummary>
           {expanded && (
             <div>
-              {progressBar}
-              <ExpansionPanelDetails style={{ display: 'block', padding: '0', backgroundColor: 'white' }}>
+              <ExpansionPanelDetails
+                style={{
+                  display: 'block',
+                  padding: '0',
+                  backgroundColor: 'white',
+                }}
+              >
                 {is_caregiver_domain && this.renderCaregiverName()}
                 {this.renderItems(items)}
                 {is_caregiver_domain && this.renderCaregiverDomainControls()}
@@ -178,7 +188,6 @@ class Domain extends Component {
             </div>
           )}
         </ExpansionPanel>
-        {!expanded && progressBar}
       </Fragment>
     ) : null
   }

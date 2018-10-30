@@ -92,7 +92,7 @@ describe('<Domain />', () => {
       wrapper.instance().handleExpandedChange()
       wrapper.update()
       const foldedText = wrapper.text()
-      expect(foldedText).toMatch(/TITLE/)
+      expect(foldedText).toMatch(/Title/)
       expect(foldedText).toMatch(/- REMOVE CAREGIVER/)
       expect(foldedText).toMatch(/\+ ADD CAREGIVER/)
     })

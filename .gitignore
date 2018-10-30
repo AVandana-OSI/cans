@@ -36,6 +36,7 @@ coverage
 
 # IDE
 *.idea
+.prettierrc.js
 
 # OS
 .DS_Store

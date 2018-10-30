@@ -31,7 +31,7 @@ services:
       - '6379:6379'
 
   cans-api:
-    image: cwds/cans-api:0.10.1_272-RC
+    image: cwds/cans-api:0.10.1_283-RC
     hostname: cans-api
     depends_on:
       - db2
