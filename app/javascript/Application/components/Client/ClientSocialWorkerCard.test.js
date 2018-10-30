@@ -1,8 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Card from '@material-ui/core/Card/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
+import { Card, CardHeader, CardBody } from '@cwds/components/lib/Cards'
+import CardTitle from '@cwds/components/lib/Cards/CardTitle'
 import DataGrid from '@cwds/components/lib/DataGrid'
 import ClientSocialWorkerCard from './ClientSocialWorkerCard'
 import { SocialWorkerCardTemplate } from './ClientSocialWorkerCardTemplate'
@@ -10,7 +9,7 @@ import { socialWorkerClientsJson } from './Client.helper.test'
 
 describe('<ClientSocialWorkerCard />', () => {
   let fakProps = {
-    title: { type: 'object' },
+    title: 100,
     data: socialWorkerClientsJson,
     columns: SocialWorkerCardTemplate(),
     defaultSorted: [
@@ -26,15 +25,16 @@ describe('<ClientSocialWorkerCard />', () => {
     wrapper = shallow(<ClientSocialWorkerCard {...fakProps} />)
   })
 
-  it('Card, CardHeader, CardContent, and DataGrid should be rendered', () => {
+  it('Card, CardHeader, CardTitle, CardBody, and DataGrid should be rendered', () => {
     expect(wrapper.find(Card).exists()).toBe(true)
     expect(wrapper.find(CardHeader).exists()).toBe(true)
-    expect(wrapper.find(CardContent).exists()).toBe(true)
+    expect(wrapper.find(CardTitle).exists()).toBe(true)
+    expect(wrapper.find(CardBody).exists()).toBe(true)
     expect(wrapper.find(DataGrid).exists()).toBe(true)
   })
 
   it('Card header will be rendered with fakeTitle', () => {
-    expect(wrapper.find(CardHeader).getElement().props.title).toEqual({ type: 'object' })
+    expect(wrapper.find(CardHeader).html()).toContain(100)
   })
 
   it('DataGrid should be rendered with some important props', () => {

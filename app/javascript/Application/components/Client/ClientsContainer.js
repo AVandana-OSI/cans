@@ -43,13 +43,6 @@ class ClientsContainer extends Component {
 
   render = () => {
     const { records, dataStatus, recordsAmount } = this.state
-
-    const title = (
-      <span>
-        Client List
-        <span className="client-list-records-amount">({recordsAmount})</span>
-      </span>
-    )
     const template = SocialWorkerCardTemplate()
     const loading = dataStatus === LoadingState.waiting
 
@@ -61,7 +54,7 @@ class ClientsContainer extends Component {
     ]
     return (
       <ClientSocialWorkerCard
-        title={title}
+        title={recordsAmount}
         data={records}
         columns={template}
         defaultSorted={defaultSortSetting}
