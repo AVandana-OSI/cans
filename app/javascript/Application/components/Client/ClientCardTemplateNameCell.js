@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const ClientSocialWorkerTemplateCell = props => {
   return (
-    <Link id="clientName" key={props.original.external_id} to={`/clients/${props.original.external_id}`}>
+    <Link id="clientName" key={props.original.identifier} to={`/clients/${props.original.identifier}`}>
       {props.value}
     </Link>
   )
