@@ -10,5 +10,9 @@ module Staff
     def subordinates_index
       @http_service.call('/staff/subordinates', :get, @token)
     end
+
+    def social_worker_clients(id)
+      @http_service.call("/staff/#{id}/people", :get, @token)
+    end
   end
 end

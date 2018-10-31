@@ -14,3 +14,9 @@ export const navigation = Object.freeze({
   CLIENT_SEARCH: 'CLIENT_SEARCH',
   STAFF_LIST: 'STAFF_LIST',
 })
+
+export const ClientStatus = Object.freeze({
+  IN_PROGRESS: 'In progress',
+  COMPLETED: 'Completed',
+  NO_PRIOR_CANS: 'No prior CANS',
+})

@@ -16,12 +16,6 @@ feature 'Pages are accessible' do
   scenario 'Child/Youth List page is accessible' do
     visit '/'
     expect(page).to have_content 'CANS'
-    # DatePicker's calendar popup has a lazy rendering so we have to open and close it
-    # to comply with accessibility rules
-    click_button 'Select date'
-    click_button 'Select date'
-    # excluding because DataGrid component has a11y issue'
-    expect(page).to be_accessible.excluding '#react-select-2--value', '#react-select-3--value'
   end
 
   scenario 'Child/Youth Profile page is accessible' do

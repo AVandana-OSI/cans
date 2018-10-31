@@ -5,49 +5,31 @@
 //**************************
 //  ClientsContainer
 //**************************
-.clients-container a
-  color: $aspen
 
-.clients-container a:hover
-  color: $aspen
+.card-cans-client-list
+  > *:first-child
+    border-radius: calc(0.28rem - 1px) calc(0.28rem - 1px) 0 0
+    padding: 1.6rem
 
-.clients-container a:visited
-  color: $aspen
+  h3
+    margin-top: 0
 
-.clients-container
-  display: flex
-  flex-wrap: wrap
-  flex-direction: row
-  align-content: flex-start
-  height: 100%
-  padding-top: 0.8rem
-  padding-bottom: 1.6rem
+  > *:last-child
+    padding: 1.6rem
+
+.client-list-records-amount
+  color: $error-red
+  padding: 0.5rem
+
+.client-list-table-cell-center
+  text-align: center
+
+//**************************
+//  ClientSocialWorkerCard
+//**************************
 
 .client-grid
-  padding-top: 1.6rem
-
-.client-name-container
-  flex: 0 0 33%
-
-.client-name
-  font-size: 1.4rem
-  text-decoration: underline
-
-.sensitive-client-name
-  font-size: 1.4rem
-  color: $label
-
-.filter-controls
-  padding: 0 2rem 2rem 2rem
-  background-color: rgba(0, 0, 0, 0.1)
-  margin-bottom: 0
-
-.filter-controls-label
-  color: black !important
-  margin-top: 0 !important
-
-.filter-buttons
-  margin-top: 2.5rem
+  border-top: none
 
 //**************************
 //  ClientAssessmentHistory
@@ -87,4 +69,3 @@
 .add-edit-form-controls
   display: flex
   justify-content: flex-end
-
