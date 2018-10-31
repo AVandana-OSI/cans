@@ -1,5 +1,4 @@
-import { ClientStatus, ISO_DATE_FORMAT, LOCAL_DATE_FORMAT } from '../../util/constants'
-import moment from 'moment'
+import { ClientStatus } from '../../util/constants'
 
 export function formatClientName({ first_name: firstName, middle_name: middleName, last_name: lastName, suffix }) {
   let result = `${lastName}, ${firstName}`
@@ -17,7 +16,3 @@ export function formatClientStatus(status) {
 }
 
 export const failedFetching = { message: 'Fail to fetch data from server side!' }
-
-export function ClientDateHelper(datetime) {
-  return !datetime || datetime === null ? null : moment(datetime, ISO_DATE_FORMAT).format(LOCAL_DATE_FORMAT)
-}
