@@ -24,7 +24,7 @@ module Api
     end
 
     def getall
-      response = Assessments::AssessmentsRepository.new(session[:token]).getall(params[:assessment])
+      response = Assessments::AssessmentsRepository.new(session[:token]).getall
       render json: response.body, status: response.status
     end
   end

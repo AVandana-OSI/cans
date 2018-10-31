@@ -22,7 +22,7 @@ class SearchAssessmentHistory extends Component {
   }
 
   fetchAllAssessments = () => {
-    AssessmentService.getAllAssessments({})
+    AssessmentService.getAllAssessments()
       .then(assessments => {
         const filteredAssessments = assessments.filter(assessment => assessment.status === 'IN_PROGRESS')
         const sortedAssessments = this.sortAssessmentsByDate('desc', filteredAssessments)
