@@ -10,8 +10,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :clients, only: [:show] do
-    end
+    resources :people_searches, only: :index
+
+    resources :clients, only: [:show]
 
     resources :instruments, only: [:show] do
       member do

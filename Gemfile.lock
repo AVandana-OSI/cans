@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/ca-cwds/dora_api
+  revision: d95502af0385888baea5abad858d4aada7974c90
+  specs:
+    dora (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -318,6 +324,7 @@ DEPENDENCIES
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  dora (~> 0.1.0)!
   dotenv-rails
   faker
   faraday (~> 0.13.1)
@@ -352,4 +359,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.2
+   1.16.6
