@@ -12,12 +12,12 @@ describe('<AssessmentFormHeader />', () => {
       shallow(<AssessmentFormHeader {...{ assessment, client, onAssessmentUpdate: jest.fn() }} />)
     const getLength = component => getShallowWrapper().find(component).length
 
-    it('renders with 5 assessment-form-header-label labels', () => {
-      expect(getLength('.assessment-form-header-label')).toBe(4)
+    it('renders with 3 assessment-form-header-label labels', () => {
+      expect(getLength('.assessment-form-header-label')).toBe(3)
     })
 
-    it('renders with 2 <Input /> component', () => {
-      expect(getLength(Input)).toBe(2)
+    it('renders with 1 <Input /> component', () => {
+      expect(getLength(Input)).toBe(1)
     })
 
     it('renders with case numbers dropdown', () => {
@@ -56,14 +56,6 @@ describe('<AssessmentFormHeader />', () => {
       ).toBe('Case Number')
     })
 
-    it('renderCompletedAsSelect() returns correct label text', () => {
-      expect(
-        mount(wrapped.instance().renderCompletedAsSelect())
-          .find('Label')
-          .text()
-      ).toBe('Complete as')
-    })
-
     it('renderHasCaregiverQuestion() returns correct label text', () => {
       expect(
         mount(wrapped.instance().renderHasCaregiverQuestion())
@@ -96,21 +88,6 @@ describe('<AssessmentFormHeader />', () => {
       // then
       const updatedAssessment = clone(assessment)
       updatedAssessment.event_date = '2000-01-11'
-      expect(mockFn).toHaveBeenCalledWith(updatedAssessment)
-    })
-
-    it('will update completed_as in assessment', () => {
-      // given
-      const mockFn = jest.fn()
-      const props = { assessment, client, onAssessmentUpdate: mockFn }
-      const wrapper = shallow(<AssessmentFormHeader {...props} />)
-      expect(assessment.completed_as).toBe('COMMUNIMETRIC')
-      // when
-      const event = { target: { name: 'completed_as', value: 'Social Worker' } }
-      wrapper.instance().handleValueChange(event)
-      // then
-      const updatedAssessment = clone(assessment)
-      updatedAssessment.completed_as = 'Social Worker'
       expect(mockFn).toHaveBeenCalledWith(updatedAssessment)
     })
   })

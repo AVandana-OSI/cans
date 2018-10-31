@@ -118,26 +118,6 @@ class AssessmentFormHeader extends PureComponent {
     ))
   }
 
-  renderCompletedAsSelect() {
-    return (
-      <Fragment>
-        <Label for={'select-user'} className={'assessment-form-header-label'}>
-          Complete as
-        </Label>
-        <Input
-          type={'select'}
-          name={'completed_as'}
-          id={'select-user'}
-          value={this.props.assessment.completed_as}
-          onChange={this.handleValueChange}
-          style={{ fontSize: '1.5rem', height: '3.6rem' }}
-        >
-          <option value={'COMMUNIMETRIC'}>Communimetric</option>
-        </Input>
-      </Fragment>
-    )
-  }
-
   renderConfidentialWarningAlertIfNeeded = () =>
     this.props.assessment.can_release_confidential_info ? null : (
       <Alert color={'warning'}>
@@ -283,7 +263,7 @@ class AssessmentFormHeader extends PureComponent {
         <Row className={'assessment-form-header-inputs'}>
           <Col sm={3}>{this.renderDateSelect()}</Col>
           <Col sm={5}>{this.renderCaseSelect()}</Col>
-          <Col sm={4}>{this.renderCompletedAsSelect()}</Col>
+          <Col sm={4}>{}</Col>
         </Row>
         <Row>
           <Col xs={6}>{this.renderHasCaregiverQuestion()}</Col>
