@@ -301,7 +301,7 @@ describe('<AssessmentContainer />', () => {
           .dive()
           .find(Link)
           .first()
-        expect(linkWrapper.props().to).toBe('/clients/10')
+        expect(linkWrapper.props().to).toBe('/clients/aaaaaaaaaa')
 
         // when 2 (the message is auto closed)
         jest.runAllTimers()
@@ -394,7 +394,7 @@ describe('<AssessmentContainer />', () => {
       wrapper.setState({ child: childInfoJson })
       wrapper.instance().initialSave(updatedAssessment)
 
-      expect(historyPushMock.push).toHaveBeenCalledWith('/clients/10/assessments/1')
+      expect(historyPushMock.push).toHaveBeenCalledWith('/clients/aaaaaaaaaa/assessments/1')
     })
   })
 

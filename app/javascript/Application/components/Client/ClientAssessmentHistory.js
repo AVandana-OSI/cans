@@ -30,9 +30,9 @@ class ClientAssessmentHistory extends Component {
   }
 
   componentDidMount() {
-    const { clientId } = this.props
-    if (clientId) {
-      return AssessmentService.search({ person_id: clientId }).then(data => {
+    const { clientIdentifier } = this.props
+    if (clientIdentifier) {
+      return AssessmentService.search({ client_identifier: clientIdentifier }).then(data => {
         this.setState({
           assessments: data,
           fetchStatus: LoadingState.ready,
@@ -42,9 +42,9 @@ class ClientAssessmentHistory extends Component {
   }
 
   renderAddCansButton() {
-    const childId = this.props.clientId
+    const clientIdentifier = this.props.clientIdentifier
     return (
-      <Link to={`/clients/${childId}/assessments`}>
+      <Link to={`/clients/${clientIdentifier}/assessments`}>
         <Button size="small" color="inherit" className={'card-header-cans-button'}>
           New CANS
         </Button>
@@ -87,13 +87,13 @@ class ClientAssessmentHistory extends Component {
 }
 
 ClientAssessmentHistory.propTypes = {
-  clientId: PropTypes.number,
+  clientIdentifier: PropTypes.string,
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 }
 
 ClientAssessmentHistory.defaultProps = {
-  clientId: null,
+  clientIdentifier: null,
 }
 
 export default ClientAssessmentHistory

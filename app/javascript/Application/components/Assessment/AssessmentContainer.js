@@ -163,7 +163,7 @@ class AssessmentContainer extends Component {
   }
 
   updateUrlWithAssessment(assessment) {
-    this.props.history.push(`/clients/${this.props.client.id}/assessments/${assessment.id}`)
+    this.props.history.push(`/clients/${this.props.client.identifier}/assessments/${assessment.id}`)
   }
 
   hideSaveSuccessMessage = () => {
@@ -269,7 +269,7 @@ class AssessmentContainer extends Component {
     } = this.state
     const { shouldRedirect, successAssessmentId } = redirection
     if (shouldRedirect) {
-      return <Redirect push to={{ pathname: `/clients/${client.id}`, state: { successAssessmentId } }} />
+      return <Redirect push to={{ pathname: `/clients/${client.identifier}`, state: { successAssessmentId } }} />
     }
     const pageTitle = isNewForm ? 'New CANS' : 'CANS Assessment Form'
     const canPerformUpdates = isReadyForAction(assessmentServiceStatus)
@@ -300,8 +300,8 @@ class AssessmentContainer extends Component {
             type={alertType.SUCCESS}
             message={
               <Fragment>
-                Success! CANS assessment has been saved. <Link to={`/clients/${client.id}`}>Click here</Link> to return
-                to Child/Youth profile.
+                Success! CANS assessment has been saved. <Link to={`/clients/${client.identifier}`}>Click here</Link> to
+                return to Child/Youth profile.
               </Fragment>
             }
             onClose={this.hideSaveSuccessMessage}

@@ -62,7 +62,7 @@ class ClientAssessmentHistoryRecord extends Component {
           <Col xs="12">
             <Row>
               <Col xs="12">
-                <Link to={`/clients/${person.id}/assessments/${id}`} className={'underlined'}>
+                <Link to={`/clients/${person.identifier}/assessments/${id}`} className={'underlined'}>
                   {`${formattedEventDate} CANS`}
                 </Link>
               </Col>

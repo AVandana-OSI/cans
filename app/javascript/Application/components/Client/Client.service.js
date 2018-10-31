@@ -2,7 +2,7 @@ import { apiGet, apiPost, apiPut } from '../../App.api'
 
 export class ClientService {
   static fetch(id) {
-    return apiGet(`/people/${id}`)
+    return apiGet(`/clients/${id}`)
   }
 
   static search({ firstName, middleName, lastName, dob, pagination: { page, pageSize } }) {

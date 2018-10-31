@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :clients, only: [:show] do
+    end
+
     resources :instruments, only: [:show] do
       member do
         get 'i18n/:language/', to: 'instruments#translations_by_instrument_id'

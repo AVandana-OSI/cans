@@ -18,7 +18,7 @@ describe('ClientService', () => {
       const clientData = await ClientService.fetch(clientId)
       expect(clientData).toBe(mockClientData)
       expect(apiGetSpy).toHaveBeenCalledTimes(1)
-      expect(apiGetSpy).toHaveBeenCalledWith(`/people/${clientId}`)
+      expect(apiGetSpy).toHaveBeenCalledWith(`/clients/${clientId}`)
     })
   })
 

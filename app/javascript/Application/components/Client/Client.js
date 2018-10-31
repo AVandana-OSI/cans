@@ -5,10 +5,8 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import PropTypes from 'prop-types'
 import { PageInfo } from '../Layout'
-import Button from '@material-ui/core/Button/Button'
 import ClientAssessmentHistory from './ClientAssessmentHistory'
 import { CloseableAlert, alertType } from '../common/CloseableAlert'
-import { Link } from 'react-router-dom'
 import { isoToLocalDate } from '../../util/dateHelper'
 
 import './style.sass'
@@ -28,9 +26,9 @@ class Client extends Component {
     }
   }
 
-  renderClientData(data, label, gridSize = 3) {
+  renderClientData(data, label, gridSize = 3, itemId = label) {
     return (
-      <Grid item xs={gridSize}>
+      <Grid item xs={gridSize} id={'client-data-' + itemId.replace(/ /g, '_')}>
         <div className={'label-text'}>{label}</div>
         {data}
       </Grid>
@@ -75,6 +73,14 @@ class Client extends Component {
     }
   }
 
+  formatCounties = counties => {
+    if (counties && counties.length > 0) {
+      return counties.map(county => county.name).join(', ')
+    } else {
+      return 'N/A'
+    }
+  }
+
   render() {
     const { client } = this.props
     const { isNewForm, shouldRenderClientMessage } = this.state
@@ -84,17 +90,7 @@ class Client extends Component {
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <Card className={'card'}>
-              <CardHeader
-                className={'card-header-cans'}
-                title="Child/Youth Information"
-                action={
-                  <Link to={`/clients/${client.id}/edit`}>
-                    <Button size="small" color="inherit" className={'card-header-cans-button'}>
-                      EDIT
-                    </Button>
-                  </Link>
-                }
-              />
+              <CardHeader className={'card-header-cans'} title="Child/Youth Information" />
               <div className={'content'}>
                 <CardContent>
                   {shouldRenderClientMessage && (
@@ -110,24 +106,26 @@ class Client extends Component {
                     />
                   )}
 
-                  {client && client.id ? (
+                  {client && client.identifier ? (
                     <Grid container spacing={24} id={'client-info-content'}>
                       {this.renderClientData(client.first_name, 'First Name')}
                       {this.renderClientData(client.middle_name, 'Middle Name')}
                       {this.renderClientData(client.last_name, 'Last Name')}
                       {this.renderClientData(client.suffix, 'Suffix')}
                       {this.renderClientData(isoToLocalDate(client.dob), 'Date of Birth')}
-                      {this.renderClientData(client.county.name, 'County')}
+                      {this.renderClientData(this.formatCounties(client.counties), 'Counties', 3, 'counties')}
                       {this.renderClientData(this.formatClientId(client.external_id), 'Client Id', 6)}
                       {this.renderClientData(
                         this.sensitivityTypeLabel(client.sensitivity_type),
                         'Access Restrictions',
-                        6
+                        6,
+                        'sensitivity-type'
                       )}
                       {this.renderClientData(
                         this.formatCases(client.cases),
                         client.cases.length > 1 ? 'Case Numbers' : 'Case Number',
-                        6
+                        6,
+                        'case-number'
                       )}
                     </Grid>
                   ) : (
@@ -137,7 +135,11 @@ class Client extends Component {
               </div>
             </Card>
           </Grid>
-          <ClientAssessmentHistory clientId={client.id} location={this.props.location} history={this.props.history} />
+          <ClientAssessmentHistory
+            clientIdentifier={client.identifier}
+            location={this.props.location}
+            history={this.props.history}
+          />
         </Grid>
       </Fragment>
     )

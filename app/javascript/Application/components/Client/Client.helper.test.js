@@ -69,6 +69,7 @@ export const childInfoJson = {
   dob: '2014-01-28',
   first_name: 'Test',
   id: 10,
+  identifier: 'aaaaaaaaaa',
   last_name: 'Child',
   person_role: 'CLIENT',
   cases: [],
