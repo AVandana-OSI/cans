@@ -23,8 +23,8 @@ module Api
       render json: response.body, status: response.status
     end
 
-    def getall
-      response = Assessments::AssessmentsRepository.new(session[:token]).getall
+    def assessments_index
+      response = Assessments::AssessmentsRepository.new(session[:token]).assessments_index
       render json: response.body, status: response.status
     end
   end

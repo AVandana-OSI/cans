@@ -23,7 +23,7 @@ module Assessments
       @http_service.call("/assessments/#{id}", :put, @token, payload)
     end
 
-    def getall
+    def assessments_index
       @http_service.call('/staff/assessments', :get, @token)
     end
   end
