@@ -3,11 +3,10 @@
 require 'acceptance_helper'
 
 feature 'Pages are accessible' do
-  client = nil
+  client_identifier = 'AbA4BJy0Aq'
 
   before(:all) do
     login
-    client = post_new_client
   end
 
   after(:all) do
@@ -26,25 +25,13 @@ feature 'Pages are accessible' do
   end
 
   scenario 'Child/Youth Profile page is accessible' do
-    visit "/clients/#{client['id']}"
+    visit "/clients/#{client_identifier}"
     expect(page).to have_content 'Child/Youth Profile'
     expect(page).to be_accessible
   end
 
-  scenario 'Add Child/Youth page is accessible' do
-    visit '/clients/new'
-    expect(page).to have_content 'Add Child/Youth'
-    expect(page).to be_accessible
-  end
-
-  scenario 'Edit Child/Youth page is accessible' do
-    visit "/clients/#{client['id']}/edit"
-    expect(page).to have_content 'Edit Child/Youth'
-    expect(page).to be_accessible
-  end
-
   scenario 'Assessment Form page is accessible' do
-    visit "/clients/#{client['id']}/assessments"
+    visit "/clients/#{client_identifier}/assessments"
     expect(page).to have_content 'New CANS'
     # DatePicker's calendar popup has a lazy rendering so we have to open and close it
     # to comply with accessibility rules

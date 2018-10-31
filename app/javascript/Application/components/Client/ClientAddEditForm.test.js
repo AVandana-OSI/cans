@@ -516,7 +516,7 @@ describe('<ClientAddEditForm />', () => {
 
         describe('when canceling', () => {
           it('redirects to client listing', () => {
-            expect(component.instance().redirectPath(undefined)).toBe('/')
+            expect(component.instance().redirectPath(undefined)).toBe('/clients')
           })
         })
       })
@@ -552,13 +552,13 @@ describe('<ClientAddEditForm />', () => {
           })
 
           it('redirects to client listing', () => {
-            expect(component.instance().redirectPath(1)).toBe('/')
+            expect(component.instance().redirectPath(1)).toBe('/clients')
           })
         })
 
         describe('when canceling', () => {
           it('redirects to client listing', () => {
-            expect(component.instance().redirectPath(undefined)).toBe('/')
+            expect(component.instance().redirectPath(undefined)).toBe('/clients')
           })
         })
       })
@@ -570,7 +570,7 @@ describe('<ClientAddEditForm />', () => {
           })
 
           it('redirects to client listing', () => {
-            expect(component.instance().redirectPath(1)).toBe('/')
+            expect(component.instance().redirectPath(1)).toBe('/clients')
           })
         })
 

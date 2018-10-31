@@ -17,13 +17,13 @@ const navsWithClientSearchCrumb = [navigation.CLIENT_SEARCH]
 
 const addChildYouthListCrumbIfNeeded = (elements, navigateTo) => {
   if (navsWithChildYouthListCrumb.includes(navigateTo)) {
-    elements.push(<Link to={''}>COUNTY CLIENT LIST</Link>)
+    elements.push(<Link to={'/clients'}>COUNTY CLIENT LIST</Link>)
   }
 }
 
 const addChildProfileCrumbIfNeeded = (elements, navigateTo, client) => {
   if (navsWithChildProfileCrumb.includes(navigateTo)) {
-    elements.push(<Link to={`/clients/${client.id}`}>{formatClientName(client).toUpperCase()}</Link>)
+    elements.push(<Link to={`/clients/${client.identifier}`}>{formatClientName(client).toUpperCase()}</Link>)
   }
 }
 

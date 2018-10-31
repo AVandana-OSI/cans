@@ -17,13 +17,23 @@ describe('StaffHelper', () => {
       expect(() => checkStaffPropType(person)).toThrow()
     })
 
+    it('returns an error if there is no clients_count', () => {
+      const person = { ...staff[0], clients_count: null }
+      expect(() => checkStaffPropType(person)).toThrow()
+    })
+
+    it('returns an error if there is no no_prior_cans_count', () => {
+      const person = { ...staff[0], no_prior_cans_count: null }
+      expect(() => checkStaffPropType(person)).toThrow()
+    })
+
     it('returns an error if there is no in_progress_count', () => {
       const person = { ...staff[0], in_progress_count: null }
       expect(() => checkStaffPropType(person)).toThrow()
     })
 
-    it('returns an error if there is no clients_count', () => {
-      const person = { ...staff[0], clients_count: null }
+    it('returns an error if there is no completed_count', () => {
+      const person = { ...staff[0], completed_count: null }
       expect(() => checkStaffPropType(person)).toThrow()
     })
   })

@@ -35,6 +35,8 @@ class Page extends Component {
     const { clientId } = this.props.match.params
     if (clientId) {
       client = await ClientService.fetch(clientId).catch(() => {})
+      // temporary fix while in process of switching to legacy client data
+      client.identifier = client.external_id
     }
     return client
   }
@@ -72,12 +74,12 @@ class Page extends Component {
       <Container>
         <BreadCrumbsBuilder navigateTo={this.props.navigateTo} client={this.state.client} />
         <Row>
-          <Col xs="4">
+          <Col xs="3">
             <Sticker>
               <SideNav />
             </Sticker>
           </Col>
-          <Col xs="8" role={'main'} id={'main-content'}>
+          <Col xs="9" role={'main'} id={'main-content'}>
             <Row>
               <Col xs="12">{this.renderContent()}</Col>
             </Row>

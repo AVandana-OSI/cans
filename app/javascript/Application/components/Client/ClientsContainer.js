@@ -211,13 +211,13 @@ class ClientsContainer extends Component {
     const isEditable = client.metadata && client.metadata.editable
     if (isEditable) {
       return (
-        <Link key={client.id} className="client-name" to={`/clients/${client.id}`}>
+        <Link key={client.identifier} className="client-name" to={`/clients/${client.identifier}`}>
           {formatClientName(client)}
         </Link>
       )
     } else {
       return (
-        <div className="sensitive-client-name" key={client.id}>
+        <div className="sensitive-client-name" key={client.identifier}>
           {name}
         </div>
       )

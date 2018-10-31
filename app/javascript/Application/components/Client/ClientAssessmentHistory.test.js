@@ -13,7 +13,7 @@ import ClientAssessmentHistoryRecord from './ClientAssessmentHistoryRecord'
 jest.mock('../Assessment/Assessment.service')
 
 const params = {
-  clientId: 1004,
+  clientIdentifier: 'aaaaaaaaaa',
   location: { pathname: '/client' },
   history: { location: '/client' },
 }
@@ -21,8 +21,8 @@ const params = {
 const getShallowWrapper = () => {
   AssessmentService.search.mockReturnValue(
     Promise.resolve([
-      { id: 1, person: { id: 100 }, county: { name: 'Yolo' } },
-      { id: 2, person: { id: 200 }, county: { name: 'Yolo' } },
+      { id: 1, person: { id: 1, identifier: 'aaaaaaaaaa' }, county: { name: 'Yolo' } },
+      { id: 2, person: { id: 2, identifier: 'bbbbbbbbbb' }, county: { name: 'Yolo' } },
     ])
   )
   return shallow(<ClientAssessmentHistory {...params} />)
@@ -65,7 +65,7 @@ describe('<ClientAssessmentHistory', () => {
           <ClientAssessmentHistory {...params} />
         </MemoryRouter>
       ).find(CardHeader)
-      expect(wrapper.props().action.props.to).toBe('/clients/1004/assessments')
+      expect(wrapper.props().action.props.to).toBe('/clients/aaaaaaaaaa/assessments')
     })
 
     it('renders with <Button /> in the Card header', () => {
@@ -106,7 +106,7 @@ describe('<ClientAssessmentHistory', () => {
         // given + when
         const history = shallow(
           <ClientAssessmentHistory
-            clientId={1004}
+            clientIdentifier={'aaaaaaaaaa'}
             location={{ state: { successAssessmentId: 123 } }}
             history={browserHistory}
           />
@@ -136,11 +136,19 @@ describe('<ClientAssessmentHistory', () => {
 
         // when
         const assessmentHistory1 = shallow(
-          <ClientAssessmentHistory clientId={1004} location={browserHistory.entries[0]} history={browserHistory} />
+          <ClientAssessmentHistory
+            clientIdentifier={'aaaaaaaaaa'}
+            location={browserHistory.entries[0]}
+            history={browserHistory}
+          />
         )
         expect(assessmentHistory1.find('CloseableAlert').length).toBe(1)
         const assessmentHistory2 = shallow(
-          <ClientAssessmentHistory clientId={1004} location={browserHistory.entries[0]} history={browserHistory} />
+          <ClientAssessmentHistory
+            clientIdentifier={'aaaaaaaaaa'}
+            location={browserHistory.entries[0]}
+            history={browserHistory}
+          />
         )
 
         // then

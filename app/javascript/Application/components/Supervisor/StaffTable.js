@@ -16,8 +16,20 @@ const columns = [
     headerClassName: 'text-center',
   },
   {
+    Header: 'No Prior',
+    accessor: 'no_prior_cans_count',
+    className: 'text-center',
+    headerClassName: 'text-center',
+  },
+  {
     Header: 'In Progress',
     accessor: 'in_progress_count',
+    className: 'text-center',
+    headerClassName: 'text-center',
+  },
+  {
+    Header: 'Completed',
+    accessor: 'completed_count',
     className: 'text-center',
     headerClassName: 'text-center',
   },

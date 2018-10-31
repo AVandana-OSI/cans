@@ -6,5 +6,7 @@ export const staffPropType = PropTypes.shape({
     last_name: PropTypes.string,
   }).isRequired,
   clients_count: PropTypes.number.isRequired,
+  no_prior_cans_count: PropTypes.number.isRequired,
   in_progress_count: PropTypes.number.isRequired,
+  completed_count: PropTypes.number.isRequired,
 })

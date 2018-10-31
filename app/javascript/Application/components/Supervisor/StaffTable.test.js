@@ -7,6 +7,13 @@ import { staff as mockStaff } from './staff.mocks.test'
 describe('<StaffTable />', () => {
   const render = staff => shallow(<StaffTable staff={staff} />)
 
+  const assertColumnIsCentered = headerText => {
+    const columns = render([]).props().columns
+    const totalColumn = columns.find(column => column.Header === headerText)
+    expect(totalColumn.className).toBe('text-center')
+    expect(totalColumn.headerClassName).toBe('text-center')
+  }
+
   it('renders a DataGrid', () => {
     expect(
       render([])
@@ -32,17 +39,19 @@ describe('<StaffTable />', () => {
     expect(grid.props().data).toBe(mockStaff)
   })
 
-  it('centers the Total Clients column', () => {
-    const columns = render([]).props().columns
-    const totalColumn = columns.find(column => column.Header === 'Total Clients')
-    expect(totalColumn.className).toBe('text-center')
-    expect(totalColumn.headerClassName).toBe('text-center')
+  it('centers the "Total Clients" column', () => {
+    assertColumnIsCentered('Total Clients')
   })
 
-  it('centers the In Progress column', () => {
-    const columns = render([]).props().columns
-    const progressColumn = columns.find(column => column.Header === 'In Progress')
-    expect(progressColumn.className).toBe('text-center')
-    expect(progressColumn.headerClassName).toBe('text-center')
+  it('centers the "No Prior" column', () => {
+    assertColumnIsCentered('No Prior')
+  })
+
+  it('centers the "In Progress" column', () => {
+    assertColumnIsCentered('In Progress')
+  })
+
+  it('centers the "Completed" column', () => {
+    assertColumnIsCentered('Completed')
   })
 })
