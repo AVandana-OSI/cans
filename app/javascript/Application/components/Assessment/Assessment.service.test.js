@@ -64,6 +64,22 @@ describe('AssessmentService', () => {
     })
   })
 
+  describe('#getAllAssessments', () => {
+    const apiGetSpy = jest.spyOn(apiEndpoints, 'apiGet')
+
+    it('returns assessment', async () => {
+      const assessmentId = 50000
+      const expectedAssessment = { id: assessmentId }
+      apiGetSpy.mockReturnValue(expectedAssessment)
+      const actualAssessment = await AssessmentService.getAllAssessments()
+      expect(actualAssessment).toBe(expectedAssessment)
+      expect(apiGetSpy).toHaveBeenCalledTimes(1)
+      expect(apiGetSpy).toHaveBeenCalledWith('/staff/assessments')
+
+      apiGetSpy.mockReset()
+    })
+  })
+
   describe('#postAssessment', () => {
     const apiPostSpy = jest.spyOn(apiEndpoints, 'apiPost')
 

@@ -24,13 +24,8 @@ class SearchAssessmentHistory extends Component {
   fetchAllAssessments = () => {
     AssessmentService.getAllAssessments()
       .then(assessments => {
-        const filteredAssessments = assessments.filter(
-          assessment => assessment.status === 'IN_PROGRESS'
-        )
-        const sortedAssessments = this.sortAssessmentsByDate(
-          'desc',
-          filteredAssessments
-        )
+        const filteredAssessments = assessments.filter(assessment => assessment.status === 'IN_PROGRESS')
+        const sortedAssessments = this.sortAssessmentsByDate('desc', filteredAssessments)
         this.setState({
           assessments: sortedAssessments.slice(0, this.props.numAssessments),
           fetchStatus: LoadingState.ready,
@@ -45,26 +40,17 @@ class SearchAssessmentHistory extends Component {
     return fetchStatus === LoadingState.ready && assessments.length === 0 ? (
       <div id="no-data">No assessments currently exist for the clients.</div>
     ) : (
-      assessments.map(assessment => (
-        <SearchAssessmentHistoryRecord
-          assessment={assessment}
-          key={assessment.id}
-        />
-      ))
+      assessments.map(assessment => <SearchAssessmentHistoryRecord assessment={assessment} key={assessment.id} />)
     )
   }
 
   sortAssessmentsByDate(direction, assessments) {
     const newAssessmentList = assessments.map(assessment => {
-      const timestamp = moment(
-        assessment.updated_timestamp || assessment.created_timestamp
-      )
+      const timestamp = moment(assessment.updated_timestamp || assessment.created_timestamp)
       return { ...assessment, timestamp }
     })
     newAssessmentList.sort((left, right) => {
-      return direction === 'asc'
-        ? left.timestamp.diff(right.timestamp)
-        : right.timestamp.diff(left.timestamp)
+      return direction === 'asc' ? left.timestamp.diff(right.timestamp) : right.timestamp.diff(left.timestamp)
     })
     return newAssessmentList
   }
@@ -76,9 +62,7 @@ class SearchAssessmentHistory extends Component {
         <CardHeader className="card-header-search">
           <CardTitle>{'Assessment History'}</CardTitle>
         </CardHeader>
-        <CardBody className="card-body-search">
-          {this.renderAssessments(assessments, fetchStatus)}
-        </CardBody>
+        <CardBody className="card-body-search">{this.renderAssessments(assessments, fetchStatus)}</CardBody>
       </Card>
     )
   }
