@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const ClientSocialWorkerTemplateCell = props => {
   return (
-    <a key={props.original.external_id} href={`/cans/clients/${props.original.external_id}`}>
+    <Link id="clientName" key={props.original.external_id} to={`/clients/${props.original.external_id}`}>
       {props.value}
-    </a>
+    </Link>
   )
 }
 

@@ -1,17 +1,22 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from 'enzyme'
 import ClientCardTemplateNameCell from './ClientCardTemplateNameCell'
+import { BrowserRouter } from 'react-router-dom'
 
 const fakeProp = {
   original: {
-    external_id: '01',
+    external_id: '0X5',
   },
   value: 'foo',
 }
 
 describe('<ClientCardTemplateNameCell />', () => {
   it('returns a link with external_id', () => {
-    let wrapper = shallow(<ClientCardTemplateNameCell {...fakeProp} />)
-    expect(wrapper.find('a').html()).toEqual('<a href="/cans/clients/01">foo</a>')
+    let wrapper = render(
+      <BrowserRouter>
+        <ClientCardTemplateNameCell {...fakeProp} />
+      </BrowserRouter>
+    )
+    expect(wrapper.find('#ClientName')._root[0].attribs.href).toContain('/clients/0X5')
   })
 })
