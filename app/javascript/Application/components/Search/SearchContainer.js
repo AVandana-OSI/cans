@@ -1,24 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PersonSearchForm from './PersonSearchForm'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
 import './style.sass'
 
-class SearchContainer extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      numAssessments: 3,
-    }
-  }
+const SEARCH_PROMPT = 'Search CWS-CMS for clients only'
+const SEARCH_TITLE = 'Search Clients Only'
+const NUM_ASSESSMENTS = 3
 
-  renderSearchAssessmentHistory(numAssessments) {
-    return <SearchAssessmentHistory numAssessments={numAssessments} />
-  }
-
-  render = () => {
-    const { numAssessments } = this.state
-
-    return <div className="client-search-container">{this.renderSearchAssessmentHistory(numAssessments)}</div>
-  }
-}
+const SearchContainer = () => (
+  <div className="client-search-container">
+    <PersonSearchForm searchPrompt={SEARCH_PROMPT} />
+    <SearchAssessmentHistory numAssessments={NUM_ASSESSMENTS} />
+  </div>
+)
 
 export default SearchContainer
