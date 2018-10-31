@@ -1,5 +1,4 @@
-import { isoToLocalDate } from '../../util/dateHelper'
-import { formatClientName, formatClientStatus } from './Client.helper'
+import { ClientDateHelper, formatClientName, formatClientStatus } from './Client.helper'
 import ClientCardTemplateNameCell from './ClientCardTemplateNameCell'
 import './style.sass'
 
@@ -19,7 +18,7 @@ export function SocialWorkerCardTemplate(client) {
       headerStyle: {
         textAlign: 'center',
       },
-      accessor: client => isoToLocalDate(client.dob),
+      accessor: client => ClientDateHelper(client.dob),
       className: 'client-list-table-cell-center',
       sortable: false,
     },
@@ -42,7 +41,7 @@ export function SocialWorkerCardTemplate(client) {
         textAlign: 'center',
       },
       accessor: client => {
-        return isoToLocalDate(client.reminder_date)
+        return ClientDateHelper(client.reminder_date)
       },
       className: 'client-list-table-cell-center',
       sortable: false,

@@ -12,6 +12,6 @@ const fakeProp = {
 describe('<ClientCardTemplateNameCell />', () => {
   it('returns a link with external_id', () => {
     let wrapper = shallow(<ClientCardTemplateNameCell {...fakeProp} />)
-    expect(wrapper.find('a').html()).toEqual('<a href="/clients/01">foo</a>')
+    expect(wrapper.find('a').html()).toEqual('<a href="/cans/clients/01">foo</a>')
   })
 })

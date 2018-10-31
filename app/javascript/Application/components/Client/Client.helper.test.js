@@ -1,4 +1,4 @@
-import { formatClientName, formatClientStatus } from './Client.helper'
+import { formatClientName, formatClientStatus, ClientDateHelper } from './Client.helper'
 
 describe('Client.helper', () => {
   describe('formatClientName', () => {
@@ -60,6 +60,28 @@ describe('Client.helper', () => {
       const expectedStatus = formatClientStatus(status)
 
       expect(expectedStatus).toEqual('Unknown')
+    })
+  })
+
+  describe('ClientDateHelper', () => {
+    it('when get null returns null', () => {
+      const datetime = null
+      const expecteddate = ClientDateHelper(datetime)
+
+      expect(expecteddate).toEqual(null)
+    })
+
+    it('when get empty string returns null', () => {
+      const datetime = ''
+      const expecteddate = ClientDateHelper(datetime)
+
+      expect(expecteddate).toEqual(null)
+    })
+
+    it('when get undefined returns null', () => {
+      const expecteddate = ClientDateHelper(undefined)
+
+      expect(expecteddate).toEqual(null)
     })
   })
 })
