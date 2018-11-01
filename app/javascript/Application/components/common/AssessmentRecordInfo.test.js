@@ -76,4 +76,38 @@ describe('AssessmentRecordInfo', () => {
       `County: ${county.name}`,
     ])
   })
+
+  it('renders when there is no county', () => {
+    const { county, ...noCountyAssessment } = assessmentWithNoUpdateInfo
+    const {
+      updated_timestamp: updatedTimestamp,
+      updated_by: updatedBy,
+      created_timestamp: createdTimestamp,
+      created_by: createdBy,
+      the_case: theCase,
+      status,
+      person,
+    } = noCountyAssessment
+
+    const wrapper = prepareWrapper(noCountyAssessment)
+    const assessmentInfo = wrapper.children().map(child => child.props().children)
+
+    const clientName = `${person.first_name} ${person.middle_name} ${person.last_name} ${
+      person.suffix === '' ? '' : ', ' + person.suffix
+    }`
+    const actionVerb = getActionVerbByStatus(status)
+    const formattedTimestamp = isoToLocalDate(updatedTimestamp || createdTimestamp)
+    const user = updatedBy || createdBy || {}
+    const updatedByName = `${user.first_name} ${user.last_name}`
+    const caseNumber = (theCase || {}).external_id || ''
+
+    expect(wrapper.length).toEqual(1)
+    expect(wrapper.type()).toEqual(Typography)
+    expect(assessmentInfo).toEqual([
+      `Client name: ${clientName}`,
+      `${actionVerb} on ${formattedTimestamp} by ${updatedByName}`,
+      `Case: ${caseNumber}`,
+      'County: ',
+    ])
+  })
 })

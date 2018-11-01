@@ -24,12 +24,13 @@ class AssessmentRecordInfo extends Component {
     const user = updatedBy || createdBy || {}
     const updatedByName = `${user.first_name} ${user.last_name}`
     const caseNumber = (theCase || {}).external_id || ''
+    const countyName = county ? county.name : ''
     return (
       <Typography variant={'title'} color={'textSecondary'} className={'item-info'}>
         <p>{`Client name: ${clientName}`}</p>
         <p>{`${actionVerb} on ${formattedTimestamp} by ${updatedByName}`}</p>
         <p>{`Case: ${caseNumber}`}</p>
-        <p>{`County: ${county.name}`}</p>
+        <p>{`County: ${countyName}`}</p>
       </Typography>
     )
   }
