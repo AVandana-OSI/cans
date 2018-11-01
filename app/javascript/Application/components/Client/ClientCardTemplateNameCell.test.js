@@ -5,13 +5,13 @@ import { BrowserRouter } from 'react-router-dom'
 
 const fakeProp = {
   original: {
-    external_id: '0X5',
+    identifier: '0X5',
   },
   value: 'foo',
 }
 
 describe('<ClientCardTemplateNameCell />', () => {
-  it('returns a link with external_id', () => {
+  it('returns a link with identifier', () => {
     let wrapper = render(
       <BrowserRouter>
         <ClientCardTemplateNameCell {...fakeProp} />

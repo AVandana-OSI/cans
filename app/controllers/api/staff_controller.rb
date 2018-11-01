@@ -11,5 +11,10 @@ module Api
       response = Staff::StaffRepository.new(session[:token]).social_worker_clients(params[:id])
       render json: response.body, status: response.status
     end
+
+    def assessments
+      response = Staff::StaffRepository.new(session[:token]).assessments
+      render json: response.body, status: response.status
+    end
   end
 end

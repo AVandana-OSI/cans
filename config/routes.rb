@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     resources :staff, only: [] do
       collection do
         get 'subordinates', to: 'staff#subordinates_index'
-        get 'assessments', to: 'assessments#assessments_index'
+        get 'assessments', to: 'staff#assessments'
       end
       member do
         get 'people', to: 'staff#social_worker_clients'

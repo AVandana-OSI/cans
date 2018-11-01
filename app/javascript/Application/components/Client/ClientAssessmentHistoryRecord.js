@@ -41,7 +41,7 @@ class ClientAssessmentHistoryRecord extends Component {
         <br />
         {`Case: ${caseNumber}`}
         <br />
-        {`County: ${county.name}`}
+        {`County: ${county ? county.name : ''}`}
       </Typography>
     )
   }

@@ -116,7 +116,7 @@ export const personsJson = [
 
 export const socialWorkerClientsJson = [
   {
-    external_id: 137545,
+    identifier: 137545,
     first_name: 'Yasmeen',
     middle_name: '',
     last_name: 'Bailey',
@@ -126,7 +126,7 @@ export const socialWorkerClientsJson = [
     status: 'IN_PROGRESS',
   },
   {
-    external_id: 117503,
+    identifier: 117503,
     first_name: 'Selmer',
     middle_name: '',
     last_name: 'ashirian',
@@ -136,7 +136,7 @@ export const socialWorkerClientsJson = [
     status: 'COMPLETED',
   },
   {
-    external_id: 112501,
+    identifier: 112501,
     first_name: 'Trenton',
     middle_name: '',
     last_name: 'Bayer',
@@ -146,7 +146,7 @@ export const socialWorkerClientsJson = [
     status: 'NO_PRIOR_CANS',
   },
   {
-    external_id: 117504,
+    identifier: 117504,
     first_name: 'Jacey',
     middle_name: '',
     last_name: 'Bogan',
@@ -156,7 +156,7 @@ export const socialWorkerClientsJson = [
     status: 'NO_PRIOR_CANS',
   },
   {
-    external_id: 150000,
+    identifier: 150000,
     first_name: 'Hailee',
     middle_name: '',
     last_name: 'Brown',

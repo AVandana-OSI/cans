@@ -14,5 +14,9 @@ module Staff
     def social_worker_clients(id)
       @http_service.call("/staff/#{id}/people", :get, @token)
     end
+
+    def assessments
+      @http_service.call('/staff/assessments', :get, @token)
+    end
   end
 end

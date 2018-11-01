@@ -60,5 +60,66 @@ module Api
         expect(response.body).to eq clients.to_json
       end
     end
+
+    describe '#assessments' do
+      let(:assessments) do
+        [
+          {
+            id: 0,
+            instrument_id: 0,
+            person: {
+              id: 0,
+              person_role: 'string',
+              first_name: 'string',
+              middle_name: 'string',
+              last_name: 'string',
+              suffix: 'string',
+              identifier: 'string',
+              external_id: 'string',
+              dob: 'string',
+              metadata: {
+                editable: true
+              },
+              county: {
+                id: 0,
+                name: 'string',
+                external_id: 'string',
+                export_id: 'string'
+              },
+              cases: [{
+                id: 0,
+                external_id: 'string',
+                created_by: {
+                  id: 0,
+                  person_role: 'string',
+                  external_id: 'string',
+                  metadata: {
+                    editable: true
+                  },
+                  cases: []
+                },
+                created_timestamp: 'string'
+              }]
+            }
+          }
+        ]
+      end
+      let(:assessments_response) do
+        instance_double('Faraday::Response', body: assessments, status: 200)
+      end
+
+      it 'returns response with assessments' do
+        request.session[:token] = 'token'
+        allow(Staff::StaffRepository).to receive(:new)
+          .with('token')
+          .and_return(staff_repository)
+        allow(staff_repository).to receive(:assessments)
+          .with(no_args)
+          .and_return(assessments_response)
+        get :assessments
+        expect(response.status).to eq 200
+        expect(response.body).to eq assessments.to_json
+      end
+    end
   end
 end

@@ -53,7 +53,9 @@ const getShallowWrapper = () => {
 
 const prepareWrapper = async mockedAssessments => {
   // given
-  AssessmentService.getAllAssessments.mockReturnValue(Promise.resolve(mockedAssessments))
+  AssessmentService.getAllAssessments.mockReturnValue(
+    Promise.resolve(mockedAssessments)
+  )
   const wrapper = shallow(<SearchAssessmentHistory {...params} />)
 
   // when
@@ -93,7 +95,6 @@ describe('<SearchAssessmentHistory', () => {
 
   describe('assessment history', () => {
     describe('when more than 3 assessments', () => {
-      // rename the describe statement
       it('renders 3 in progress assessments', async () => {
         // given + when
         const wrapper = await prepareWrapper([
@@ -106,8 +107,6 @@ describe('<SearchAssessmentHistory', () => {
 
         // then
         expect(wrapper.find(SearchAssessmentHistoryRecord).length).toBe(3)
-
-        // check the status of the assessments
       })
 
       it('renders only in progress assessments in the correct order with created_timestamp only', async () => {

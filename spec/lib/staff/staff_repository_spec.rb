@@ -26,5 +26,14 @@ module Staff
         end
       end
     end
+
+    describe '#assessments' do
+      it 'returns assessments' do
+        allow(http_service).to receive(:call)
+          .with('/staff/assessments', :get, token)
+          .and_return(response)
+        expect(staff_repository.assessments).to eq(response)
+      end
+    end
   end
 end

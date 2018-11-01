@@ -75,7 +75,7 @@ class Client extends Component {
     if (counties && counties.length > 0) {
       return counties.map(county => county.name).join(', ')
     } else {
-      return 'N/A'
+      return ''
     }
   }
 

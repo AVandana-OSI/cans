@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from './SuggestionHeader'
 import PersonSuggestion from './PersonSuggestion'
+import { apiGet } from '../../../App.api'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -123,7 +124,7 @@ export default class Autocompleter extends Component {
   }
 
   getPeople({ searchTerm }) {
-    return call(get, '/api/people_searches', { search_term: searchTerm })
+    return apiGet(`/people_searches?search_term=${searchTerm}`)
   }
 
   onChangeInput(_, searchTerm) {
@@ -136,7 +137,10 @@ export default class Autocompleter extends Component {
           return response.json()
         })
         .then(json => {
-          // console.log(`onChangeInput API Response -`, JSON.stringify(json));
+          console.log(`onChangeInput API Response -`, JSON.stringify(json))
+        })
+        .catch(err => {
+          console.log(err)
         })
     } else {
       this.hideMenu()
