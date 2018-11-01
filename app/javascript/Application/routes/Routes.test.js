@@ -64,10 +64,7 @@ describe('<Router />', () => {
     })
 
     it('renders a child assessment edit route', () => {
-      testRoute(
-        '/clients/:clientId/assessments/:id',
-        navigation.ASSESSMENT_EDIT
-      )
+      testRoute('/clients/:clientId/assessments/:id', navigation.ASSESSMENT_EDIT)
     })
 
     it('renders a search route', () => {

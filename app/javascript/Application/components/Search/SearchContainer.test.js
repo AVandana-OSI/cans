@@ -1,16 +1,20 @@
 import React from 'react'
 import { SearchContainer } from './index'
 import { shallow } from 'enzyme'
+import PersonSearchForm from './PersonSearchForm'
 import SearchAssessmentHistory from './SearchAssessmentHistory'
 
 describe('<SearchContainer />', () => {
   describe('init SearchContainer', () => {
     describe('page layout', () => {
-      const getLength = (wrapper, component) => wrapper.find(component).length
-
-      it('renders with 1 <SearchAssessmentHistory /> component', () => {
+      it('renders with a <PersonSearchForm /> component', () => {
         const wrapper = shallow(<SearchContainer />)
-        expect(getLength(wrapper, SearchAssessmentHistory)).toBe(1)
+        expect(wrapper.find(PersonSearchForm).exists()).toBe(true)
+      })
+
+      it('renders with a <SearchAssessmentHistory /> component', () => {
+        const wrapper = shallow(<SearchContainer />)
+        expect(wrapper.find(SearchAssessmentHistory).exists()).toBe(true)
       })
     })
   })

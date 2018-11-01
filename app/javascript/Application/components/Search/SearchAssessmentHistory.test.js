@@ -53,9 +53,7 @@ const getShallowWrapper = () => {
 
 const prepareWrapper = async mockedAssessments => {
   // given
-  AssessmentService.getAllAssessments.mockReturnValue(
-    Promise.resolve(mockedAssessments)
-  )
+  AssessmentService.getAllAssessments.mockReturnValue(Promise.resolve(mockedAssessments))
   const wrapper = shallow(<SearchAssessmentHistory {...params} />)
 
   // when

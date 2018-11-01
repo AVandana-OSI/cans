@@ -1,13 +1,13 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import AvatarImg from '../../../../../assets/images/default-profile.svg'
 import AddressInfo from './AddressInfo'
 import AgeInfo from './AgeInfo'
 import GenderRaceAndEthnicity from './GenderRaceAndEthnicity'
 import Languages from './LanguageInfo'
-import PropTypes from 'prop-types'
-import React from 'react'
 import PhoneNumberInfo from './PhoneNumberInfo'
 // import legacySourceFormatter from '../../util/legacySourceFormatter';
 import sanitizeHtml from 'sanitize-html'
-import AvatarImg from '../../../../../assets/images/default-profile.svg'
 
 const PersonSuggestion = ({
   fullName,
@@ -38,38 +38,22 @@ const PersonSuggestion = ({
     <div className="row">
       <div className="col-md-2 profile-picture">
         <img src={AvatarImg} alt="Avatar" />
-        {isSensitive && (
-          <div className="information-flag image-caption">Sensitive</div>
-        )}
-        {isSealed && (
-          <div className="information-flag image-caption">Sealed</div>
-        )}
+        {isSensitive && <div className="information-flag image-caption">Sensitive</div>}
+        {isSealed && <div className="information-flag image-caption">Sealed</div>}
       </div>
       <div className="col-md-10">
         <div className="row">
           <div className="col-md-12">
             <strong className="highlighted" {...sanitizedField(fullName)} />
-            {isCsec && (
-              <span className="information-flag search-result">CSEC</span>
-            )}
-            {isDeceased && (
-              <span className="information-flag search-result">Deceased</span>
-            )}
-            {isProbationYouth && (
-              <span className="information-flag search-result">
-                Probation Youth
-              </span>
-            )}
+            {isCsec && <span className="information-flag search-result">CSEC</span>}
+            {isDeceased && <span className="information-flag search-result">Deceased</span>}
+            {isProbationYouth && <span className="information-flag search-result">Probation Youth</span>}
             {/* <div>{legacySourceString}</div> */}
           </div>
         </div>
         <div className="row">
           <div className="col-md-6">
-            <GenderRaceAndEthnicity
-              gender={gender}
-              races={races}
-              ethnicity={ethnicity}
-            />
+            <GenderRaceAndEthnicity gender={gender} races={races} ethnicity={ethnicity} />
             <AgeInfo dateOfBirth={dateOfBirth} />
             <Languages languages={languages} />
             {ssn && (

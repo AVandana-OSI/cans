@@ -16,8 +16,7 @@ const addPosAndSetAttr = results => {
   }
 }
 
-const itemClassName = isHighlighted =>
-  `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
+const itemClassName = isHighlighted => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
@@ -30,7 +29,54 @@ export default class Autocompleter extends Component {
         successClientId: null,
         selectedClient: null,
       },
-      results: [],
+      results: [
+        {
+          id: 'client1',
+          label: 'Client 1',
+          // posInSet: 1,
+          // setSize: 3,
+          posInSet: 0,
+          setSize: 0,
+          suggestionHeader: false,
+          fullName: 'Casey Test',
+          first_name: 'Casey',
+          middle_name: '',
+          last_name: 'Test',
+          suffix: '',
+          dateOfBirth: '2018/10/01',
+          dob: '2018-10-01',
+          external_id: 50000,
+          isCsec: false,
+          isDeceased: false,
+          gender: 'male',
+          languages: ['English'],
+          races: ['Mexican'],
+          ethnicity: { hispanic_latino_origin: 'Yes' },
+          ssn: '123-45-6789',
+          address: {
+            type: 'Home',
+            streetAddress: '1234 Main Street',
+            city: 'Sacramento',
+            state: 'CA',
+            zip: '99999',
+          },
+          county: {
+            export_id: '56',
+            external_id: '1123',
+            id: 56,
+            name: 'Ventura',
+          },
+          sensitivity_type: 'SEALED',
+          phoneNumber: {
+            type: 'Mobile',
+            number: '5551114444',
+          },
+          legacyDescriptor: '',
+          isSensitive: false,
+          isSealed: false,
+          isProbationYouth: false,
+        },
+      ],
     }
 
     this.onFocus = this.onFocus.bind(this)
@@ -101,11 +147,7 @@ export default class Autocompleter extends Component {
     if (item.suggestionHeader) {
       return (
         <div id={id} key={key} aria-live="polite">
-          <SuggestionHeader
-            currentNumberOfResults={results.length}
-            total={total}
-            searchTerm={searchTerm}
-          />
+          <SuggestionHeader currentNumberOfResults={results.length} total={total} searchTerm={searchTerm} />
         </div>
       )
     }
@@ -137,10 +179,10 @@ export default class Autocompleter extends Component {
           return response.json()
         })
         .then(json => {
-          console.log(`onChangeInput API Response -`, JSON.stringify(json))
+          // console.log(`onChangeInput API Response -`, JSON.stringify(json))
         })
         .catch(err => {
-          console.log(err)
+          throw err
         })
     } else {
       this.hideMenu()
@@ -161,9 +203,7 @@ export default class Autocompleter extends Component {
   shouldItemRender(item, searchTerm) {
     if (item.suggestionHeader) {
       return true
-    } else if (
-      item.fullName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-    ) {
+    } else if (item.fullName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
       return true
     } else {
       return false
@@ -174,9 +214,7 @@ export default class Autocompleter extends Component {
     addPosAndSetAttr(this.state.results) // Sequentually numbering items ***
 
     const { id } = this.props
-    const suggestionHeader = [
-      { suggestionHeader: 'suggestion Header', fullName: '' },
-    ]
+    const suggestionHeader = [{ suggestionHeader: 'suggestion Header', fullName: '' }]
     const newResults = suggestionHeader.concat(this.state.results)
 
     return (

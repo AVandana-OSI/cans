@@ -9,8 +9,7 @@ export const flagPrimaryLanguage = languages => {
 }
 
 const LanguageInfo = ({ languages }) => {
-  const lan =
-    languages && flagPrimaryLanguage(languages.filter(Boolean)).join(', ')
+  const lan = languages && flagPrimaryLanguage(languages.filter(Boolean)).join(', ')
   return lan ? (
     <div>
       <strong className="c-gray half-pad-right">Language</strong>
