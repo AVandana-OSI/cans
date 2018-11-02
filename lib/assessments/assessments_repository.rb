@@ -22,9 +22,5 @@ module Assessments
     def update(id, payload)
       @http_service.call("/assessments/#{id}", :put, @token, payload)
     end
-
-    def assessments_index
-      @http_service.call('/staff/assessments', :get, @token)
-    end
   end
 end

@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const style = {
-  borderBottom: '2px solid #d4d4d4',
-  cursor: 'pointer',
-  padding: '10px 20px',
-}
+import './style.sass'
+
 const SuggestionHeader = ({ currentNumberOfResults, total, searchTerm }) => {
   const oneResult = 1
   const noResults = total < oneResult
@@ -13,7 +10,7 @@ const SuggestionHeader = ({ currentNumberOfResults, total, searchTerm }) => {
     return null
   }
   return (
-    <div style={style}>
+    <div className="autocompleter-suggestion-header">
       <strong>
         {noResults
           ? `No results were found for "${searchTerm}"`

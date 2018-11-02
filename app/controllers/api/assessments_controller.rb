@@ -22,10 +22,5 @@ module Api
       response = assessment_repository.update(params[:id], params[:assessment])
       render json: response.body, status: response.status
     end
-
-    def assessments_index
-      response = Assessments::AssessmentsRepository.new(session[:token]).assessments_index
-      render json: response.body, status: response.status
-    end
   end
 end

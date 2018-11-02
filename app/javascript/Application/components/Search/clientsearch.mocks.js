@@ -113,7 +113,7 @@ export const doraResponse = {
   },
 }
 
-export const clientRecord = {
+export const doraClientRecord = {
   _index: 'people-summary_2018.10.15.17.11.45',
   _type: 'person-summary',
   _id: 'NC93eCe0Ra',
@@ -192,4 +192,51 @@ export const clientRecord = {
     autocomplete_search_bar: ['\u003cem\u003eTest1A\u003c/em\u003e'],
   },
   sort: [19.571438, 'person-summary#NC93eCe0Ra'],
+}
+
+export const clientRecord = {
+  id: 'client1',
+  label: 'Client 1',
+  // posInSet: 1,
+  // setSize: 3,
+  posInSet: 0,
+  setSize: 0,
+  suggestionHeader: false,
+  fullName: 'Casey Test',
+  first_name: 'Casey',
+  middle_name: '',
+  last_name: 'Test',
+  suffix: '',
+  dateOfBirth: '2018/10/01',
+  dob: '2018-10-01',
+  external_id: 50000,
+  isCsec: false,
+  isDeceased: false,
+  gender: 'male',
+  languages: ['English'],
+  races: ['Mexican'],
+  ethnicity: { hispanic_latino_origin: 'Yes' },
+  ssn: '123-45-6789',
+  address: {
+    type: 'Home',
+    streetAddress: '1234 Main Street',
+    city: 'Sacramento',
+    state: 'CA',
+    zip: '99999',
+  },
+  county: {
+    export_id: '56',
+    external_id: '1123',
+    id: 56,
+    name: 'Ventura',
+  },
+  sensitivity_type: 'SEALED',
+  phoneNumber: {
+    type: 'Mobile',
+    number: '5551114444',
+  },
+  legacyDescriptor: '',
+  isSensitive: false,
+  isSealed: false,
+  isProbationYouth: false,
 }
