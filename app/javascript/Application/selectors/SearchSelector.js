@@ -101,12 +101,11 @@ export const selectPeopleResults = results =>
       fullName: formatFullName(result, highlight),
       legacyDescriptor: result.get('legacy_descriptor'),
       gender: result.get('gender'),
-      // languages: mapLanguages(result),
-      // races: mapRaces(result),
-      languages: ['English'],
-      races: ['Mexican'],
-      ethnicity: { hispanic_latino_origin: 'Yes' },
+      languages: mapLanguages(result),
+      races: mapRaces(result),
       // ethnicity: mapEthnicities(result),
+      // races: ['Mexican'],
+      ethnicity: { hispanic_latino_origin: 'Yes' },
       dateOfBirth: formatDOB(
         result.get('date_of_birth'),
         highlight.has('searchable_date_of_birth')
@@ -119,7 +118,7 @@ export const selectPeopleResults = results =>
       clientCounties: mapCounties(
         result.get('client_counties', List()),
         selectCounties(fromJS(results))
-      ),
+      ), //
       address: mapAddress(result),
       phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
       isSensitive: mapIsSensitive(result),

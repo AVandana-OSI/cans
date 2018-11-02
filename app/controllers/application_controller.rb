@@ -49,8 +49,8 @@ class ApplicationController < ActionController::Base
     begin
       session[:user_details] = Dora::StaffRepository.find(security_token, request.uuid, staff_id)
     rescue StandardError
-      session[:user_details] = Staff.new(staff_id: staff_id).instance_variables
+      session[:user_details] = CountyStaff.new(staff_id: staff_id).instance_variables
     end
     session[:user_details]['privileges'] = auth_data['privileges']
-  end  
+  end
 end

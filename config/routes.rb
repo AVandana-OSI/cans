@@ -40,9 +40,6 @@ Rails.application.routes.draw do
       member do
         get 'people', to: 'staff#social_worker_clients'
       end
-      member do
-        get 'people', to: 'staff#social_worker_clients'
-      end
     end
 
     get 'security/check_permission/:permission', to: 'security#check_permission'

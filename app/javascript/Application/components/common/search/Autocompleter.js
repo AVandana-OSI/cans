@@ -126,7 +126,9 @@ export default class Autocompleter extends Component {
   }
 
   getClients({ searchTerm }) {
-    return apiGet(`/people_searches?search_term=${searchTerm}`)
+    return apiGet(
+      `/people_searches?search_term=${searchTerm}&is_client_only=true`
+    )
   }
 
   onChangeInput(_, searchTerm) {
@@ -137,7 +139,6 @@ export default class Autocompleter extends Component {
       this.getClients({ searchTerm }).then(response => {
         const clients = response.hits.hits
         const results = selectPeopleResults(clients)
-        console.log(results)
         this.setState({ results })
       })
     } else {

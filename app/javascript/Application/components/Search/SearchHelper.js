@@ -18,17 +18,12 @@ export const buildSelector = (...funcs) => {
   return (...args) => selector(...funcs.map(f => f(...args)))
 }
 
-export const mapLanguages = result =>
-  buildSelector(
-    selectLanguages,
-    () => result.get('languages') || List(),
-    (statusCodes, languages) =>
-      languages
-        .sort((first, second) => second.get('primary') - first.get('primary'))
-        .map(language =>
-          systemCodeDisplayValue(language.get('id'), statusCodes)
-        )
-  )
+export const mapLanguages = result => {
+  const languages = result
+    .get('languages')
+    .map(language => language.get('name'))
+  return languages
+}
 
 export const mapIsSensitive = result =>
   result.get('sensitivity_indicator', '').toUpperCase() === 'S'
@@ -37,34 +32,9 @@ export const mapIsSealed = result =>
 export const mapIsProbationYouth = result =>
   result.get('open_case_responsible_agency_code', '').toUpperCase() === 'P'
 
-export const mapRaces = result =>
-  buildSelector(
-    selectEthnicityTypes,
-    selectRaceTypes,
-    selectUnableToDetermineCodes,
-    () => result.getIn(['race_ethnicity', 'race_codes']) || List(),
-    () => result.get('unable_to_determine_code'),
-    (
-      ethnicityTypes,
-      raceTypes,
-      unableToDetermineCodes,
-      races,
-      unableToDetermineCode
-    ) => {
-      if (unableToDetermineCode) {
-        return List([
-          systemCodeDisplayValue(unableToDetermineCode, unableToDetermineCodes),
-        ])
-      } else {
-        return races.map(race =>
-          Map({
-            race: systemCodeDisplayValue(race.get('id'), raceTypes),
-            race_detail: systemCodeDisplayValue(race.get('id'), ethnicityTypes),
-          })
-        )
-      }
-    }
-  )
+export const mapRaces = result => {
+  return ['TEST_RACE']
+}
 
 export const mapEthnicities = result =>
   buildSelector(
