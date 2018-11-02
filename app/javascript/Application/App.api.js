@@ -2,7 +2,7 @@ import axios from 'axios'
 import { handleError } from './util/ApiErrorHandler'
 
 export const appApi = axios.create({
-  baseURL: process.env.CANS_BASE_PATH ? process.env.CANS_BASE_PATH + '/api' : '/api',
+  baseURL: process.env.CANS_BASE_PATH ? `${process.env.CANS_BASE_PATH}/api` : '/api',
   timeout: 15000,
 })
 

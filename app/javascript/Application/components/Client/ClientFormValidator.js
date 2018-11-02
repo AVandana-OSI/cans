@@ -11,9 +11,9 @@ export function validate(fieldName, value) {
     case 'external_id':
       return value.length > 18 && (/^\d{4}-\d{4}-\d{4}-\d{7}$/i.test(value) || /^\d{19}$/i.test(value))
     case 'dob':
-      return !!value
+      return Boolean(value)
     case 'county':
-      return value ? !!value.id : false
+      return value ? Boolean(value.id) : false
     default:
       return false
   }
@@ -45,14 +45,14 @@ export function validateCaseNumbersAreUnique(cases) {
 }
 
 export function isFormValid(childInfoValidation) {
-  return !!(
+  return Boolean(
     childInfoValidation.first_name &&
-    childInfoValidation.middle_name &&
-    childInfoValidation.last_name &&
-    childInfoValidation.suffix &&
-    childInfoValidation.external_id &&
-    childInfoValidation.dob &&
-    childInfoValidation.county &&
-    childInfoValidation.cases.filter(aCase => !aCase.external_id).length === 0
+      childInfoValidation.middle_name &&
+      childInfoValidation.last_name &&
+      childInfoValidation.suffix &&
+      childInfoValidation.external_id &&
+      childInfoValidation.dob &&
+      childInfoValidation.county &&
+      childInfoValidation.cases.filter(aCase => !aCase.external_id).length === 0
   )
 }

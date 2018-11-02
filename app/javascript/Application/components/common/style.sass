@@ -21,9 +21,9 @@
   opacity: 1 !important
 
 //********************
-// TimeoutWarning
+// WarningModal
 //******************** 
-div.timeout-warning-modal.modal-dialog
+div.warning-modal.modal-dialog
   margin-top: 17.4rem
   @media (min-width: 576px)
     max-width: 56rem
@@ -32,7 +32,7 @@ div.timeout-warning-modal.modal-dialog
     border-radius: .5rem
     border: none
 
-div.timeout-warning-modal-body.modal-body
+div.warning-modal-body.modal-body
   padding: 3.2rem 3.2rem 3.2rem 0
   width: inherit 
   background-color: #FFF
@@ -49,7 +49,7 @@ div.timeout-warning-modal-body.modal-body
     margin-bottom: 1.6rem
   & > div:nth-child(3)
     margin-bottom: 1.6rem  
-  & > div.timeout-warning-modal-exclamation-triangle
+  & > div.warning-modal-exclamation-triangle
     float: left
     height: 3.6rem
     width: 3.6rem
@@ -58,13 +58,13 @@ div.timeout-warning-modal-body.modal-body
     & > i.fa-exclamation-triangle
     color: $burgundy
     font-size: 3.6rem
-  & > div.timeout-warning-modal-heading
+  & > div.warning-modal-heading
     color: $burgundy
     font-size: 2.4rem
     line-height: 3.1rem
     font-weight: 600
 
-div.timeout-warning-modal-footer.modal-footer
+div.warning-modal-footer.modal-footer
   padding: 0 3.2rem 3.2rem 9.6rem
   width: inherit
   background-color: #FFF
@@ -77,10 +77,10 @@ div.timeout-warning-modal-footer.modal-footer
     width: 17.5rem
     font-size: 1.4rem
     font-weight: 600
-  & > button.timeout-warning-modal-logout.btn-secondary
+  & > button.warning-modal-logout.btn-secondary
     margin-right: 1.6rem
     background-color: #D8D8D8
     color: #076678
-  & > button.timeout-warning-modal-stay-logged-in.btn-secondary
+  & > button.warning-modal-stay-logged-in.btn-secondary
     background-color: #098E88
     color: #FFF

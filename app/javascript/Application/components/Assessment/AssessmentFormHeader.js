@@ -17,6 +17,11 @@ import DateField from '../common/DateField'
 class AssessmentFormHeader extends PureComponent {
   handleValueChange = event => this.changeFieldAndUpdateAssessment(event.target.name, event.target.value)
 
+  handleHasCaregiverSwitcher = event => {
+    event.preventDefault()
+    this.props.handleWarningShow(true)
+  }
+
   handleHasCaregiverChange = event =>
     this.changeFieldAndUpdateAssessment(event.target.name, event.target.value === 'true')
 
@@ -164,6 +169,7 @@ class AssessmentFormHeader extends PureComponent {
                 value={stringify(false)}
                 control={
                   <Radio
+                    onClick={this.handleHasCaregiverSwitcher}
                     color="default"
                     inputProps={{
                       id: 'input-has-caregiver-no',
@@ -281,10 +287,12 @@ class AssessmentFormHeader extends PureComponent {
 }
 AssessmentFormHeader.defaultProps = {
   onKeyUp: () => {},
+  handleWarningShow: () => {},
 }
 AssessmentFormHeader.propTypes = {
   assessment: PropTypes.object.isRequired,
   client: PropTypes.object.isRequired,
+  handleWarningShow: PropTypes.func,
   onAssessmentUpdate: PropTypes.func.isRequired,
   onKeyUp: PropTypes.func,
 }

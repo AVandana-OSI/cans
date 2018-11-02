@@ -15,8 +15,8 @@ import { getI18nValuesByPrefix } from './I18nHelper'
 import { stringify } from '../../util/common'
 
 const initI18nValue = i18n => ({
-  title: (i18n['_title_'] || '').toUpperCase(),
-  description: i18n['_description_'] || 'No Description',
+  title: (i18n._title_ || '').toUpperCase(),
+  description: i18n._description_ || 'No Description',
   qtcDescriptions: getI18nValuesByPrefix(i18n, '_to_consider_.'),
   ratingDescriptions: getI18nValuesByPrefix(i18n, '_rating_.'),
 })
@@ -86,7 +86,7 @@ class Item extends Component {
               onChange={this.handleConfidentialityChange}
               label={'Confidential'}
               value={stringify(isConfidential)}
-              id={code + 'Checkbox'}
+              id={`${code}Checkbox`}
               control={
                 <Checkbox
                   checked={isConfidential}

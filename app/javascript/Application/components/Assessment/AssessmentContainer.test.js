@@ -7,7 +7,15 @@ import { PageInfo } from '../Layout'
 import Typography from '@material-ui/core/Typography/Typography'
 import AssessmentFormFooter from './AssessmentFormFooter'
 import { MemoryRouter, Link } from 'react-router-dom'
-import { assessment, updatedAssessment, initialAssessment, instrument } from './assessment.mocks.test'
+import PageModal from '../common/PageModal'
+import {
+  assessment,
+  updatedAssessment,
+  initialAssessment,
+  instrument,
+  updatedAssessmentDomains,
+  updatedAssessmentWithDomains,
+} from './assessment.mocks.test'
 import { LoadingState } from '../../util/loadingHelper'
 import { CloseableAlert } from '../common/CloseableAlert'
 import { getCurrentIsoDate } from '../../util/dateHelper'
@@ -136,6 +144,142 @@ describe('<AssessmentContainer />', () => {
       })
     })
 
+    describe('renders a component which shows warning and sets the state', () => {
+      const props = { ...defaultProps }
+      it('verify the state is updated and removed domains ', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: 0,
+        })
+        wrapper
+          .find('PageModal')
+          .props()
+          .onRemove()
+        wrapper.instance().handleWarningShow(false)
+        expect(wrapper.state().isCaregiverWarningShown).toEqual(false)
+        wrapper.instance().handleCaregiverRemove(1)
+        wrapper.state().assessment.state.domains = updatedAssessmentDomains
+        wrapper.instance().updateAssessment(wrapper.state().assessment)
+        expect(wrapper.state().assessment).toEqual(updatedAssessmentWithDomains)
+      })
+
+      it('verify the state is updated and the modal is closed', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: null,
+        })
+        wrapper
+          .find('PageModal')
+          .props()
+          .onRemove()
+        wrapper.instance().handleWarningShow(false)
+        expect(wrapper.state().isCaregiverWarningShown).toEqual(false)
+        wrapper.instance().handleCaregiverRemove(null)
+        wrapper.instance().handleCaregiverRemoveAll('has_caregiver', false)
+        expect(wrapper.state().assessment.has_caregiver).toEqual(false)
+      })
+    })
+
+    describe('verifies if caregiver id is removed when the state is updated', () => {
+      const props = { ...defaultProps }
+      it('should set cargiver value to null', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: 0,
+        })
+        wrapper.instance().handleWarningShow(false)
+        expect(wrapper.state().isCaregiverWarningShown).toEqual(false)
+        expect(wrapper.state().focusedCaregiverId).toEqual(null)
+      })
+
+      it('should update cargiver value in state', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: 1,
+        })
+        wrapper.instance().handleWarningShow(false, 1)
+        expect(wrapper.state().isCaregiverWarningShown).toEqual(false)
+        expect(wrapper.state().focusedCaregiverId).toEqual(1)
+      })
+    })
+
+    describe('warning modal when warning is canceled', () => {
+      const props = { ...defaultProps }
+      it('should not render PageModal component when warningShow is not true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: false,
+        })
+        expect(wrapper.find(PageModal).length).toBe(0)
+      })
+    })
+
+    describe('warning model when warning is shown', () => {
+      const props = { ...defaultProps }
+      it('should render PageModal component when warningShow is true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+        })
+        expect(wrapper.find(PageModal).length).toBe(1)
+      })
+
+      it('should render cancel button label when warningShow is true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+        })
+        expect(wrapper.find(PageModal).props().cancelButtonLabel).toContain('Cancel')
+      })
+
+      it('should render remove button label when warningShow is true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+        })
+        expect(wrapper.find(PageModal).props().removeButtonLabel).toContain('Remove')
+      })
+
+      it('should render description when warningShow is true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+        })
+        expect(wrapper.find(PageModal).props().description).toContain('This may effect some of your entries.')
+      })
+
+      it('should render title when warningShow is true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+        })
+        expect(wrapper.find(PageModal).props().title).toContain('Warning')
+      })
+
+      it('should render isOpen when warningShow is true', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().setState({
+          assessment: assessment,
+          isCaregiverWarningShown: true,
+        })
+        expect(wrapper.find(PageModal).props().isOpen).toEqual(true)
+      })
+    })
+
     describe('warning message on absence of edit permission', () => {
       it('should render warning message', async () => {
         const props = {
@@ -161,6 +305,7 @@ describe('<AssessmentContainer />', () => {
       it('should not render warning message', async () => {
         const props = {
           location: { childId: 10 },
+          match: { params: { id: '123' } },
           isNewForm: false,
           client: {},
         }
@@ -301,7 +446,7 @@ describe('<AssessmentContainer />', () => {
           .dive()
           .find(Link)
           .first()
-        expect(linkWrapper.props().to).toBe('/clients/aaaaaaaaaa')
+        expect(linkWrapper.props().to).toBe('/clients/10')
 
         // when 2 (the message is auto closed)
         jest.runAllTimers()
@@ -394,7 +539,7 @@ describe('<AssessmentContainer />', () => {
       wrapper.setState({ child: childInfoJson })
       wrapper.instance().initialSave(updatedAssessment)
 
-      expect(historyPushMock.push).toHaveBeenCalledWith('/clients/aaaaaaaaaa/assessments/1')
+      expect(historyPushMock.push).toHaveBeenCalledWith('/clients/10/assessments/1')
     })
   })
 

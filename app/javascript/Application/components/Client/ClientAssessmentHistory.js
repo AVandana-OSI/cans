@@ -23,7 +23,7 @@ class ClientAssessmentHistory extends Component {
     this.state = {
       assessments: [],
       fetchStatus: LoadingState.idle,
-      shouldRenderSuccessMessage: !!successAssessmentId,
+      shouldRenderSuccessMessage: Boolean(successAssessmentId),
     }
   }
 
@@ -37,6 +37,7 @@ class ClientAssessmentHistory extends Component {
         })
       })
     }
+    return null
   }
 
   renderAddCansButton() {

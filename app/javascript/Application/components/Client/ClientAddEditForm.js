@@ -181,7 +181,7 @@ class ClientAddEditForm extends Component {
 
   fetchUserAccount() {
     return UserAccountService.fetchCurrent()
-      .then(user => this.setState({ userCounty: { id: parseInt(user.county_code, 10), name: user.county_name } }))
+      .then(user => this.setState({ userCounty: { id: parseInt(user.county_code), name: user.county_name } }))
       .catch(() => {})
   }
 
@@ -361,7 +361,7 @@ class ClientAddEditForm extends Component {
   redirectPath = childId => {
     const { redirection, isUsersCounty } = this.state
     const { successClientId } = redirection
-    const isEdit = !!childId
+    const isEdit = Boolean(childId)
     const isCancel = !successClientId
     const notUsersCounty = !isUsersCounty
     const cancelWhenNotUsersCountyWhileEditing = isEdit && notUsersCounty && isCancel
@@ -394,7 +394,7 @@ class ClientAddEditForm extends Component {
   renderCountiesDropDown = () => {
     const { classes } = this.props
     const { childInfo, childInfoValidation, counties } = this.state
-    const isValid = childInfoValidation['county']
+    const isValid = childInfoValidation.county
     return (
       <div className={classes.root}>
         <FormControl required error={!isValid} className={classes.formControl} id={'county-dropdown'}>
@@ -456,7 +456,7 @@ class ClientAddEditForm extends Component {
 
   renderCaseNumbers = () => {
     const { cases } = this.state.childInfo
-    let renderedCases = []
+    const renderedCases = []
     for (let i = cases.length - 1; i >= 0; i--) {
       renderedCases.push(this.renderSingleCaseNumber(i, cases[i]))
     }
@@ -490,7 +490,7 @@ class ClientAddEditForm extends Component {
     const { childInfo, sensitivityTypes } = this.state
     return (
       <div className={classes.root} id={'sensitivity_type_dropdown'}>
-        <FormControl required={false} className={'mt-0 ' + classes.formControl}>
+        <FormControl required={false} className={`mt-0 ${classes.formControl}`}>
           <InputLabel htmlFor="sensitivity-type-select" className={classes.inputLabel}>
             Access Restrictions
           </InputLabel>
@@ -589,7 +589,7 @@ class ClientAddEditForm extends Component {
                   value={childInfo.dob}
                   label="Date of Birth"
                   isFutureDatesAllowed={false}
-                  error={!childInfoValidation['dob']}
+                  error={!childInfoValidation.dob}
                   className={classes.textField}
                   inputProps={{ className: classes.inputText }}
                   InputLabelProps={inputLabelProps}
@@ -607,8 +607,8 @@ class ClientAddEditForm extends Component {
                       required
                       id="external_id"
                       label="Client Id"
-                      helperText={!childInfoValidation['external_id'] ? 'Enter 19 digits number' : null}
-                      error={!childInfoValidation['external_id']}
+                      helperText={!childInfoValidation.external_id ? 'Enter 19 digits number' : null}
+                      error={!childInfoValidation.external_id}
                       className={classes.textField}
                       margin="normal"
                       inputProps={{ className: classes.inputText }}

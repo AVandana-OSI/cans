@@ -32,7 +32,7 @@ class PrintAssessment extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isAssessmentUnderSix: !!this.props.assessment.state.under_six,
+      isAssessmentUnderSix: Boolean(this.props.assessment.state.under_six),
     }
   }
 
@@ -44,7 +44,7 @@ class PrintAssessment extends PureComponent {
   )
 
   renderItem = (item, index, caregiverIndex, itemI18n) => {
-    const title = itemI18n['_title_'] || ''
+    const title = itemI18n._title_ || ''
     const itemNumber = this.state.isAssessmentUnderSix ? item.under_six_id : item.above_six_id
     const isRegularType = item.rating_type === 'REGULAR'
     return (
@@ -81,7 +81,7 @@ class PrintAssessment extends PureComponent {
 
   renderDomain = (domain, domainI18n) => {
     const { code, caregiver_index: caregiverIndex, items } = domain
-    const title = (domainI18n['_title_'] || '').toUpperCase()
+    const title = (domainI18n._title_ || '').toUpperCase()
     const caregiverName = domain.caregiver_name || ''
     return (
       <div key={code + caregiverIndex}>

@@ -51,7 +51,7 @@ describe('ApiErrorHandler', () => {
       },
     }
 
-    let messages = []
+    const messages = []
     let isErrorThrowed = false
     globalAlertService.subscribe(e => messages.push(e.message))
     try {
@@ -69,7 +69,7 @@ describe('ApiErrorHandler', () => {
       response: {},
     }
 
-    let messages = []
+    const messages = []
     let isErrorThrowed = false
     globalAlertService.subscribe(e => messages.push(e.message))
     try {
@@ -85,7 +85,7 @@ describe('ApiErrorHandler', () => {
   it('Handles empty error', () => {
     const error = {}
 
-    let messages = []
+    const messages = []
     let isErrorThrowed = false
     globalAlertService.subscribe(e => messages.push(e.message))
     try {
@@ -103,7 +103,7 @@ describe('ApiErrorHandler', () => {
       response: { status: 401 },
     }
 
-    let messages = []
+    const messages = []
     globalAlertService.subscribe(e => messages.push(e.message))
     global.location = jest.fn()
     global.location.reload = jest.fn()
@@ -124,7 +124,7 @@ describe('ApiErrorHandler', () => {
     }
 
     it('should not post global alert', () => {
-      let messages = []
+      const messages = []
       globalAlertService.subscribe(e => messages.push(e.message))
       try {
         handleError(error)

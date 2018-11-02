@@ -13,7 +13,7 @@ describe('bread crumb rendering', () => {
   })
 
   it('verify breadCrumb rendering with a single node', () => {
-    let props = [
+    const props = [
       <a key="" href="/dashboard">
         {' '}
         DASHBOARD
@@ -24,7 +24,7 @@ describe('bread crumb rendering', () => {
   })
 
   it('verify breadCrumb rendering with two nodes', () => {
-    let props = [
+    const props = [
       <a key="" href="/dashboard">
         {' '}
         DASHBOARD

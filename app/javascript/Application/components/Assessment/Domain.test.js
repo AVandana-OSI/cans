@@ -39,7 +39,7 @@ const domainComponentDefault = (
     onRatingUpdate={() => {}}
     onConfidentialityUpdate={() => {}}
     onAddCaregiverDomain={() => {}}
-    onRemoveCaregiverDomain={() => {}}
+    handleWarningShow={() => {}}
     onCaregiverNameUpdate={() => {}}
   />
 )
@@ -84,7 +84,7 @@ describe('<Domain />', () => {
           onRatingUpdate={() => {}}
           onConfidentialityUpdate={() => {}}
           onAddCaregiverDomain={() => {}}
-          onRemoveCaregiverDomain={() => {}}
+          handleWarningShow={() => {}}
           onCaregiverNameUpdate={() => {}}
         />
       )
@@ -116,7 +116,7 @@ describe('<Domain />', () => {
           onRatingUpdate={() => {}}
           onConfidentialityUpdate={() => {}}
           onAddCaregiverDomain={callbackMock}
-          onRemoveCaregiverDomain={() => {}}
+          handleWarningShow={() => {}}
           onCaregiverNameUpdate={() => {}}
         />
       )
@@ -149,7 +149,7 @@ describe('<Domain />', () => {
           onRatingUpdate={() => {}}
           onConfidentialityUpdate={() => {}}
           onAddCaregiverDomain={() => {}}
-          onRemoveCaregiverDomain={callbackMock}
+          handleWarningShow={callbackMock}
           onCaregiverNameUpdate={() => {}}
         />
       )
@@ -186,7 +186,7 @@ describe('<Domain />', () => {
                 onRatingUpdate={() => {}}
                 onConfidentialityUpdate={() => {}}
                 onAddCaregiverDomain={() => {}}
-                onRemoveCaregiverDomain={() => {}}
+                handleWarningShow={() => {}}
                 onCaregiverNameUpdate={() => {}}
               />
             )
@@ -226,7 +226,7 @@ describe('<Domain />', () => {
                 onRatingUpdate={() => {}}
                 onConfidentialityUpdate={() => {}}
                 onAddCaregiverDomain={() => {}}
-                onRemoveCaregiverDomain={() => {}}
+                handleWarningShow={() => {}}
                 onCaregiverNameUpdate={callbackMock}
               />
             )

@@ -25,7 +25,7 @@ describe('AssessmentRecordInfo', () => {
     const assessmentInfo = wrapper.children().map(child => child.props().children)
 
     const clientName = `${person.first_name} ${person.middle_name} ${person.last_name} ${
-      person.suffix === '' ? '' : ', ' + person.suffix
+      person.suffix === '' ? '' : `, ${person.suffix}`
     }`
     const actionVerb = getActionVerbByStatus(status)
     const formattedTimestamp = isoToLocalDate(updatedTimestamp || createdTimestamp)
@@ -59,7 +59,7 @@ describe('AssessmentRecordInfo', () => {
     const assessmentInfo = wrapper.children().map(child => child.props().children)
 
     const clientName = `${person.first_name} ${person.middle_name} ${person.last_name} ${
-      person.suffix === '' ? '' : ', ' + person.suffix
+      person.suffix === '' ? '' : `, ${person.suffix}`
     }`
     const actionVerb = getActionVerbByStatus(status)
     const formattedTimestamp = isoToLocalDate(updatedTimestamp || createdTimestamp)
@@ -93,7 +93,7 @@ describe('AssessmentRecordInfo', () => {
     const assessmentInfo = wrapper.children().map(child => child.props().children)
 
     const clientName = `${person.first_name} ${person.middle_name} ${person.last_name} ${
-      person.suffix === '' ? '' : ', ' + person.suffix
+      person.suffix === '' ? '' : `, ${person.suffix}`
     }`
     const actionVerb = getActionVerbByStatus(status)
     const formattedTimestamp = isoToLocalDate(updatedTimestamp || createdTimestamp)

@@ -17,7 +17,7 @@ class AssessmentRecordInfo extends Component {
       person,
     } = assessment
     const clientName = `${person.first_name} ${person.middle_name} ${person.last_name} ${
-      person.suffix === '' ? '' : ', ' + person.suffix
+      person.suffix === '' ? '' : `, ${person.suffix}`
     }`
     const actionVerb = getActionVerbByStatus(status)
     const formattedTimestamp = isoToLocalDate(updatedTimestamp || createdTimestamp)

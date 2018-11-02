@@ -4,7 +4,7 @@ export function clone(object) {
 
 export function stringify(value) {
   if (typeof value !== 'undefined') {
-    return value === null ? '' : '' + value
+    return value === null ? '' : String(value)
   } else {
     return ''
   }

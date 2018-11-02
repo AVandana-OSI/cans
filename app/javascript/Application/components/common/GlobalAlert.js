@@ -44,7 +44,7 @@ export class GlobalAlert extends Component {
     return (
       <Container>
         {alerts.map((alert, index) => (
-          <Row key={'global-alert-' + index}>
+          <Row key={`global-alert-${index}`}>
             <Col>
               <CloseableAlert
                 key={nextKey++}

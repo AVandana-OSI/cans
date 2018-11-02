@@ -66,7 +66,7 @@ class Pagination extends PaginationRT {
                       return this.setState({ page: value })
                     }
                     const page = value - 1
-                    this.setState({ page: this.getSafePage(page) })
+                    return this.setState({ page: this.getSafePage(page) })
                   }}
                   value={this.state.page === '' ? '' : this.state.page + 1}
                   onBlur={this.applyPage}

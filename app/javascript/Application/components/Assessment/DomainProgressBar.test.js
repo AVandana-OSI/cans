@@ -35,7 +35,7 @@ describe('<DomainProgressBar />', () => {
     expect(progressBar.find('.progress-value').text()).toBe('2/3')
     const progress = progressBar.find('.progress-line')
     expect(progress.length).toBe(1)
-    expect(progress.get(0).props.style['width']).toBe('67%')
+    expect(progress.get(0).props.style.width).toBe('67%')
   })
 
   describe('#buildState()', () => {

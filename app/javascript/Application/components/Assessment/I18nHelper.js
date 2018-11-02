@@ -1,5 +1,5 @@
 export function getI18nByCode(i18n, code) {
-  const codeDot = code + '.'
+  const codeDot = `${code}.`
   const codeDotLength = codeDot.length
   const result = {}
   Object.keys(i18n)

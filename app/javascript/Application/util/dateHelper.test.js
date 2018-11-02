@@ -63,8 +63,8 @@ describe('#jsDateToIso()', () => {
 
 describe('#isoToJsDate()', () => {
   it('returns a valid JS Date when input is valid ISO Date', () => {
-    var result = isoToJsDate('1970-01-01')
-    var expected = jsDateToIso(result)
+    const result = isoToJsDate('1970-01-01')
+    const expected = jsDateToIso(result)
     expect('1970-01-01').toEqual(expected)
   })
 

@@ -100,7 +100,7 @@ export function isFutureDate(date) {
  * @returns {boolean}
  */
 export function isValidDate(date, config = { allowFutureDate: true }) {
-  let valid = isValidLocalDate(date, true) || isValidIsoDate(date, true)
+  const valid = isValidLocalDate(date, true) || isValidIsoDate(date, true)
   return valid && (config.allowFutureDate || !isFutureDate(date))
 }
 

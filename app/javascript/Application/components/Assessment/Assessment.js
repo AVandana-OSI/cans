@@ -96,7 +96,7 @@ class Assessment extends Component {
   removeAllCaregiverDomains() {
     const assessment = clone(this.props.assessment)
     const domains = assessment.state.domains
-    let caregiverDomains = domains.filter(domain => domain.is_caregiver_domain)
+    const caregiverDomains = domains.filter(domain => domain.is_caregiver_domain)
     for (const caregiverDomain of caregiverDomains) {
       domains.splice(domains.findIndex(domain => domain.id === caregiverDomain.id), 1)
     }
@@ -141,6 +141,7 @@ class Assessment extends Component {
               onAddCaregiverDomain={this.addCaregiverDomainAfter}
               onRemoveCaregiverDomain={this.removeCaregiverDomain}
               onCaregiverNameUpdate={this.updateCaregiverName}
+              handleWarningShow={this.props.handleWarningShow}
             />
           )
         })}
@@ -151,8 +152,13 @@ class Assessment extends Component {
 
 Assessment.propTypes = {
   assessment: PropTypes.object.isRequired,
+  handleWarningShow: PropTypes.func,
   i18n: PropTypes.object.isRequired,
   onAssessmentUpdate: PropTypes.func.isRequired,
+}
+
+Assessment.defaultProps = {
+  handleWarningShow: () => {},
 }
 
 export default Assessment

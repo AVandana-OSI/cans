@@ -50,7 +50,7 @@ class Header extends React.Component {
     const firstLetter = firstName.length > 0 ? firstName[0] : ''
     const lastName = trimSafely(staffPerson.last_name)
     const secondLetter = lastName.length > 0 ? lastName[0] : ''
-    return '' + firstLetter + secondLetter
+    return String(firstLetter) + secondLetter
   }
 
   invokeCallback = staffId => {

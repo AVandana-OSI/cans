@@ -21,7 +21,7 @@ describe('TimeoutService', () => {
     eventBus.post = jest.fn()
     const interval = SESSION_EXPIRATION_WARNING_TIME * 2
     const timeout = new Date().getTime() + interval
-    global.document.cookie = '_ca_cans_timeout=' + timeout
+    global.document.cookie = `_ca_cans_timeout=${timeout}`
     timeoutService.run()
     const minInterval = interval - timeout - new Date().getTime()
     expect(global.location.reload).not.toBeCalled()
@@ -37,7 +37,7 @@ describe('TimeoutService', () => {
     eventBus.post = jest.fn()
     const interval = SESSION_EXPIRATION_WARNING_TIME / 2.0
     const timeout = new Date().getTime() + interval
-    global.document.cookie = '_ca_cans_timeout=' + timeout
+    global.document.cookie = `_ca_cans_timeout=${timeout}`
     timeoutService.run()
     const minInterval = interval - timeout - new Date().getTime()
     expect(global.location.reload).not.toBeCalled()

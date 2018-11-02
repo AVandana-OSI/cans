@@ -20,13 +20,13 @@ class Client extends Component {
     }
     this.state = {
       isNewForm,
-      shouldRenderClientMessage: !!successClientId,
+      shouldRenderClientMessage: Boolean(successClientId),
     }
   }
 
   renderClientData(data, label, gridSize = 3, itemId = label) {
     return (
-      <Grid item xs={gridSize} id={'client-data-' + itemId.replace(/ /g, '_')}>
+      <Grid item xs={gridSize} id={`client-data-${itemId.replace(/ /g, '_')}`}>
         <div className={'label-text'}>{label}</div>
         {data}
       </Grid>
@@ -34,18 +34,16 @@ class Client extends Component {
   }
 
   formatClientId = num => {
-    if (num) {
-      if (num.length === 19) {
-        const firstFour = num.substring(0, 4)
-        const secondFour = num.substring(4, 8)
-        const thirdFour = num.substring(8, 12)
-        const fourthFour = num.substring(12, 19)
-        return `${firstFour}-${secondFour}-${thirdFour}-${fourthFour}`
-      } else if (num.length === 22) {
-        return num
-      } else {
-        return '0'
-      }
+    if (num && num.length === 19) {
+      const firstFour = num.substring(0, 4)
+      const secondFour = num.substring(4, 8)
+      const thirdFour = num.substring(8, 12)
+      const fourthFour = num.substring(12, 19)
+      return `${firstFour}-${secondFour}-${thirdFour}-${fourthFour}`
+    } else if (num && num.length === 22) {
+      return num
+    } else {
+      return '0'
     }
   }
 

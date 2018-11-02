@@ -44,7 +44,7 @@ function isDefined(value) {
 }
 
 function areItemsValid(assessment) {
-  const isUnderSix = !!assessment.under_six
+  const isUnderSix = Boolean(assessment.under_six)
   const requiredItems = assessment.domains
     .filter(domain => shouldDomainBeRendered(isUnderSix, domain))
     .reduce((items, domain) => items.concat(domain.items), [])

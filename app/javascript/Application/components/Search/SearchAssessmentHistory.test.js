@@ -148,36 +148,36 @@ describe('<SearchAssessmentHistory', () => {
         ])
 
         expect(
-          wrapper
+          `${wrapper
             .find(SearchAssessmentHistoryRecord)
             .at(0)
             .dive()
             .find(AssessmentLink)
             .props()
             .assessment.timestamp.utc()
-            .format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+            .format('YYYY-MM-DDTHH:mm:ss.SSS')}Z`
         ).toBe('2018-10-28T20:56:19.684Z')
 
         expect(
-          wrapper
+          `${wrapper
             .find(SearchAssessmentHistoryRecord)
             .at(1)
             .dive()
             .find(AssessmentLink)
             .props()
             .assessment.timestamp.utc()
-            .format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+            .format('YYYY-MM-DDTHH:mm:ss.SSS')}Z`
         ).toBe('2018-10-27T15:59:46.930Z')
 
         expect(
-          wrapper
+          `${wrapper
             .find(SearchAssessmentHistoryRecord)
             .at(2)
             .dive()
             .find(AssessmentLink)
             .props()
             .assessment.timestamp.utc()
-            .format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+            .format('YYYY-MM-DDTHH:mm:ss.SSS')}Z`
         ).toBe('2018-10-26T15:59:46.930Z')
       })
 
@@ -225,36 +225,36 @@ describe('<SearchAssessmentHistory', () => {
         ])
 
         expect(
-          wrapper
+          `${wrapper
             .find(SearchAssessmentHistoryRecord)
             .at(0)
             .dive()
             .find(AssessmentLink)
             .props()
             .assessment.timestamp.utc()
-            .format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+            .format('YYYY-MM-DDTHH:mm:ss.SSS')}Z`
         ).toBe('2018-10-28T20:56:19.684Z')
 
         expect(
-          wrapper
+          `${wrapper
             .find(SearchAssessmentHistoryRecord)
             .at(1)
             .dive()
             .find(AssessmentLink)
             .props()
             .assessment.timestamp.utc()
-            .format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+            .format('YYYY-MM-DDTHH:mm:ss.SSS')}Z`
         ).toBe('2018-10-27T15:59:46.930Z')
 
         expect(
-          wrapper
+          `${wrapper
             .find(SearchAssessmentHistoryRecord)
             .at(2)
             .dive()
             .find(AssessmentLink)
             .props()
             .assessment.timestamp.utc()
-            .format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+            .format('YYYY-MM-DDTHH:mm:ss.SSS')}Z`
         ).toBe('2018-10-26T15:59:46.930Z')
       })
     })

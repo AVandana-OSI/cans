@@ -20,7 +20,7 @@ describe('<Assessment />', () => {
       it('should add initial caregiver', () => {
         // given
         const initialAssessment = clone(assessment)
-        let updatedAssessment = clone(assessment)
+        const updatedAssessment = clone(assessment)
         const mockFn = jest.fn()
         const wrapper = shallow(<Assessment onAssessmentUpdate={mockFn} assessment={initialAssessment} i18n={i18n} />)
 
@@ -37,8 +37,8 @@ describe('<Assessment />', () => {
     describe('hasCaregiver is false', () => {
       it('should remove caregiver domains', () => {
         // given
-        let initialAssessment = clone(assessment)
-        let updatedAssessment = clone(assessment)
+        const initialAssessment = clone(assessment)
+        const updatedAssessment = clone(assessment)
         initialAssessment.has_caregiver = true
         initialAssessment.state.domains[0] = enhanceDomainToCaregiver(initialAssessment.state.domains[0])
         initialAssessment.state.domains.push({ ...initialAssessment.state.domains[0], caregiver_index: 'b' })

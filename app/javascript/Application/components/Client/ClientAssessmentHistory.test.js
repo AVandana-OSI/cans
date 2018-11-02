@@ -129,7 +129,7 @@ describe('<ClientAssessmentHistory', () => {
       it('is not rendered on page reload', () => {
         // given
         const browserHistory = { entries: [{ state: { successAssessmentId: 123 } }] }
-        browserHistory.replace = function(newLocation) {
+        browserHistory.replace = function loc(newLocation) {
           this.entries.pop()
           this.entries.push(newLocation)
         }

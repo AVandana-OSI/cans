@@ -8,7 +8,7 @@ import { SocialWorkerCardTemplate } from './ClientSocialWorkerCardTemplate'
 import { socialWorkerClientsJson } from './Client.helper.test'
 
 describe('<ClientSocialWorkerCard />', () => {
-  let fakProps = {
+  const fakProps = {
     title: 100,
     data: socialWorkerClientsJson,
     columns: SocialWorkerCardTemplate(),

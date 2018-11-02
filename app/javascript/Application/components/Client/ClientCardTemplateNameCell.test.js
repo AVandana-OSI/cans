@@ -11,8 +11,8 @@ const fakeProp = {
 }
 
 describe('<ClientCardTemplateNameCell />', () => {
-  it('returns a link with identifier', () => {
-    let wrapper = render(
+  it('returns a link with external_id', () => {
+    const wrapper = render(
       <BrowserRouter>
         <ClientCardTemplateNameCell {...fakeProp} />
       </BrowserRouter>
