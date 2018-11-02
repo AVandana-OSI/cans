@@ -10,6 +10,7 @@ import {
   mapEthnicities,
   mapAddress,
   mapPhoneNumber,
+  mapCounties,
 } from '../components/Search/SearchHelper'
 import { selectCounties, systemCodeDisplayValue } from './systemCodeSelectors'
 
@@ -86,9 +87,6 @@ const formatFullName = (result, highlight) =>
     isCommaSuffix(result.get('name_suffix'))
   )
 
-const mapCounties = (counties, countyCodes) =>
-  counties.map(county => systemCodeDisplayValue(county.get('id'), countyCodes))
-
 const hasActiveCsec = _result => false
 
 export const selectPeopleResults = results =>
@@ -104,7 +102,6 @@ export const selectPeopleResults = results =>
       languages: mapLanguages(result),
       races: mapRaces(result),
       // ethnicity: mapEthnicities(result),
-      // races: ['Mexican'],
       ethnicity: { hispanic_latino_origin: 'Yes' },
       dateOfBirth: formatDOB(
         result.get('date_of_birth'),
@@ -115,10 +112,7 @@ export const selectPeopleResults = results =>
       ssn: formatSSN(
         maybeHighlightedField(result, highlight, 'ssn') || result.get('ssn')
       ),
-      clientCounties: mapCounties(
-        result.get('client_counties', List()),
-        selectCounties(fromJS(results))
-      ), //
+      clientCounties: mapCounties(result),
       address: mapAddress(result),
       phoneNumber: formatPhoneNumber(mapPhoneNumber(result).first()),
       isSensitive: mapIsSensitive(result),

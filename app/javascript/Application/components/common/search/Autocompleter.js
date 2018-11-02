@@ -29,7 +29,7 @@ export default class Autocompleter extends Component {
       searchTerm: '',
       redirection: {
         shouldRedirect: false,
-        successClientId: null,
+        legacyId: null,
         selectedClient: null,
       },
       results: [],
@@ -68,7 +68,7 @@ export default class Autocompleter extends Component {
         redirection: {
           shouldRedirect: true,
           selectedClient: item,
-          successClientId: item.external_id,
+          legacyId: item.legacy_id,
         },
       })
     }
@@ -139,6 +139,7 @@ export default class Autocompleter extends Component {
       this.getClients({ searchTerm }).then(response => {
         const clients = response.hits.hits
         const results = selectPeopleResults(clients)
+        console.log(results)
         this.setState({ results })
       })
     } else {
@@ -199,14 +200,14 @@ export default class Autocompleter extends Component {
 
   render() {
     const { redirection } = this.state
-    const { shouldRedirect, successClientId } = redirection
+    const { shouldRedirect, legacyId } = redirection
     if (shouldRedirect) {
       return (
         <Redirect
           push
           to={{
-            pathname: `clients/${successClientId}`,
-            state: { isNewForm: true, successClientId },
+            pathname: `clients/${legacyId}`,
+            state: { isNewForm: true, legacyId },
           }}
         />
       )

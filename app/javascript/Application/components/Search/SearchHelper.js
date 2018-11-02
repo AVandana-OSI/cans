@@ -18,6 +18,12 @@ export const buildSelector = (...funcs) => {
   return (...args) => selector(...funcs.map(f => f(...args)))
 }
 
+export const mapCounties = result => {
+  const counties = result
+    .get('client_counties')
+    .map(county => county.get('description'))
+}
+
 export const mapLanguages = result => {
   const languages = result
     .get('languages')
@@ -33,7 +39,12 @@ export const mapIsProbationYouth = result =>
   result.get('open_case_responsible_agency_code', '').toUpperCase() === 'P'
 
 export const mapRaces = result => {
-  return ['TEST_RACE']
+  const races = result
+    .get('race_ethnicity')
+    .get('race_codes')
+    .map(race => race.get('description'))
+  console.log(`races`, races.toJS())
+  return races
 }
 
 export const mapEthnicities = result =>
