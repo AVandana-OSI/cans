@@ -9,8 +9,8 @@ import {
   mapIsSealed,
   mapPhoneNumber,
   mapAddress,
-} from 'utils/peopleSearchHelper'
-import { RESIDENCE_TYPE } from 'enums/AddressType'
+} from './SearchHelper'
+import { RESIDENCE_TYPE } from '../../enums/AddressType'
 
 describe('peopleSearchHelper', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -515,31 +515,6 @@ describe('peopleSearchHelper', () => {
 
       const racesResult = mapRaces(state, result)
       expect(racesResult).toEqualImmutable(fromJS(['Unknown']))
-    })
-  })
-
-  describe('mapEthnicities', () => {
-    it('maps hispanic codes to lov values', () => {
-      const result = fromJS({
-        race_ethnicity: {
-          hispanic_origin_code: 'Y',
-          hispanic_codes: [
-            { id: '3', description: 'Romanian' },
-            { id: '2', description: 'French' },
-            { id: '1', description: 'European' },
-          ],
-        },
-      })
-      const state = fromJS({
-        systemCodes: { ethnicityTypes, hispanicOriginCodes, raceTypes },
-      })
-      const racesResult = mapEthnicities(state, result)
-      expect(racesResult).toEqualImmutable(
-        fromJS({
-          hispanic_latino_origin: 'yes',
-          ethnicity_detail: ['Romanian', 'French', 'European'],
-        })
-      )
     })
   })
 })

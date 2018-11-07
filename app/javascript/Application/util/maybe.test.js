@@ -1,4 +1,4 @@
-import { Maybe } from 'utils/maybe'
+import { Maybe } from './maybe'
 
 // Helper Functions - These are just a couple helper functions to test with
 // Number -> Number

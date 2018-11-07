@@ -4,9 +4,6 @@ import { Redirect } from 'react-router-dom'
 import Autocomplete from 'react-autocomplete'
 import SuggestionHeader from './SuggestionHeader'
 import PersonSuggestion from './PersonSuggestion'
-import { apiGet } from '../../../App.api'
-import { selectPeopleResults } from '../../../selectors/SearchSelector'
-import { Map } from 'immutable'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -25,15 +22,17 @@ export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      menuVisible: false,
+      menuVisible: true,
+      // menuVisible: false,
       searchTerm: '',
       redirection: {
         shouldRedirect: false,
         legacyId: null,
         selectedClient: null,
       },
-      results: [],
     }
+
+    this.timer = null
 
     this.onFocus = this.onFocus.bind(this)
     this.hideMenu = this.hideMenu.bind(this)
@@ -53,7 +52,8 @@ export default class Autocompleter extends Component {
     if (this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', '')
     }
-    this.setState({ menuVisible: false })
+    this.setState({ menuVisible: true })
+    // this.setState({ menuVisible: false })
   }
 
   isSelectable(person) {
@@ -95,17 +95,22 @@ export default class Autocompleter extends Component {
   }
 
   renderEachItem(item, id, isHighlighted) {
-    const total = this.state.results.length
-    const results = this.state.results
+    const { results } = this.props
+    const totalResults = results.length
     const searchTerm = this.state.searchTerm
 
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
-        <div id={id} key={key} aria-live="polite">
+        <div
+          id={id}
+          className={'suggestion-header-wrapper'}
+          key={key}
+          aria-live="polite"
+        >
           <SuggestionHeader
-            currentNumberOfResults={results.length}
-            total={total}
+            currentNumberOfResults={totalResults}
+            total={totalResults}
             searchTerm={searchTerm}
           />
         </div>
@@ -125,23 +130,11 @@ export default class Autocompleter extends Component {
     return this.renderEachItem(item, id, isHighlighted)
   }
 
-  getClients({ searchTerm }) {
-    return apiGet(
-      `/people_searches?search_term=${searchTerm}&is_client_only=true`
-    )
-  }
-
   onChangeInput(_, searchTerm) {
     this.setState({ searchTerm })
-
     if (this.isSearchable(searchTerm)) {
       this.setState({ menuVisible: true })
-      this.getClients({ searchTerm }).then(response => {
-        const clients = response.hits.hits
-        const results = selectPeopleResults(clients)
-        console.log(results)
-        this.setState({ results })
-      })
+      this.props.debounce(searchTerm)
     } else {
       this.hideMenu()
     }
@@ -171,13 +164,14 @@ export default class Autocompleter extends Component {
   }
 
   renderAutocomplete() {
-    addPosAndSetAttr(this.state.results) // Sequentually numbering items ***
-
+    const { results } = this.props
+    addPosAndSetAttr(results) // Sequentually numbering items ***
+    console.log(results)
     const { id } = this.props
     const suggestionHeader = [
       { suggestionHeader: 'suggestion Header', fullName: '' },
     ]
-    const newResults = suggestionHeader.concat(this.state.results)
+    const newResults = suggestionHeader.concat(results)
 
     return (
       <Autocomplete

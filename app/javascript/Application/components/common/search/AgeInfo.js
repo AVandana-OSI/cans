@@ -15,7 +15,11 @@ const AgeInfo = ({ dateOfBirth }) => {
 
   const genDobHtml = (dateOfBirth, sanitizedDob, dob) => {
     if (dateOfBirth === `<em>${sanitizedDob}</em>`) {
-      return <em>{dob.format('M/D/YYYY')}</em>
+      return (
+        <span>
+          <em>{dob.format('M/D/YYYY')}</em>
+        </span>
+      )
     }
     if (dateOfBirth !== sanitizedDob) {
       return (
@@ -25,14 +29,14 @@ const AgeInfo = ({ dateOfBirth }) => {
         </span>
       )
     }
-    return dob.format('M/D/YYYY')
+    return <span>{dob.format('M/D/YYYY')}</span>
   }
-
   return (
     <div className="highlighted">
-      <span>{`${ageInYears} yrs old (DOB:`}</span>
       {genDobHtml(dateOfBirth, sanitizedDob, dob)}
-      <span>)</span>
+      <span>{` (${ageInYears} ${
+        ageInYears > 1 || ageInYears === 0 ? 'years' : 'year'
+      })`}</span>
     </div>
   )
 }

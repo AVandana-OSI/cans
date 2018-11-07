@@ -12,7 +12,7 @@ import {
   selectScreenResponseTimes,
   selectUnableToDetermineCodes,
   systemCodeDisplayValue,
-} from 'selectors/systemCodeSelectors'
+} from './systemCodeSelectors'
 import { fromJS } from 'immutable'
 
 describe('systemCodeSelectors', () => {

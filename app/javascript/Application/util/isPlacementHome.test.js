@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import { List } from 'immutable'
-import { isPlacementHome } from 'utils/isPlacementHome'
+import { isPlacementHome } from './isPlacementHome'
 
 describe('isPlacementHome ', () => {
   const addressWithPlacementHome = Immutable.fromJS({

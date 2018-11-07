@@ -8,11 +8,14 @@ export const flagPrimaryLanguage = languages => {
   return languages
 }
 
+export const primaryLanguageOnly = languages => {
+  return languages[0] ? languages[0] : ''
+}
+
 const LanguageInfo = ({ languages }) => {
-  const lan = languages && flagPrimaryLanguage(languages.filter(Boolean)).join(', ')
+  const lan = languages && primaryLanguageOnly(languages.filter(Boolean))
   return lan ? (
     <div>
-      <strong className="c-gray half-pad-right">Language</strong>
       <span>{lan}</span>
     </div>
   ) : null

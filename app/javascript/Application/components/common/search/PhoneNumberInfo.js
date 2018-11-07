@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 const PhoneNumberInfo = ({ number, type }) => {
-  // const { number, type } = PhoneNumber;
   return (
     <div>
       <i className="fa fa-phone c-gray half-pad-right" />

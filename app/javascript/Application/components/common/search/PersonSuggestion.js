@@ -1,71 +1,87 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import AvatarImg from '../../../../../assets/images/default-profile.svg'
-import AddressInfo from './AddressInfo'
+import Gender from './Gender'
 import AgeInfo from './AgeInfo'
-import GenderRaceAndEthnicity from './GenderRaceAndEthnicity'
-import Languages from './LanguageInfo'
+import LanguageInfo from './LanguageInfo'
+import AddressInfo from './AddressInfo'
 import PhoneNumberInfo from './PhoneNumberInfo'
-// import legacySourceFormatter from '../../util/legacySourceFormatter';
 import sanitizeHtml from 'sanitize-html'
+import LegacyInfo from './LegacyInfo'
 
 const PersonSuggestion = ({
   fullName,
   dateOfBirth,
-  isCsec,
-  isDeceased,
   gender,
-  languages,
   races,
-  ethnicity,
   ssn,
   address,
+  languages,
   phoneNumber,
-  // legacyDescriptor,
   isSensitive,
   isSealed,
-  isProbationYouth,
+  legacyDescriptor,
+  clientCounties,
 }) => {
   const sanitizedField = field => ({
     dangerouslySetInnerHTML: {
       __html: sanitizeHtml(field, { allowedTags: ['em'] }),
     },
   })
-
-  // const legacySourceString = legacySourceFormatter(legacyDescriptor || {});
-
   return (
     <div className="row">
-      <div className="col-md-2 profile-picture">
-        <img src={AvatarImg} alt="Avatar" />
-        {isSensitive && <div className="information-flag image-caption">Sensitive</div>}
-        {isSealed && <div className="information-flag image-caption">Sealed</div>}
-      </div>
-      <div className="col-md-10">
+      <div className="col-md-5">
         <div className="row">
-          <div className="col-md-12">
-            <strong className="highlighted" {...sanitizedField(fullName)} />
-            {isCsec && <span className="information-flag search-result">CSEC</span>}
-            {isDeceased && <span className="information-flag search-result">Deceased</span>}
-            {isProbationYouth && <span className="information-flag search-result">Probation Youth</span>}
-            {/* <div>{legacySourceString}</div> */}
+          <div className="col-md-4 profile-picture">
+            <img className="avatar-img" src={AvatarImg} alt="Avatar" />
+            {isSensitive && (
+              <div className="information-flag image-caption">Sensitive</div>
+            )}
+            {isSealed && (
+              <div className="information-flag image-caption">Sealed</div>
+            )}
+          </div>
+          <div className="col-md-8">
+            <div className="row name-row">
+              <div
+                className="highlighted full-name"
+                {...sanitizedField(fullName)}
+              />
+            </div>
+            <div className="row gender-age-row">
+              <Gender gender={gender} />
+              <AgeInfo dateOfBirth={dateOfBirth} />
+            </div>
+            <div className="row search-item-header">Primary Language</div>
+            <div className="row">{<LanguageInfo languages={languages} />}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-md-7">
+        <div className="row county-client-case-row">
+          <div className="col-md-4">
+            <div className="row search-item-header">County of Jurisdiction</div>
+            <div className="row">
+              <span>{clientCounties[0]}</span>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="row search-item-header">Client ID</div>
+            <div className="row">
+              <LegacyInfo {...legacyDescriptor} />
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="row search-item-header">Case Number</div>
+            <div className="row">
+              <span>0</span>
+            </div>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6">
-            <GenderRaceAndEthnicity gender={gender} races={races} ethnicity={ethnicity} />
-            <AgeInfo dateOfBirth={dateOfBirth} />
-            <Languages languages={languages} />
-            {ssn && (
-              <div>
-                <strong className="c-gray half-pad-right">SSN</strong>
-                <span className="highlighted" {...sanitizedField(ssn)} />
-              </div>
-            )}
-          </div>
-          <div className="col-md-6">
-            {address && <AddressInfo {...address} />}
-            {phoneNumber && <PhoneNumberInfo {...phoneNumber} />}
+          <div className="col-md-12">
+            <div className="row search-item-header">Active Address</div>
+            <div className="row">{<AddressInfo {...address} />}</div>
           </div>
         </div>
       </div>
@@ -75,7 +91,6 @@ const PersonSuggestion = ({
 PersonSuggestion.defaultProps = {
   address: {},
   dateOfBirth: '',
-  ethnicity: {},
   fullName: '',
   gender: '',
   isCsec: false,
@@ -92,7 +107,6 @@ PersonSuggestion.defaultProps = {
 PersonSuggestion.propTypes = {
   address: PropTypes.object,
   dateOfBirth: PropTypes.string,
-  ethnicity: PropTypes.object,
   fullName: PropTypes.string,
   gender: PropTypes.string,
   isCsec: PropTypes.bool,

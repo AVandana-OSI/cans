@@ -1,4 +1,4 @@
-import { zipFormatter } from 'utils/zipFormatter'
+import { zipFormatter } from './zipFormatter'
 
 describe('zipFormatter ', () => {
   it('should return an 12345 when zip 12345 is returned from search', () => {

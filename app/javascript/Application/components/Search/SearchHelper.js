@@ -13,15 +13,17 @@ import { isPlacementHome } from '../../util/isPlacementHome'
 import { zipFormatter } from '../../util/zipFormatter'
 import { Maybe } from '../../util/maybe'
 
-export const buildSelector = (...funcs) => {
-  const selector = funcs.pop()
-  return (...args) => selector(...funcs.map(f => f(...args)))
-}
+// export const buildSelector = (...funcs) => {
+//   const selector = funcs.pop()
+//   return (...args) => selector(...funcs.map(f => f(...args)))
+// }
 
 export const mapCounties = result => {
   const counties = result
     .get('client_counties')
     .map(county => county.get('description'))
+
+  return counties
 }
 
 export const mapLanguages = result => {
@@ -43,26 +45,8 @@ export const mapRaces = result => {
     .get('race_ethnicity')
     .get('race_codes')
     .map(race => race.get('description'))
-  console.log(`races`, races.toJS())
   return races
 }
-
-export const mapEthnicities = result =>
-  buildSelector(
-    selectHispanicOriginCodes,
-    () => result.getIn(['race_ethnicity', 'hispanic_codes']) || List(),
-    () => result.getIn(['race_ethnicity', 'hispanic_origin_code']),
-    (hispanicOriginCodes, ethnicities, hispanicLatinoOriginCode) =>
-      fromJS({
-        hispanic_latino_origin: systemCodeDisplayValue(
-          hispanicLatinoOriginCode,
-          hispanicOriginCodes
-        ),
-        ethnicity_detail: ethnicities
-          .map(ethnicity => ethnicity.get('description'))
-          .toJS(),
-      })
-  )
 
 const getStreetAddress = address =>
   `${address.get('street_number') || ''} ${address.get('street_name') || ''}`
@@ -79,8 +63,8 @@ const getDisplayType = (address, addressTypes) => {
 
 const isResidence = address => address.getIn(['type', 'id']) === RESIDENCE_TYPE
 
-export const mapAddress = result => {
-  const addressTypes = selectAddressTypes(result)
+export const mapAddress = (result, systemCodes) => {
+  const addressTypes = selectAddressTypes(systemCodes)
 
   return Maybe.of(result.get('addresses'))
     .map(as => as.first())

@@ -4,8 +4,7 @@ import PersonSuggestion from './PersonSuggestion'
 import AvatarImg from '../../../../../assets/images/default-profile.svg'
 import AddressInfo from './AddressInfo'
 import AgeInfo from './AgeInfo'
-import GenderRaceAndEthnicity from './GenderRaceAndEthnicity'
-import Languages from './LanguageInfo'
+import GenderRace from './GenderRace'
 import PhoneNumberInfo from './PhoneNumberInfo'
 
 describe('<PersonSuggestion />', () => {
@@ -13,7 +12,7 @@ describe('<PersonSuggestion />', () => {
     describe('page layout', () => {
       it('renders with 1 <AvatarImg /> icon', () => {
         const wrapper = shallow(<PersonSuggestion />)
-        expect(wrapper.find(AvatarImg).length).toBe(1)
+        expect(wrapper.find('.avatar-img').length).toBe(1)
       })
 
       it('renders with a <AddressInfo /> component', () => {
@@ -26,14 +25,9 @@ describe('<PersonSuggestion />', () => {
         expect(wrapper.find(AgeInfo).exists()).toBe(true)
       })
 
-      it('renders with a <GenderRaceAndEthnicity /> component', () => {
+      it('renders with a <GenderRace /> component', () => {
         const wrapper = shallow(<PersonSuggestion />)
-        expect(wrapper.find(GenderRaceAndEthnicity).exists()).toBe(true)
-      })
-
-      it('renders with a <Languages /> component', () => {
-        const wrapper = shallow(<PersonSuggestion />)
-        expect(wrapper.find(Languages).exists()).toBe(true)
+        expect(wrapper.find(GenderRace).exists()).toBe(true)
       })
 
       it('renders with a <PhoneNumberInfo /> component', () => {

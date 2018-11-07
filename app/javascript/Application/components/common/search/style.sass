@@ -1,22 +1,39 @@
 @import "./../../../styles/global/colors.sass"
-    
-//********************
-//Suggestion Header
-//********************
-.autocompleter-suggestion-header
-    border-right: .1rem solid $medium-gray
-    border-bottom: .1rem solid $medium-gray
-    border-left: .1rem solid $medium-gray
-    border-radius: .2rem
-    cursor: pointer
-    padding: 1rem 2rem
 
 //********************
 //Suggestion Header
 //********************
+.suggestion-header-wrapper
+    margin-top: .1rem
+    .autocompleter-suggestion-header
+        border: .1rem solid $medium-gray
+        border-radius: .2rem
+        cursor: default
+        padding: 1rem 2rem
+
+//********************
+//Suggestion Item
+//********************
+.search-item:hover
+    border: .2rem solid #4f91de
 .search-item
     padding: 1rem
     cursor: pointer
-
-.search-item:hover
-    background-color: $content-background
+    margin-top: .1rem
+    margin-bottom: .1rem
+    border: .1rem solid #e1e1e1
+    border-radius: .2rem
+    .search-item-header
+        color: #a0a0a0
+    .name-row
+        margin-bottom: 1rem
+        .full-name
+            color: #187daf
+            font-size: 1.8rem
+            text-decoration: underline
+    .gender-age-row
+        margin-bottom: 1rem
+        div:first-child
+            margin-right: 1rem
+    .county-client-case-row
+        margin-bottom: 2.3rem 

@@ -1,4 +1,4 @@
-import { canUserAddClient } from 'utils/authorization'
+import { canUserAddClient } from './authorization'
 
 describe('Authorization Helpers', () => {
   const sacramentan = {
