@@ -89,11 +89,11 @@ describe('<Client />', () => {
     const getLength = component => wrapper.find(component).length
 
     it('renders with 12 <Grid /> components', () => {
-      expect(getLength(Grid)).toBe(12)
+      expect(getLength(Grid)).toBe(11)
     })
 
     it('renders with 9 ".label-text" styled elements', () => {
-      expect(getLength('.label-text')).toBe(9)
+      expect(getLength('.label-text')).toBe(8)
     })
 
     it('does not render No Child Data Found', () => {

@@ -72,7 +72,8 @@ export const childInfoJson = {
   identifier: 'aaaaaaaaaa',
   last_name: 'Child',
   person_role: 'CLIENT',
-  cases: [],
+  case_or_referral_id: 'C6vN5DG0Aq',
+  case_or_referral_uiid: '0687-9473-7673-8000672',
   metadata: {
     editable: true,
   },

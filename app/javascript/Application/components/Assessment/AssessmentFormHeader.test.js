@@ -24,11 +24,13 @@ describe('<AssessmentFormHeader />', () => {
 
   describe('case number', () => {
     it('renders with case number', () => {
-      const clientWithCases = clone(client)
-      clientWithCases.cases = [{ id: 101, external_id: '1001' }, { id: 102, external_id: '1002' }]
-      const props = { assessment, client: clientWithCases, onAssessmentUpdate: jest.fn(), onKeyUp: jest.fn() }
+      const assessmentWithCaseNumber = {
+        ...assessment,
+        case_or_referral_uiid: '0687-9473-7673-8000672',
+      }
+      const props = { assessment: assessmentWithCaseNumber, client, onAssessmentUpdate: jest.fn(), onKeyUp: jest.fn() }
       const caseNumber = shallow(<AssessmentFormHeader {...props} />).find('#case-number')
-      expect(caseNumber.text()).toBe('1001')
+      expect(caseNumber.text()).toBe('0687-9473-7673-8000672')
     })
 
     it('renders without case number when not exists', () => {
@@ -57,7 +59,7 @@ describe('<AssessmentFormHeader />', () => {
         mount(wrapped.instance().renderCaseNumber())
           .find('Label')
           .text()
-      ).toBe('Case Number')
+      ).toBe('Case/Referral Number')
     })
 
     it('renderHasCaregiverQuestion() returns correct label text', () => {

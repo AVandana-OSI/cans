@@ -53,16 +53,19 @@ describe('<ClientAddEditForm />', () => {
 
   describe('When isNewForm is false', () => {
     it('validates the form is populated', () => {
-      const wrapper = shallow(<ClientAddEditForm isNewForm={false} client={childInfoJson} />)
+      const client = {
+        ...childInfoJson,
+        cases: [],
+      }
+      const wrapper = shallow(<ClientAddEditForm isNewForm={false} client={client} />)
         .find('ClientAddEditForm')
         .dive()
-      expect(wrapper.state('childInfo')).toEqual(childInfoJson)
+      expect(wrapper.state('childInfo')).toEqual(client)
       expect(wrapper.state('childInfoValidation').first_name).toEqual(true)
       expect(wrapper.state('childInfoValidation').last_name).toEqual(true)
       expect(wrapper.state('childInfoValidation').dob).toEqual(true)
       expect(wrapper.state('childInfoValidation').external_id).toEqual(true)
       expect(wrapper.state('childInfoValidation').county).toEqual(true)
-      expect(wrapper.state('childInfoValidation').cases[0].external_id).toEqual(true)
       expect(wrapper.state('isSaveButtonDisabled')).toEqual(false)
     })
 
