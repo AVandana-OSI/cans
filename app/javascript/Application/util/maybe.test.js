@@ -153,9 +153,7 @@ describe('Maybe', () => {
     })
 
     it('satisfies distributivity', () => {
-      expect(
-        Maybe.of(10).filter(x => isPositive(x) && isEven(x))._value
-      ).toEqual(
+      expect(Maybe.of(10).filter(x => isPositive(x) && isEven(x))._value).toEqual(
         Maybe.of(10)
           .filter(isPositive)
           .filter(isEven)._value

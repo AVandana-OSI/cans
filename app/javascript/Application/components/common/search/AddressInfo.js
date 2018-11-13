@@ -6,7 +6,9 @@ const AddressInfo = address => {
   const stateZip = [state, zip].filter(Boolean).join(' ')
   return (
     <div>
-      <span>{[streetAddress, city, stateZip].filter(Boolean).join(', ')}</span>
+      <span>
+        {streetAddress} {[city, stateZip].filter(Boolean).join(', ')}
+      </span>
     </div>
   )
 }

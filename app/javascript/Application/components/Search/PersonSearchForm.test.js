@@ -3,7 +3,7 @@ import { PersonSearchForm } from './index'
 import { shallow } from 'enzyme'
 import { Card, CardHeader, CardBody } from '@cwds/components/lib/Cards'
 import CardTitle from '@cwds/components/lib/Cards/CardTitle'
-import Autocompleter from '../common/search/Autocompleter'
+import Autocompleter from './Autocompleter'
 
 describe('<PersonSearchForm />', () => {
   describe('init PersonSearchForm', () => {

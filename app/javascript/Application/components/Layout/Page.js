@@ -2,12 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Container, Row, Col } from 'reactstrap'
 import { SideNav } from './'
-import {
-  Client,
-  ClientAddEditForm,
-  ClientsContainer,
-  ClientService,
-} from '../Client'
+import { Client, ClientAddEditForm, ClientsContainer, ClientService } from '../Client'
 import BreadCrumbsBuilder from './BreadCrumbsBuilder'
 import { navigation } from '../../util/constants'
 import { AssessmentContainer } from '../Assessment'
@@ -57,23 +52,11 @@ class Page extends Component {
       case navigation.CHILD_PROFILE_ADD:
         return <ClientAddEditForm isNewForm={true} {...params} />
       case navigation.CHILD_PROFILE_EDIT:
-        return (
-          this.state.client && (
-            <ClientAddEditForm isNewForm={false} {...params} />
-          )
-        )
+        return this.state.client && <ClientAddEditForm isNewForm={false} {...params} />
       case navigation.ASSESSMENT_ADD:
-        return (
-          this.state.client && (
-            <AssessmentContainer isNewForm={true} {...params} />
-          )
-        )
+        return this.state.client && <AssessmentContainer isNewForm={true} {...params} />
       case navigation.ASSESSMENT_EDIT:
-        return (
-          this.state.client && (
-            <AssessmentContainer isNewForm={false} {...params} />
-          )
-        )
+        return this.state.client && <AssessmentContainer isNewForm={false} {...params} />
       case navigation.CLIENT_SEARCH:
         return <SearchContainer />
       case navigation.STAFF_LIST:
@@ -87,10 +70,7 @@ class Page extends Component {
     if (!this.state.isLoaded) return null
     return (
       <Container>
-        <BreadCrumbsBuilder
-          navigateTo={this.props.navigateTo}
-          client={this.state.client}
-        />
+        <BreadCrumbsBuilder navigateTo={this.props.navigateTo} client={this.state.client} />
         <Row>
           <Col xs="12" role={'main'} id={'main-content'}>
             <Row>

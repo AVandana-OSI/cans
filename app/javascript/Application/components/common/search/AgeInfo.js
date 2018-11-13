@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import sanitizeHtml from 'sanitize-html'
 
@@ -17,7 +17,7 @@ const AgeInfo = ({ dateOfBirth }) => {
     if (dateOfBirth === `<em>${sanitizedDob}</em>`) {
       return (
         <span>
-          <em>{dob.format('M/D/YYYY')}</em>
+          <strong className="client-search-matched-field">{dob.format('M/D/YYYY')}</strong>
         </span>
       )
     }
@@ -25,18 +25,18 @@ const AgeInfo = ({ dateOfBirth }) => {
       return (
         <span>
           {dob.format('M/D/')}
-          <em>{dob.format('YYYY')}</em>
+          <strong className="client-search-matched-field">{dob.format('YYYY')}</strong>
         </span>
       )
     }
     return <span>{dob.format('M/D/YYYY')}</span>
   }
   return (
-    <div className="highlighted">
+    <div className="highlighted date-of-birth">
       {genDobHtml(dateOfBirth, sanitizedDob, dob)}
-      <span>{` (${ageInYears} ${
-        ageInYears > 1 || ageInYears === 0 ? 'years' : 'year'
-      })`}</span>
+      <span>
+        <strong>{` (${ageInYears} ${ageInYears > 1 || ageInYears === 0 ? 'years' : 'year'})`}</strong>
+      </span>
     </div>
   )
 }

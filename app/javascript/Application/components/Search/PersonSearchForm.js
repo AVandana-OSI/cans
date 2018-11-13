@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Card, CardHeader, CardBody } from '@cwds/components/lib/Cards'
 import CardTitle from '@cwds/components/lib/Cards/CardTitle'
-import Debouncer from '../common/Debouncer'
-import Autocompleter from '../common/search/Autocompleter'
+import Debouncer from './Debouncer'
+import Autocompleter from './Autocompleter'
 
 class PersonSearchForm extends PureComponent {
   render() {
@@ -18,11 +18,7 @@ class PersonSearchForm extends PureComponent {
           <label className="pull-left" htmlFor="client-search-autocompleter">
             {searchPrompt}
           </label>
-          <Debouncer
-            callback={() => {
-              console.log('DEBOUNCER')
-            }}
-          >
+          <Debouncer>
             <Autocompleter id="client-search-autocompleter" />
           </Debouncer>
         </CardBody>

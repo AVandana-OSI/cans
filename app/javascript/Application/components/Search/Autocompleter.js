@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import Autocomplete from 'react-autocomplete'
-import SuggestionHeader from './SuggestionHeader'
-import PersonSuggestion from './PersonSuggestion'
+import SuggestionHeader from '../common/search/SuggestionHeader'
+import PersonSuggestion from '../common/search/PersonSuggestion'
+import SearchPagination from '../common/search/SearchPagination'
+import { trimSafely } from '../../util/formatters'
 
 const MIN_SEARCHABLE_CHARS = 2
+const disablePagination = true
 
 const addPosAndSetAttr = results => {
   const one = 1
@@ -15,16 +18,17 @@ const addPosAndSetAttr = results => {
   }
 }
 
-const itemClassName = isHighlighted =>
-  `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
+const itemClassName = isHighlighted => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      menuVisible: true,
-      // menuVisible: false,
+      menuVisible: false,
       searchTerm: '',
+      pagination: {
+        disable: disablePagination,
+      },
       redirection: {
         shouldRedirect: false,
         legacyId: null,
@@ -32,38 +36,27 @@ export default class Autocompleter extends Component {
       },
     }
 
-    this.timer = null
-
     this.onFocus = this.onFocus.bind(this)
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
-    this.isSelectable = this.isSelectable.bind(this)
-    this.shouldItemRender = this.shouldItemRender.bind(this)
-  }
 
-  isSearchable(value) {
-    return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
+    this.changePage = this.changePage.bind(this)
   }
-
   hideMenu() {
     if (this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', '')
     }
-    this.setState({ menuVisible: true })
-    // this.setState({ menuVisible: false })
+    this.setState({ menuVisible: false })
   }
-
-  isSelectable(person) {
-    return person.isSealed
-    // canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride);
+  isSearchable(value) {
+    return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
   }
-
   onSelect(item) {
-    // if we clicked on the suggestion header, don't redirect
-    if (!item.suggestionHeader) {
+    // if we didn't select the suggestion header or footer, then redirect
+    if (!item.suggestionHeader && !item.suggestionFooter) {
       this.setState({
         redirection: {
           shouldRedirect: true,
@@ -73,15 +66,9 @@ export default class Autocompleter extends Component {
       })
     }
   }
-
   onItemSelect(_value, item) {
-    if (this.isSelectable(item)) {
-      window.alert('You are not authorized to add this person.') // eslint-disable-line no-alert
-      return
-    }
     this.onSelect(item)
   }
-
   onFocus() {
     if (this.isSearchable(this.state.searchTerm)) {
       this.setState({ menuVisible: true })
@@ -89,29 +76,46 @@ export default class Autocompleter extends Component {
       this.hideMenu()
     }
   }
+  changePage(currentPage, direction) {
+    const { searchTerm } = this.state
 
+    if (direction === 'prev') {
+      // get the previous set of clients from this.props.results
+    } else if (direction === 'next') {
+      const { results } = this.props
+      const numResults = results.length
+      const sortAfter = results[numResults - 1].sort
+
+      // get the next set of clients from Dora
+      this.props.debounce(searchTerm, sortAfter)
+    }
+  }
   renderMenu(items, _searchTerm, _style) {
     return <div className="autocomplete-menu">{items}</div>
   }
-
   renderEachItem(item, id, isHighlighted) {
-    const { results } = this.props
-    const totalResults = results.length
-    const searchTerm = this.state.searchTerm
-
+    const { searchTerm, pagination } = this.state
     const key = `${item.posInSet}-of-${item.setSize}`
+
     if (item.suggestionHeader) {
       return (
-        <div
-          id={id}
-          className={'suggestion-header-wrapper'}
-          key={key}
-          aria-live="polite"
-        >
+        <div id={id} className={'suggestion-header-wrapper'} key={key} aria-live="polite">
           <SuggestionHeader
-            currentNumberOfResults={totalResults}
-            total={totalResults}
+            currentNumberOfResults={this.props.totalResults}
+            total={this.props.totalResults}
             searchTerm={searchTerm}
+          />
+        </div>
+      )
+    }
+    if (item.suggestionFooter) {
+      return (
+        <div id={id} key={key} className="suggestion-footer-wrapper">
+          <SearchPagination
+            key={pagination.currentPage}
+            changePage={this.changePage}
+            totalResults={this.props.totalResults}
+            disable={pagination.disable}
           />
         </div>
       )
@@ -122,24 +126,24 @@ export default class Autocompleter extends Component {
       </div>
     )
   }
-
   renderItem(item, isHighlighted, _styles) {
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
 
     return this.renderEachItem(item, id, isHighlighted)
   }
-
   onChangeInput(_, searchTerm) {
-    this.setState({ searchTerm })
-    if (this.isSearchable(searchTerm)) {
-      this.setState({ menuVisible: true })
-      this.props.debounce(searchTerm)
+    const trimmedSearchTerm = trimSafely(searchTerm)
+
+    if (this.isSearchable(trimSafely(trimmedSearchTerm))) {
+      this.setState({ searchTerm, menuVisible: true })
+      this.props.debounce(trimmedSearchTerm)
     } else {
       this.hideMenu()
+      this.props.onClear()
+      this.setState({ searchTerm })
     }
   }
-
   renderInput(props) {
     const newProps = {
       ...props,
@@ -150,29 +154,27 @@ export default class Autocompleter extends Component {
     }
     return <input {...newProps} />
   }
-
-  shouldItemRender(item, searchTerm) {
-    if (item.suggestionHeader) {
-      return true
-    } else if (
-      item.fullName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-    ) {
-      return true
-    } else {
-      return false
-    }
-  }
-
   renderAutocomplete() {
-    const { results } = this.props
-    addPosAndSetAttr(results) // Sequentually numbering items ***
-    console.log(results)
-    const { id } = this.props
+    const { results, id } = this.props
+    if (results.length > 0) {
+      addPosAndSetAttr(results) // Sequentually numbering items ***
+    }
     const suggestionHeader = [
-      { suggestionHeader: 'suggestion Header', fullName: '' },
+      {
+        suggestionHeader: 'suggestion Header',
+        fullName: '',
+        posInSet: 'header',
+        setSize: results.length,
+      },
     ]
-    const newResults = suggestionHeader.concat(results)
-
+    const suggestionFooter = [
+      {
+        suggestionFooter: 'suggestion Footer',
+        posInSet: 'footer',
+        setSize: results.length,
+      },
+    ]
+    const newResults = suggestionHeader.concat(results).concat(suggestionFooter)
     return (
       <Autocomplete
         ref={el => (this.element_ref = el)}
@@ -187,14 +189,13 @@ export default class Autocompleter extends Component {
         renderItem={this.renderItem}
         getItemValue={item => item.fullName}
         onSelect={this.onItemSelect}
-        shouldItemRender={this.shouldItemRender}
       />
     )
   }
-
   render() {
     const { redirection } = this.state
     const { shouldRedirect, legacyId } = redirection
+
     if (shouldRedirect) {
       return (
         <Redirect
@@ -206,12 +207,26 @@ export default class Autocompleter extends Component {
         />
       )
     }
+
     return this.renderAutocomplete()
   }
 }
 
+Autocompleter.defaultProps = {
+  debounce: () => {},
+  onClear: () => {},
+  results: [],
+  totalResults: 0,
+  totalPages: 0,
+}
+
 Autocompleter.propTypes = {
+  debounce: PropTypes.func,
   id: PropTypes.string.isRequired,
+  onClear: PropTypes.func,
+  results: PropTypes.array,
+  totalPages: PropTypes.number,
+  totalResults: PropTypes.number,
 }
 
 Autocompleter.displayName = 'Autocompleter'

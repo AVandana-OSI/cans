@@ -34,9 +34,7 @@ describe('<SuggestionHeader />', () => {
           searchTerm: 'casey',
         }
         const wrapper = shallow(<SuggestionHeader {...props} />)
-        expect(wrapper.find('strong').text()).toEqual(
-          `Showing 1-10 of 10 results for "casey"`
-        )
+        expect(wrapper.find('strong').text()).toEqual(`Showing 1-10 of 10 results for "casey"`)
       })
 
       it('renders no results when currentNumberOfResults is less than 1', () => {
@@ -46,9 +44,7 @@ describe('<SuggestionHeader />', () => {
           searchTerm: 'casey',
         }
         const wrapper = shallow(<SuggestionHeader {...props} />)
-        expect(wrapper.find('strong').text()).toEqual(
-          `No results were found for "casey"`
-        )
+        expect(wrapper.find('strong').text()).toEqual(`No results were found for "casey"`)
       })
 
       it('renders null when the total is null', () => {

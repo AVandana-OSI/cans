@@ -1,18 +1,11 @@
 const isUserInfoReady = (userInfo, hasAddSensitivePerson) =>
-  userInfo &&
-  (hasAddSensitivePerson === true || hasAddSensitivePerson === false)
+  userInfo && (hasAddSensitivePerson === true || hasAddSensitivePerson === false)
 
-const areDifferentCounties = (userCounty, clientCounty) =>
-  userCounty && clientCounty && userCounty !== clientCounty
+const areDifferentCounties = (userCounty, clientCounty) => userCounty && clientCounty && userCounty !== clientCounty
 
 const ALLOWED_CLIENT_COUNTIES = 1
 
-export const canUserAddClient = (
-  userInfo,
-  hasAddSensitivePerson,
-  client,
-  hasOverride
-) => {
+export const canUserAddClient = (userInfo, hasAddSensitivePerson, client, hasOverride) => {
   if (hasOverride || !isUserInfoReady(userInfo, hasAddSensitivePerson)) {
     return true
   }
@@ -26,8 +19,5 @@ export const canUserAddClient = (
   const clientCounty = clientCounties[0]
   const { county: userCounty } = userInfo || {}
 
-  return (
-    !isSensitive ||
-    (hasAddSensitivePerson && !areDifferentCounties(userCounty, clientCounty))
-  )
+  return !isSensitive || (hasAddSensitivePerson && !areDifferentCounties(userCounty, clientCounty))
 }

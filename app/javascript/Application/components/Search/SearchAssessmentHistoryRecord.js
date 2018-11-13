@@ -13,7 +13,7 @@ class SearchAssessmentHistoryRecord extends PureComponent {
     return (
       <Container className={'search-history-item'}>
         <Row>
-          <Col xs="1">{<AssessmentRecordIcon status={status} />}</Col>
+          <div className="assessment-record-icon">{<AssessmentRecordIcon status={status} />}</div>
           <Col xs="11" className="assessment-status">
             <span>{getDisplayAssessmentStatus(status)}</span>
           </Col>

@@ -28,9 +28,7 @@ describe('<AddressInfo />', () => {
   describe('renders address info', () => {
     it('renders the address', () => {
       const wrapper = shallow(<AddressInfo {...props} />)
-      expect(wrapper.find('span').text()).toEqual(
-        '1234 Hansons Way, Sacramento, CA 95834'
-      )
+      expect(wrapper.find('span').text()).toEqual('1234 Hansons Way Sacramento, CA 95834')
     })
   })
 })

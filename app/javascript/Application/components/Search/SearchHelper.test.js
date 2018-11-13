@@ -1,44 +1,30 @@
-import * as matchers from 'jasmine-immutable-matchers'
 import { fromJS } from 'immutable'
 import {
-  mapDoraPersonToParticipant,
   mapLanguages,
   mapRaces,
-  mapEthnicities,
   mapIsSensitive,
   mapIsSealed,
   mapPhoneNumber,
   mapAddress,
-} from './SearchHelper'
+  encodedSearchAfterParams,
+} from './searchHelper'
 import { RESIDENCE_TYPE } from '../../enums/AddressType'
+import { sort } from 'fp-ts/lib/Array'
 
-describe('peopleSearchHelper', () => {
-  beforeEach(() => jasmine.addMatchers(matchers))
-
-  const languages = [
-    { code: '1', value: 'English' },
-    { code: '2', value: 'French' },
-    { code: '3', value: 'Italian' },
-  ]
+describe('searchHelper', () => {
+  const languages = [{ code: '1', value: 'English' }, { code: '2', value: 'French' }, { code: '3', value: 'Italian' }]
   const ethnicityTypes = [
     { code: '1', value: 'European' },
     { code: '2', value: 'French' },
     { code: '3', value: 'Romanian' },
   ]
-  const raceTypes = [
-    { code: '1', value: 'Race 1' },
-    { code: '2', value: 'Race 2' },
-    { code: '3', value: 'Race 3' },
-  ]
+  const raceTypes = [{ code: '1', value: 'Race 1' }, { code: '2', value: 'Race 2' }, { code: '3', value: 'Race 3' }]
   const unableToDetermineCodes = [
     { code: 'A', value: 'Abandoned' },
     { code: 'I', value: 'Unknown' },
     { code: 'K', value: 'Unknown' },
   ]
-  const hispanicOriginCodes = [
-    { code: 'Y', value: 'yes' },
-    { code: 'N', value: 'no' },
-  ]
+  const hispanicOriginCodes = [{ code: 'Y', value: 'yes' }, { code: 'N', value: 'no' }]
 
   const addressTypes = [{ code: RESIDENCE_TYPE, value: 'address type' }]
 
@@ -51,209 +37,18 @@ describe('peopleSearchHelper', () => {
     unableToDetermineCodes,
   }
 
-  describe('mapDoraPersonToParticipant', () => {
-    it('maps all fields', () => {
-      const doraPerson = {
-        race_ethnicity: {
-          hispanic_origin_code: 'N',
-          unable_to_determine_code: '',
-          race_codes: [{ id: '1' }],
-          hispanic_codes: [],
-          hispanic_unable_to_determine_code: '',
-        },
-        addresses: [
-          {
-            zip: '99999',
-            city: 'Al Haad',
-            type: { id: RESIDENCE_TYPE },
-            street_name: 'Canary Alley',
-            state_name: 'California',
-            street_number: '15',
-            effective_start_date: '1997-09-04',
-            id: 'NuzhtHm083',
-            state: { id: '1828' },
-            state_code: 'CA',
-            zip_4: '1111',
-            phone_numbers: [{ number: '9660007290' }],
-          },
-        ],
-        gender: 'male',
-        languages: [
-          {
-            id: '2',
-            primary: true,
-          },
-          {
-            id: '1',
-            primary: false,
-          },
-        ],
-        date_of_birth: '1994-09-29',
-        date_of_death: '1996-09-21',
-        legacy_descriptor: {
-          legacy_id: 'OkMXEhe083',
-          legacy_ui_id: '1673-3395-1268-0001926',
-          legacy_last_updated: '2004-11-16T17:25:53.407-0800',
-          legacy_table_name: 'PLC_HM_T',
-          legacy_table_description: 'Placement Home',
-        },
-        last_name: 'John',
-        middle_name: '',
-        name_suffix: 'jr',
-        ssn: '996005129',
-        phone_numbers: [{ number: '9660007290' }],
-        id: 'OkMXEhe083',
-        first_name: 'Mohammed',
-        sensitivity_indicator: 'N',
-        csec: [
-          {
-            description: 'Victim in Open Case not in Foster Care',
-            csec_code_id: '6870',
-            start_date: '2017-08-04',
-          },
-        ],
-      }
-      const participant = {
-        date_of_birth: '1994-09-29',
-        date_of_death: '1996-09-21',
-        probation_youth: false,
-        approximate_age: null,
-        approximate_age_units: null,
-        first_name: 'Mohammed',
-        gender: 'male',
-        middle_name: '',
-        last_name: 'John',
-        ssn: '996005129',
-        sealed: false,
-        sensitive: false,
-        legacy_descriptor: {
-          legacy_id: 'OkMXEhe083',
-          legacy_ui_id: '1673-3395-1268-0001926',
-          legacy_last_updated: '2004-11-16T17:25:53.407-0800',
-          legacy_table_name: 'PLC_HM_T',
-          legacy_table_description: 'Placement Home',
-        },
-        phone_numbers: [{ number: '9660007290' }],
-        name_suffix: 'jr',
-        addresses: [
-          {
-            city: 'Al Haad',
-            state: 'CA',
-            street_address: '15 Canary Alley',
-            zip: '99999',
-            type: 'address type',
-          },
-        ],
-        id: 'OkMXEhe083',
-        legacy_id: 'OkMXEhe083',
-        roles: [],
-        languages: ['French', 'English'],
-        races: [
-          {
-            race: 'Race 1',
-            race_detail: 'European',
-          },
-        ],
-        ethnicity: {
-          hispanic_latino_origin: 'no',
-          ethnicity_detail: [],
-        },
-        csec: [
-          {
-            description: 'Victim in Open Case not in Foster Care',
-            csec_code_id: '6870',
-            start_date: '2017-08-04',
-          },
-        ],
-      }
-
-      const state = fromJS({ systemCodes })
-
-      const result = mapDoraPersonToParticipant(state, fromJS(doraPerson))
-
-      fromJS(participant).forEach((value, key) =>
-        expect(result.get(key)).toEqualImmutable(value)
-      )
-      expect(result).toEqualImmutable(fromJS(participant))
-    })
-
-    it('defaults csec to an empty list', () => {
-      const doraPerson = {
-        race_ethnicity: {
-          hispanic_origin_code: 'N',
-          unable_to_determine_code: '',
-          race_codes: [{ id: '1' }],
-          hispanic_codes: [],
-          hispanic_unable_to_determine_code: '',
-        },
-        addresses: [
-          {
-            zip: '99999',
-            city: 'Al Haad',
-            type: { id: RESIDENCE_TYPE },
-            street_name: 'Canary Alley',
-            state_name: 'California',
-            street_number: '15',
-            effective_start_date: '1997-09-04',
-            id: 'NuzhtHm083',
-            state: { id: '1828' },
-            state_code: 'CA',
-            zip_4: '1111',
-            phone_numbers: [{ number: '9660007290' }],
-          },
-        ],
-        gender: 'male',
-        languages: [
-          {
-            id: '2',
-            primary: true,
-          },
-          {
-            id: '1',
-            primary: false,
-          },
-        ],
-        date_of_birth: '1994-09-29',
-        date_of_death: '1996-09-21',
-        legacy_descriptor: {
-          legacy_id: 'OkMXEhe083',
-          legacy_ui_id: '1673-3395-1268-0001926',
-          legacy_last_updated: '2004-11-16T17:25:53.407-0800',
-          legacy_table_name: 'PLC_HM_T',
-          legacy_table_description: 'Placement Home',
-        },
-        last_name: 'John',
-        middle_name: '',
-        name_suffix: 'jr',
-        ssn: '996005129',
-        phone_numbers: [{ number: '9660007290' }],
-        id: 'OkMXEhe083',
-        first_name: 'Mohammed',
-        sensitivity_indicator: 'N',
-        // No csec data
-      }
-      const state = fromJS({ systemCodes })
-
-      const result = mapDoraPersonToParticipant(state, fromJS(doraPerson))
-
-      expect(result.get('csec')).toEqualImmutable(fromJS([]))
-    })
-  })
-
   describe('mapLanguages', () => {
-    it('maps languages to lov values by id, sorting by primary', () => {
+    it('maps languages object to values, sorting by primary', () => {
       const result = fromJS({
         languages: [
-          { id: '3', primary: true }, // Italian
-          { id: '2', primary: false }, // French
-          { id: '1', primary: true },
-        ], // English
+          { id: '3', name: 'Italian', primary: true }, // Italian
+          { id: '2', name: 'French', primary: false }, // French
+          { id: '1', name: 'English', primary: true }, // English
+        ],
       })
-      const state = fromJS({ systemCodes: { languages } })
-      const languageResult = mapLanguages(state, result)
-      expect(languageResult).toEqualImmutable(
-        fromJS(['Italian', 'English', 'French'])
-      )
+      const languageResult = mapLanguages(result)
+
+      expect(languageResult.toJS()).toEqual(['Italian', 'English', 'French'])
     })
   })
 
@@ -263,6 +58,7 @@ describe('peopleSearchHelper', () => {
         sensitivity_indicator: 'S',
       })
       const sensitiveResult = mapIsSensitive(result)
+
       expect(sensitiveResult).toEqual(true)
     })
 
@@ -271,6 +67,7 @@ describe('peopleSearchHelper', () => {
         sensitivity_indicator: 'R',
       })
       const sensitiveResult = mapIsSensitive(result)
+
       expect(sensitiveResult).toEqual(false)
     })
   })
@@ -281,6 +78,7 @@ describe('peopleSearchHelper', () => {
         sensitivity_indicator: 'R',
       })
       const sensitiveResult = mapIsSealed(result)
+
       expect(sensitiveResult).toEqual(true)
     })
 
@@ -289,6 +87,7 @@ describe('peopleSearchHelper', () => {
         sensitivity_indicator: 'S',
       })
       const sensitiveResult = mapIsSealed(result)
+
       expect(sensitiveResult).toEqual(false)
     })
   })
@@ -342,13 +141,12 @@ describe('peopleSearchHelper', () => {
           },
         ],
       })
-      expect(mapPhoneNumber(result)).toEqualImmutable(
-        fromJS([
-          { number: '9200002665', type: 'Home' },
-          { number: '9230003403', type: 'Work' },
-          { number: '8720007345', type: 'Cell' },
-        ])
-      )
+
+      expect(mapPhoneNumber(result).toJS()).toEqual([
+        { number: '9200002665', type: 'Home' },
+        { number: '9230003403', type: 'Work' },
+        { number: '8720007345', type: 'Cell' },
+      ])
     })
   })
 
@@ -366,17 +164,16 @@ describe('peopleSearchHelper', () => {
           },
         ],
       })
-      const state = fromJS({ systemCodes })
-      const addressResult = mapAddress(state, result)
-      expect(addressResult).toEqualImmutable(
-        fromJS({
-          city: 'city',
-          state: 'state',
-          zip: 'zip',
-          type: 'address type',
-          streetAddress: '123 C Street',
-        })
-      )
+      const systemCodesImmutable = fromJS({ systemCodes })
+      const addressResult = mapAddress(result, systemCodesImmutable)
+
+      expect(addressResult.toJS()).toEqual({
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        type: 'address type',
+        streetAddress: '123 C Street',
+      })
     })
 
     it('returns null list when typeId is not 32', () => {
@@ -392,8 +189,9 @@ describe('peopleSearchHelper', () => {
           },
         ],
       })
-      const state = fromJS({ systemCodes })
-      const addressResult = mapAddress(state, result)
+      const systemCodesImmutable = fromJS({ systemCodes })
+      const addressResult = mapAddress(result, systemCodesImmutable)
+
       expect(addressResult).toEqual(null)
     })
 
@@ -418,17 +216,16 @@ describe('peopleSearchHelper', () => {
           },
         ],
       })
-      const state = fromJS({ systemCodes })
-      const addressResult = mapAddress(state, result)
-      expect(addressResult).toEqualImmutable(
-        fromJS({
-          city: 'city',
-          state: 'state',
-          zip: 'zip',
-          type: 'address type',
-          streetAddress: '123 C Street',
-        })
-      )
+      const systemCodesImmutable = fromJS({ systemCodes })
+      const addressResult = mapAddress(result, systemCodesImmutable)
+
+      expect(addressResult.toJS()).toEqual({
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        type: 'address type',
+        streetAddress: '123 C Street',
+      })
     })
 
     it('returns address type Placement Home if the legacy table name is PLC_HM_T', () => {
@@ -451,22 +248,21 @@ describe('peopleSearchHelper', () => {
           },
         ],
       })
-      const state = fromJS({ systemCodes })
-      const addressResult = mapAddress(state, result)
-      expect(addressResult).toEqualImmutable(
-        fromJS({
-          city: 'city',
-          state: 'state',
-          zip: 'zip',
-          type: 'Placement Home',
-          streetAddress: '123 C Street',
-        })
-      )
+      const systemCodesImmutable = fromJS({ systemCodes })
+      const addressResult = mapAddress(result, systemCodesImmutable)
+
+      expect(addressResult.toJS()).toEqual({
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        type: 'Placement Home',
+        streetAddress: '123 C Street',
+      })
     })
   })
 
   describe('mapRaces', () => {
-    it('maps races to lov values by id', () => {
+    it('maps race objects to values', () => {
       const result = fromJS({
         race_ethnicity: {
           race_codes: [
@@ -476,45 +272,64 @@ describe('peopleSearchHelper', () => {
           ],
         },
       })
-      const state = fromJS({ systemCodes: { ethnicityTypes, raceTypes } })
-      const racesResult = mapRaces(state, result)
-      expect(racesResult).toEqualImmutable(
-        fromJS([
-          { race: 'Race 3', race_detail: 'Romanian' },
-          { race: 'Race 2', race_detail: 'French' },
-          { race: 'Race 1', race_detail: 'European' },
-        ])
-      )
+      const systemCodesImmutable = fromJS({
+        systemCodes: { unableToDetermineCodes },
+      })
+      const racesResult = mapRaces(result, systemCodesImmutable)
+
+      expect(racesResult.toJS()).toEqual(['Romanian', 'French', 'European'])
     })
 
     it('maps races to "Abandoned" if unableToDetermineCode is "A"', () => {
       const result = fromJS({
-        unable_to_determine_code: 'A',
+        race_ethnicity: {
+          unable_to_determine_code: 'A',
+        },
       })
-      const state = fromJS({ systemCodes: { unableToDetermineCodes } })
+      const systemCodesImmutable = fromJS({
+        systemCodes: { unableToDetermineCodes },
+      })
+      const racesResult = mapRaces(result, systemCodesImmutable)
 
-      const racesResult = mapRaces(state, result)
-      expect(racesResult).toEqualImmutable(fromJS(['Abandoned']))
+      expect(racesResult.toJS()).toEqual(['Abandoned'])
     })
 
     it('maps races to "Unknown" if unableToDetermineCode is "I"', () => {
       const result = fromJS({
-        unable_to_determine_code: 'I',
+        race_ethnicity: {
+          unable_to_determine_code: 'I',
+        },
       })
-      const state = fromJS({ systemCodes: { unableToDetermineCodes } })
+      const systemCodesImmutable = fromJS({
+        systemCodes: { unableToDetermineCodes },
+      })
+      const racesResult = mapRaces(result, systemCodesImmutable)
 
-      const racesResult = mapRaces(state, result)
-      expect(racesResult).toEqualImmutable(fromJS(['Unknown']))
+      expect(racesResult.toJS()).toEqual(['Unknown'])
     })
 
     it('maps races to "Unknown" if unableToDetermineCode is "K"', () => {
       const result = fromJS({
-        unable_to_determine_code: 'K',
+        race_ethnicity: {
+          unable_to_determine_code: 'K',
+        },
       })
-      const state = fromJS({ systemCodes: { unableToDetermineCodes } })
+      const systemCodesImmutable = fromJS({
+        systemCodes: { unableToDetermineCodes },
+      })
+      const racesResult = mapRaces(result, systemCodesImmutable)
 
-      const racesResult = mapRaces(state, result)
-      expect(racesResult).toEqualImmutable(fromJS(['Unknown']))
+      expect(racesResult.toJS()).toEqual(['Unknown'])
     })
+  })
+})
+
+describe('encodedSearchAfterParams', () => {
+  it('returns url encoded query string params', () => {
+    const sortAfter = [125.48025, 'person-summary#9GE4pyI0N3']
+
+    expect(encodedSearchAfterParams(sortAfter)).toBe(
+      'search_after%5B%5D=125.48025&search_after%5B%5D=person-summary%239GE4pyI0N3'
+    )
   })
 })

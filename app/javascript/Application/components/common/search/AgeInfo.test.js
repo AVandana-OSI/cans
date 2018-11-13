@@ -4,28 +4,26 @@ import { shallow } from 'enzyme'
 import moment from 'moment'
 
 describe('<AgeInfo />', () => {
-  describe('init AgeInfo', () => {
-    describe('page layout', () => {
-      it('renders with 1 <div> element', () => {
-        const props = { dateOfBirth: '1989-11-01' }
-        const wrapper = shallow(<AgeInfo {...props} />)
-        expect(wrapper.find('div').length).toBe(1)
-      })
+  describe('page layout', () => {
+    it('renders with 1 <div> element', () => {
+      const props = { dateOfBirth: '1989-11-01' }
+      const wrapper = shallow(<AgeInfo {...props} />)
+      expect(wrapper.find('div.date-of-birth').length).toBe(1)
+    })
 
-      it('renders with 2 <span> elements', () => {
-        const props = { dateOfBirth: '1989-11-01' }
-        const wrapper = shallow(<AgeInfo {...props} />)
-        expect(wrapper.find('span').length).toBe(2)
-      })
+    it('renders with 2 <span> elements', () => {
+      const props = { dateOfBirth: '1989-11-01' }
+      const wrapper = shallow(<AgeInfo {...props} />)
+      expect(wrapper.find('span').length).toBe(2)
     })
   })
 
-  describe('Age Info', () => {
+  describe('age info', () => {
     it('renders info when DOB is present', () => {
       const props = { dateOfBirth: '1989-11-01' }
       const wrapper = shallow(<AgeInfo {...props} />)
       expect(wrapper.html()).toContain(
-        '<div class="highlighted"><span>11/1/1989</span><span> (29 years)</span></div>'
+        '<div class="highlighted date-of-birth"><span>11/1/1989</span><span><strong> (29 years)</strong></span></div>'
       )
     })
 
@@ -46,7 +44,7 @@ describe('<AgeInfo />', () => {
       }
       const wrapper = shallow(<AgeInfo {...props} />)
       expect(wrapper.html()).toContain(
-        `<div class="highlighted"><span>${formattedDob}</span><span> (0 years)</span></div>`
+        `<div class="highlighted date-of-birth"><span>${formattedDob}</span><span><strong> (0 years)</strong></span></div>`
       )
     })
 
@@ -61,8 +59,18 @@ describe('<AgeInfo />', () => {
       }
       const wrapper = shallow(<AgeInfo {...props} />)
       expect(wrapper.html()).toContain(
-        `<div class="highlighted"><span>${formattedDob}</span><span> (1 year)</span></div>`
+        `<div class="highlighted date-of-birth"><span>${formattedDob}</span><span><strong> (1 year)</strong></span></div>`
       )
+    })
+
+    describe('when dob field is the matched phrase', () => {
+      it('renders date of birth in bold text', () => {
+        const props = { dateOfBirth: '<em>1997-12-11</em>' }
+        const wrapper = shallow(<AgeInfo {...props} />)
+        expect(wrapper.find('strong.client-search-matched-field').html()).toBe(
+          '<strong class="client-search-matched-field">12/11/1997</strong>'
+        )
+      })
     })
   })
 })

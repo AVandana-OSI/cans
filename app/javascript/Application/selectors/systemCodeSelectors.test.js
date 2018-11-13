@@ -17,16 +17,11 @@ import { fromJS } from 'immutable'
 
 describe('systemCodeSelectors', () => {
   describe('systemCodeDisplayValue', () => {
-    const systemCodes = fromJS([
-      { code: '007', value: 'James Bond' },
-      { code: '006', value: 'Alec Trevelyan' },
-    ])
+    const systemCodes = fromJS([{ code: '007', value: 'James Bond' }, { code: '006', value: 'Alec Trevelyan' }])
 
     it('finds the value with matching code', () => {
       expect(systemCodeDisplayValue('007', systemCodes)).toEqual('James Bond')
-      expect(systemCodeDisplayValue('006', systemCodes)).toEqual(
-        'Alec Trevelyan'
-      )
+      expect(systemCodeDisplayValue('006', systemCodes)).toEqual('Alec Trevelyan')
     })
 
     it('returns a undefined when none is found', () => {
@@ -36,9 +31,7 @@ describe('systemCodeSelectors', () => {
 
   describe('selectAddressCounties', () => {
     it('returns a list of address counties', () => {
-      const addressCounties = [
-        { county_code: '99', value: 'State Of California' },
-      ]
+      const addressCounties = [{ county_code: '99', value: 'State Of California' }]
       const otherSystemCodes = [{ county_code: '1', value: 'invalid' }]
       const state = fromJS({
         systemCodes: { addressCounties, otherSystemCodes },
@@ -74,10 +67,7 @@ describe('systemCodeSelectors', () => {
 
   describe('selectCounties', () => {
     it('returns a list of counties', () => {
-      const counties = [
-        { code: '1', value: 'ABC' },
-        { code: '99', value: 'State of California' },
-      ]
+      const counties = [{ code: '1', value: 'ABC' }, { code: '99', value: 'State of California' }]
       const otherSystemCodes = [{ code: '2', value: 'invalid' }]
       const state = fromJS({ systemCodes: { counties, otherSystemCodes } })
       expect(selectCounties(state).toJS()).toEqual(counties)
@@ -138,9 +128,7 @@ describe('systemCodeSelectors', () => {
       const state = fromJS({
         systemCodes: { hispanicOriginCodes, otherSystemCodes },
       })
-      expect(selectHispanicOriginCodes(state).toJS()).toEqual(
-        hispanicOriginCodes
-      )
+      expect(selectHispanicOriginCodes(state).toJS()).toEqual(hispanicOriginCodes)
     })
 
     it('returns an empty list when origin codes are empty', () => {
@@ -185,9 +173,7 @@ describe('systemCodeSelectors', () => {
 
   describe('selectRelationshipTypes', () => {
     it('returns a list of relationship types', () => {
-      const relationshipTypes = [
-        { county_code: '99', value: 'State Of California' },
-      ]
+      const relationshipTypes = [{ county_code: '99', value: 'State Of California' }]
       const state = fromJS({ systemCodes: { relationshipTypes } })
       expect(selectRelationshipTypes(state).toJS()).toEqual(relationshipTypes)
     })
@@ -201,13 +187,9 @@ describe('systemCodeSelectors', () => {
 
   describe('selectScreenResponseTimes', () => {
     it('returns a list of screen response times', () => {
-      const screenResponseTimes = [
-        { county_code: '99', value: 'State Of California' },
-      ]
+      const screenResponseTimes = [{ county_code: '99', value: 'State Of California' }]
       const state = fromJS({ systemCodes: { screenResponseTimes } })
-      expect(selectScreenResponseTimes(state).toJS()).toEqual(
-        screenResponseTimes
-      )
+      expect(selectScreenResponseTimes(state).toJS()).toEqual(screenResponseTimes)
     })
 
     it('returns an empty list when screen response times are empty', () => {
@@ -219,13 +201,9 @@ describe('systemCodeSelectors', () => {
 
   describe('selectUnableToDetermineCodes', () => {
     it('returns a list of relationship types', () => {
-      const unableToDetermineCodes = [
-        { county_code: '99', value: 'State Of California' },
-      ]
+      const unableToDetermineCodes = [{ county_code: '99', value: 'State Of California' }]
       const state = fromJS({ systemCodes: { unableToDetermineCodes } })
-      expect(selectUnableToDetermineCodes(state).toJS()).toEqual(
-        unableToDetermineCodes
-      )
+      expect(selectUnableToDetermineCodes(state).toJS()).toEqual(unableToDetermineCodes)
     })
 
     it('returns an empty list when relationship types are empty', () => {
@@ -240,21 +218,14 @@ describe('systemCodeSelectors', () => {
       const counties = [{ code: '1', value: 'ABC' }]
       const otherSystemCodes = [{ code: '2', value: 'invalid' }]
       const state = fromJS({ systemCodes: { counties, otherSystemCodes } })
-      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual(
-        counties
-      )
+      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual(counties)
     })
 
     it('removes State of California from the list', () => {
-      const counties = [
-        { code: '1', value: 'ABC' },
-        { code: '99', value: 'State of California' },
-      ]
+      const counties = [{ code: '1', value: 'ABC' }, { code: '99', value: 'State of California' }]
       const otherSystemCodes = [{ code: '2', value: 'invalid' }]
       const state = fromJS({ systemCodes: { counties, otherSystemCodes } })
-      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual([
-        counties[0],
-      ])
+      expect(selectCountiesWithoutStateOfCalifornia(state).toJS()).toEqual([counties[0]])
     })
 
     it('returns an empty list when counties are empty', () => {

@@ -23,8 +23,7 @@ export function addTrailingSlash(url) {
   return url[url.length - 1] === '/' ? url : `${url}/`
 }
 
-export const isCommaSuffix = suffix =>
-  Boolean(typeof suffix === 'string' && NAME_SUFFIXES[suffix.toLowerCase()])
+export const isCommaSuffix = suffix => Boolean(typeof suffix === 'string' && NAME_SUFFIXES[suffix.toLowerCase()])
 
 export const formatNameSuffix = suffix => {
   const downCaseSuffix = typeof suffix === 'string' && suffix.toLowerCase()
@@ -41,10 +40,7 @@ export const formatHighlightedSuffix = highlightedSuffix => {
   if (!formattedSuffix) {
     return formattedSuffix
   }
-  const rehighlightedSuffix =
-    suffix === highlightedSuffix
-      ? formattedSuffix
-      : `<em>${formattedSuffix}</em>`
+  const rehighlightedSuffix = suffix === highlightedSuffix ? formattedSuffix : `<em>${formattedSuffix}</em>`
 
   return rehighlightedSuffix
 }

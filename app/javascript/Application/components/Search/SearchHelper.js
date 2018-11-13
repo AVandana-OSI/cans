@@ -1,10 +1,6 @@
-import { Map, List, fromJS } from 'immutable'
+import { Map, List } from 'immutable'
 import {
   selectAddressTypes,
-  selectEthnicityTypes,
-  selectHispanicOriginCodes,
-  selectLanguages,
-  selectRaceTypes,
   selectUnableToDetermineCodes,
   systemCodeDisplayValue,
 } from '../../selectors/systemCodeSelectors'
@@ -13,51 +9,51 @@ import { isPlacementHome } from '../../util/isPlacementHome'
 import { zipFormatter } from '../../util/zipFormatter'
 import { Maybe } from '../../util/maybe'
 
-// export const buildSelector = (...funcs) => {
-//   const selector = funcs.pop()
-//   return (...args) => selector(...funcs.map(f => f(...args)))
-// }
-
 export const mapCounties = result => {
-  const counties = result
-    .get('client_counties')
-    .map(county => county.get('description'))
-
-  return counties
+  return result.get('client_counties') ? result.get('client_counties').map(county => county.get('description')) : List()
 }
 
 export const mapLanguages = result => {
-  const languages = result
-    .get('languages')
-    .map(language => language.get('name'))
-  return languages
+  return result.get('languages')
+    ? result
+        .get('languages')
+        .sort((first, second) => second.get('primary') - first.get('primary'))
+        .map(language => language.get('name'))
+    : List()
 }
 
-export const mapIsSensitive = result =>
-  result.get('sensitivity_indicator', '').toUpperCase() === 'S'
-export const mapIsSealed = result =>
-  result.get('sensitivity_indicator', '').toUpperCase() === 'R'
-export const mapIsProbationYouth = result =>
-  result.get('open_case_responsible_agency_code', '').toUpperCase() === 'P'
+export const mapIsSensitive = result => result.get('sensitivity_indicator', '').toUpperCase() === 'S'
+export const mapIsSealed = result => result.get('sensitivity_indicator', '').toUpperCase() === 'R'
+export const mapIsProbationYouth = result => result.get('open_case_responsible_agency_code', '').toUpperCase() === 'P'
 
-export const mapRaces = result => {
-  const races = result
-    .get('race_ethnicity')
-    .get('race_codes')
-    .map(race => race.get('description'))
-  return races
-}
-
-const getStreetAddress = address =>
-  `${address.get('street_number') || ''} ${address.get('street_name') || ''}`
+const getStreetAddress = address => `${address.get('street_number') || ''} ${address.get('street_name') || ''}`
 
 const getDisplayType = (address, addressTypes) => {
   if (isPlacementHome(address)) {
     return 'Placement Home'
   } else {
-    return (
-      systemCodeDisplayValue(address.getIn(['type', 'id']), addressTypes) || ''
-    )
+    return systemCodeDisplayValue(address.getIn(['type', 'id']), addressTypes) || ''
+  }
+}
+
+export const mapRaces = (result, systemCodes) => {
+  const unableToDetermineCodes = selectUnableToDetermineCodes(systemCodes)
+
+  if (result.get('race_ethnicity')) {
+    if (result.get('race_ethnicity').get('unable_to_determine_code')) {
+      const clientUnableToDetermineCode = result.get('race_ethnicity').get('unable_to_determine_code')
+
+      return List([systemCodeDisplayValue(clientUnableToDetermineCode, unableToDetermineCodes)])
+    } else if (result.get('race_ethnicity').get('race_codes')) {
+      return result
+        .get('race_ethnicity')
+        .get('race_codes')
+        .map(race => race.get('description'))
+    } else {
+      return List()
+    }
+  } else {
+    return List()
   }
 }
 
@@ -87,3 +83,12 @@ export const mapPhoneNumber = result =>
     .filter(isResidence)
     .map(address => address.get('phone_numbers'))
     .valueOrElse(List())
+
+export const encodedSearchAfterParams = sortAfter => {
+  return sortAfter
+    ? sortAfter
+        .map(item => `search_after${encodeURIComponent('[]')}=${encodeURIComponent(item)}`)
+        .filter(Boolean)
+        .join('&')
+    : null
+}
