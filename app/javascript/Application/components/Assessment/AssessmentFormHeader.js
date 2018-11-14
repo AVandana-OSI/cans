@@ -20,7 +20,7 @@ class AssessmentFormHeader extends PureComponent {
 
   handleHasCaregiverSwitcher = event => {
     event.preventDefault()
-    this.props.handleWarningShow(true)
+    this.props.handleWarningShow(true, null)
   }
 
   handleHasCaregiverChange = event =>

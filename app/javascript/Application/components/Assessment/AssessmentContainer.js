@@ -175,6 +175,14 @@ class AssessmentContainer extends Component {
     })
   }
 
+  getCaregiverDomainsNumber = () => {
+    const domains = this.state.assessment.state.domains
+    const caregiverDomainNumber = domains.filter(domain => {
+      return domain.is_caregiver_domain === true
+    }).length
+    return caregiverDomainNumber
+  }
+
   handleCaregiverRemoveAll = (name, value) => {
     const tempAssessment = clone(this.state.assessment)
     tempAssessment[name] = value
@@ -183,13 +191,14 @@ class AssessmentContainer extends Component {
 
   handleCaregiverRemove = caregiverIndex => {
     const tempAssessment = clone(this.state.assessment)
-    if (caregiverIndex !== null) {
+    const captureCaregiverDomains = this.getCaregiverDomainsNumber()
+    if (!caregiverIndex || captureCaregiverDomains <= 1) {
+      this.handleCaregiverRemoveAll('has_caregiver', false)
+    } else {
       const domains = tempAssessment.state.domains
       const newDomains = domains.filter(domain => domain.caregiver_index !== caregiverIndex)
       tempAssessment.state.domains = newDomains
       this.updateAssessment(tempAssessment)
-    } else {
-      this.handleCaregiverRemoveAll('has_caregiver', false)
     }
   }
 

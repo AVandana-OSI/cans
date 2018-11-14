@@ -15,6 +15,7 @@ import {
   instrument,
   updatedAssessmentDomains,
   updatedAssessmentWithDomains,
+  domainWithTwoCaregiver,
 } from './assessment.mocks.test'
 import { LoadingState } from '../../util/loadingHelper'
 import { CloseableAlert } from '../common/CloseableAlert'
@@ -204,6 +205,75 @@ describe('<AssessmentContainer />', () => {
         expect(wrapper.state().isCaregiverWarningShown).toEqual(false)
         wrapper.instance().handleCaregiverRemove(null)
         wrapper.instance().handleCaregiverRemoveAll('has_caregiver', false)
+        expect(wrapper.state().assessment.has_caregiver).toEqual(false)
+      })
+    })
+
+    describe('when user clicks remove or switches radio to no caregiver doamins are removed', () => {
+      const props = { ...defaultProps }
+      it('will delete the caregiver by id ', () => {
+        const wrapper = mount(<AssessmentContainer {...props} />)
+        wrapper.setState({
+          assessment: {
+            ...assessment,
+            has_caregiver: true,
+            state: { ...assessment.state, domains: [...domainWithTwoCaregiver] },
+          },
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: 'a',
+        })
+        wrapper
+          .find('PageModal')
+          .find('.warning-modal-stay-logged-in')
+          .first()
+          .simulate('click')
+
+        wrapper.update()
+        expect(wrapper.state().assessment.state.domains.length).toEqual(1)
+        expect(wrapper.state().assessment.state.domains[0].caregiver_index).toEqual('b')
+      })
+
+      it('removes all caregiver domains when user confirms after switching radio button to no', () => {
+        const wrapper = mount(<AssessmentContainer {...props} />)
+        wrapper.setState({
+          assessment: {
+            ...assessment,
+            has_caregiver: true,
+            state: { ...assessment.state, domains: [...domainWithTwoCaregiver] },
+          },
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: null,
+        })
+        wrapper
+          .find('PageModal')
+          .find('.warning-modal-stay-logged-in')
+          .first()
+          .simulate('click')
+
+        wrapper.update()
+        expect(wrapper.state().assessment.state.domains.length).toEqual(0)
+      })
+
+      it('removes a single caregiver domain and the cargiver value is updated', () => {
+        const wrapper = mount(<AssessmentContainer {...props} />)
+        const single = [domainWithTwoCaregiver[1]]
+        wrapper.setState({
+          assessment: {
+            ...assessment,
+            has_caregiver: true,
+            state: { ...assessment.state, domains: [...single] },
+          },
+          isCaregiverWarningShown: true,
+          focusedCaregiverId: 'b',
+        })
+        wrapper
+          .find('PageModal')
+          .find('.warning-modal-stay-logged-in')
+          .first()
+          .simulate('click')
+
+        wrapper.update()
+        expect(wrapper.state().assessment.state.domains.length).toEqual(0)
         expect(wrapper.state().assessment.has_caregiver).toEqual(false)
       })
     })
