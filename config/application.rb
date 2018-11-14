@@ -32,7 +32,6 @@ module Cans
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    config.middleware.use Infrastructure::CwdsAuthenticator
     config.middleware.use SystemInformation::SystemInformationMiddleware
     config.middleware.insert_after(SystemInformation::SystemInformationMiddleware, Infrastructure::CwdsAuthenticator)
     config.middleware.insert_after(Infrastructure::CwdsAuthenticator, Infrastructure::CwdsPermissionChecker)
