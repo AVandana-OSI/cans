@@ -16,11 +16,3 @@ SystemInformation.configure do |config|
           'system-information' }
     ]
 end
-  
-
-
-
-
-
-
-
