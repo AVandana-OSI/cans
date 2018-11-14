@@ -34,6 +34,7 @@ module Cans
 
     config.middleware.use Infrastructure::CwdsAuthenticator
     config.middleware.use SystemInformation::SystemInformationMiddleware
+    config.middleware.insert_after(SystemInformation::SystemInformationMiddleware, Infrastructure::CwdsAuthenticator)
     config.middleware.insert_after(Infrastructure::CwdsAuthenticator, Infrastructure::CwdsPermissionChecker)
     config.middleware.insert_after(Infrastructure::CwdsPermissionChecker, Infrastructure::ApiMiddleware)
     config.middleware.insert_after(Infrastructure::ApiMiddleware, Infrastructure::TimeoutMiddleware)
