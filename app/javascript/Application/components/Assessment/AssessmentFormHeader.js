@@ -242,13 +242,16 @@ class AssessmentFormHeader extends PureComponent {
     return (
       <Fragment>
         <Label className={'assessment-form-header-label'}>Select CANS Template</Label>
-        <Button onClick={() => this.updateUnderSix(true)} className={isUnderSix ? 'age-button-selected' : 'age-button'}>
+        <Button
+          onClick={() => this.updateUnderSix(true)}
+          className={isUnderSix === true ? 'age-button-selected' : 'age-button'}
+        >
           Age: 0-5
         </Button>
 
         <Button
           onClick={() => this.updateUnderSix(false)}
-          className={isUnderSix ? 'age-button' : 'age-button-selected'}
+          className={isUnderSix === false ? 'age-button-selected' : 'age-button'}
         >
           Age: 6-21
         </Button>

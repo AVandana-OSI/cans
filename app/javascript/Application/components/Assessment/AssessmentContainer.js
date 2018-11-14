@@ -119,7 +119,7 @@ class AssessmentContainer extends Component {
       county: this.props.client.county,
       assessment_type: AssessmentType.initial,
       status: AssessmentStatus.inProgress,
-      state: { ...instrument.prototype, under_six: false },
+      state: instrument.prototype,
       event_date: getCurrentIsoDate(),
       has_caregiver: true,
       completed_as: 'COMMUNIMETRIC',
@@ -324,6 +324,7 @@ class AssessmentContainer extends Component {
       assessmentServiceStatus,
       shouldRenderSaveSuccessMessage,
       isEditable,
+      isValidDate,
       shouldPrintNow,
     } = this.state
     const { shouldRedirect, successAssessmentId } = redirection
@@ -333,6 +334,8 @@ class AssessmentContainer extends Component {
     const pageTitle = isNewForm ? 'New CANS' : 'CANS Assessment Form'
     const canPerformUpdates = isReadyForAction(assessmentServiceStatus)
     const printButton = this.renderPrintButton()
+
+    const isUnderSix = assessment && assessment.state && assessment.state.under_six
 
     return (
       <Fragment>
@@ -365,7 +368,8 @@ class AssessmentContainer extends Component {
           handleWarningShow={this.handleWarningShow}
         />
         {LoadingState.ready === assessmentServiceStatus &&
-          isEditable && (
+          isEditable &&
+          !(isUnderSix === null || isUnderSix === undefined) && (
             <Typography variant="headline" className={'submit-validation-message'}>
               The Assessment Date and all assessment ratings must be completed before the Complete button becomes
               active.
@@ -400,9 +404,7 @@ class AssessmentContainer extends Component {
           )}
         <AssessmentFormFooter
           onCancelClick={this.handleCancelClick}
-          isSaveButtonEnabled={
-            this.state.isValidDate && isEditable && canPerformUpdates && Boolean(this.state.assessment.event_date)
-          }
+          isSaveButtonEnabled={isValidDate && isEditable && canPerformUpdates && Boolean(assessment.event_date)}
           onSaveAssessment={this.handleSaveAssessment}
           isSubmitButtonEnabled={isEditable && canPerformUpdates && isValidForSubmit}
           onSubmitAssessment={
@@ -410,6 +412,7 @@ class AssessmentContainer extends Component {
               ? this.handleSubmitAssessment
               : this.handleSubmitWarning
           }
+          isUnderSix={isUnderSix}
         />
       </Fragment>
     )

@@ -1,12 +1,12 @@
 import React from 'react'
-import { AssessmentContainer, AssessmentFormHeader, AssessmentService, SecurityService } from './index'
+import { Assessment, AssessmentContainer, AssessmentFormHeader, AssessmentService, SecurityService } from './index'
 import { childInfoJson } from '../Client/Client.helper.test'
 import ClientService from '../Client/Client.service'
 import { shallow, mount } from 'enzyme'
 import { PageInfo } from '../Layout'
 import Typography from '@material-ui/core/Typography/Typography'
 import AssessmentFormFooter from './AssessmentFormFooter'
-import { MemoryRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PageModal from '../common/PageModal'
 import {
   assessment,
@@ -29,8 +29,6 @@ const defaultProps = {
   isNewForm: false,
   client: childInfoJson,
 }
-
-const mountWithRouter = async component => mount(<MemoryRouter initialEntries={['/random']}>{component}</MemoryRouter>)
 
 describe('<AssessmentContainer />', () => {
   describe('init AssessmentContainer', () => {
@@ -381,22 +379,50 @@ describe('<AssessmentContainer />', () => {
         expect(assessment.person).toEqual(childInfoJson)
         expect(assessment.county).toEqual(childInfoJson.county)
       })
+
+      it('passes an unset age group to the assessment component', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().onFetchNewAssessmentSuccess(instrument)
+        const form = wrapper.find(Assessment)
+        expect(form.props().assessment.state.under_six).toBeUndefined()
+      })
+
+      it('hides the submit validation message', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().onFetchNewAssessmentSuccess(instrument)
+        expect(wrapper.find('.submit-validation-message').exists()).toBe(false)
+      })
+
+      it('passes an unset age group to the assessment footer', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.instance().onFetchNewAssessmentSuccess(instrument)
+        const footer = wrapper.find(AssessmentFormFooter)
+        expect(footer.props().isUnderSix).toBe(null)
+      })
     })
 
     describe('assessment form with an existing assessment', () => {
+      const props = {
+        location: { childId: 1 },
+        isNewForm: false,
+        isSaveButtonEnabled: true,
+        client: {},
+      }
+
       it('calls fetchAssessment', async () => {
-        const props = {
-          location: { childId: 1 },
-          isNewForm: false,
-          isSaveButtonEnabled: true,
-          client: {},
-        }
         const assessmentServiceGetSpy = jest.spyOn(AssessmentService, 'fetchNewAssessment')
         jest.spyOn(ClientService, 'fetch').mockReturnValue(Promise.resolve(childInfoJson))
         jest.spyOn(SecurityService, 'checkPermission').mockReturnValue(Promise.resolve(true))
         const wrapper = shallow(<AssessmentContainer {...props} />)
         await wrapper.instance().componentDidMount()
         expect(assessmentServiceGetSpy).toHaveBeenCalledWith()
+      })
+
+      it('passes the selected age group to the assessment footer', () => {
+        const wrapper = shallow(<AssessmentContainer {...props} />)
+        wrapper.setState({ assessment })
+        const footer = wrapper.find(AssessmentFormFooter)
+        expect(footer.props().isUnderSix).toBe(false)
       })
     })
   })
@@ -592,40 +618,25 @@ describe('<AssessmentContainer />', () => {
     })
 
     describe('Submit button', () => {
-      it('is disabled/enabled based on the assessment validity', async () => {
-        const wrapper = await mountWithRouter(
+      it('is disabled/enabled based on the assessment validity', () => {
+        const wrapper = mount(
           <AssessmentContainer match={{ params: { childId: 123 } }} client={childInfoJson} isNewForm={false} />
         )
-        await wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidForSubmit: false,
-            assessmentServiceStatus: LoadingState.ready,
-            isEditable: true,
-          })
-        await wrapper.update()
-        expect(
-          wrapper
-            .find('button#submit-assessment')
-            .first()
-            .props().disabled
-        ).toBe(true)
-        await wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidForSubmit: true,
-            assessmentServiceStatus: LoadingState.ready,
-            isEditable: true,
-          })
-        await wrapper.update()
-        expect(
-          wrapper
-            .find('button#submit-assessment')
-            .first()
-            .props().disabled
-        ).toBe(false)
+        wrapper.setState({
+          isValidForSubmit: false,
+          assessmentServiceStatus: LoadingState.ready,
+          isEditable: true,
+          assessment,
+        })
+        expect(wrapper.find('Button#submit-assessment').props().disabled).toBe(true)
+
+        wrapper.setState({
+          isValidForSubmit: true,
+          assessmentServiceStatus: LoadingState.ready,
+          isEditable: true,
+          assessment,
+        })
+        expect(wrapper.find('Button#submit-assessment').props().disabled).toBe(false)
       })
 
       it('redirects to client page on Submit button clicked', async () => {
@@ -692,91 +703,81 @@ describe('<AssessmentContainer />', () => {
     })
 
     describe('submit and save buttons', () => {
-      it('should disable buttons when assessment service is working', async () => {
-        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
+      it('should disable buttons when assessment service is working', () => {
+        const wrapper = mount(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
 
         // when
-        wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidForSubmit: true,
-            assessmentServiceStatus: LoadingState.waiting,
-          })
+        wrapper.setState({
+          isValidForSubmit: true,
+          assessmentServiceStatus: LoadingState.waiting,
+          assessment,
+        })
 
         // then
-        expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeTruthy()
-        expect(wrapper.find('Button#submit-assessment').instance().props.disabled).toBeTruthy()
+        expect(wrapper.find('Button#save-assessment').props().disabled).toBeTruthy()
+        expect(wrapper.find('Button#submit-assessment').props().disabled).toBeTruthy()
       })
 
-      it('should enable buttons when assessment service is not working', async () => {
-        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
+      it('should enable buttons when assessment service is done loading', () => {
+        const wrapper = mount(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
 
         // when
-        wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidForSubmit: true,
-            assessmentServiceStatus: LoadingState.ready,
-            isEditable: true,
-          })
+        wrapper.setState({
+          isValidForSubmit: true,
+          assessmentServiceStatus: LoadingState.ready,
+          isEditable: true,
+          assessment,
+        })
 
         // then
         expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeFalsy()
         expect(wrapper.find('Button#submit-assessment').instance().props.disabled).toBeFalsy()
       })
 
-      it('should disable buttons when assessment is not editable', async () => {
-        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
+      it('should disable buttons when assessment is not editable', () => {
+        const wrapper = mount(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
 
         // when
-        wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidForSubmit: true,
-            assessmentServiceStatus: LoadingState.ready,
-            isEditable: false,
-          })
+        wrapper.setState({
+          isValidForSubmit: true,
+          assessmentServiceStatus: LoadingState.ready,
+          isEditable: false,
+          assessment,
+        })
 
         // then
         expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeTruthy()
         expect(wrapper.find('Button#submit-assessment').instance().props.disabled).toBeTruthy()
       })
 
-      it('should disable the save button when date is invalid', async () => {
-        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
+      it('should disable the save button when date is invalid', () => {
+        const wrapper = mount(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
 
         // when
-        wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidDate: false,
-            isEditable: true,
-            assessment,
-          })
+        wrapper.setState({
+          isValidDate: false,
+          isEditable: true,
+          assessmentServiceStatus: LoadingState.ready,
+          assessment,
+        })
 
         // then
         expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeTruthy()
       })
 
       it('should enable the save button when date is valid', async () => {
-        const wrapper = await mountWithRouter(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
+        const wrapper = mount(<AssessmentContainer client={childInfoJson} isNewForm={false} />)
 
         // when
-        wrapper
-          .find('AssessmentContainer')
-          .instance()
-          .setState({
-            isValidDate: true,
-            isEditable: true,
-            assessment,
-          })
+        wrapper.setState({
+          isValidDate: true,
+          isEditable: true,
+          assessmentServiceStatus: LoadingState.ready,
+          assessment,
+        })
 
         // then
-        expect(wrapper.find('Button#save-assessment').instance().props.disabled).toBeFalsy()
+        expect(wrapper.find('Button#save-assessment').props().disabled).toBeFalsy()
       })
     })
   })

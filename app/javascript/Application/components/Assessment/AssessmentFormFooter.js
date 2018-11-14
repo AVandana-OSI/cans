@@ -7,13 +7,14 @@ import './style.sass'
 class AssessmentFormFooter extends PureComponent {
   render() {
     const {
-      onCancelClick,
       isSaveButtonEnabled,
-      onSaveAssessment,
       isSubmitButtonEnabled,
+      isUnderSix,
+      onCancelClick,
+      onSaveAssessment,
       onSubmitAssessment,
     } = this.props
-    return (
+    return isUnderSix === null ? null : (
       <Row className={'form-footer'}>
         <Col sm={9}>
           <Button id={'cancel-assessment'} color={'link'} className={'cancel-button'} onClick={onCancelClick}>
@@ -41,9 +42,14 @@ class AssessmentFormFooter extends PureComponent {
 AssessmentFormFooter.propTypes = {
   isSaveButtonEnabled: PropTypes.bool.isRequired,
   isSubmitButtonEnabled: PropTypes.bool.isRequired,
+  isUnderSix: PropTypes.bool,
   onCancelClick: PropTypes.func.isRequired,
   onSaveAssessment: PropTypes.func.isRequired,
   onSubmitAssessment: PropTypes.func.isRequired,
+}
+
+AssessmentFormFooter.defaultProps = {
+  isUnderSix: null,
 }
 
 export default AssessmentFormFooter

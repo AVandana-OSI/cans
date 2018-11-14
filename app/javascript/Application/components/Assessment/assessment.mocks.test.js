@@ -12,7 +12,6 @@ export const initialAssessment = {
   has_caregiver: true,
   state: {
     id: 0,
-    under_six: false,
     domains: [
       {
         id: 0,

@@ -65,6 +65,9 @@ export function resetConfidentialByDefaultItems(assessment) {
 }
 
 export function shouldDomainBeRendered(isAssessmentUnderSix, domain) {
+  if (isAssessmentUnderSix === null || isAssessmentUnderSix === undefined) {
+    return false
+  }
   return (isAssessmentUnderSix && domain.under_six) || (!isAssessmentUnderSix && domain.above_six)
 }
 

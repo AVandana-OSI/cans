@@ -22,6 +22,31 @@ describe('<AssessmentFormHeader />', () => {
     })
   })
 
+  it('displays age buttons as unselected when under_six is undefined', () => {
+    const agelessAssessment = { ...assessment, state: { ...assessment.state, under_six: undefined } }
+    const wrapper = shallow(
+      <AssessmentFormHeader assessment={agelessAssessment} client={client} onAssessmentUpdate={jest.fn()} />
+    )
+    expect(wrapper.find('.age-button').length).toBe(2)
+    expect(wrapper.find('.age-button-selected').exists()).toBe(false)
+  })
+
+  it('selects first age button when under_six is true', () => {
+    const agelessAssessment = { ...assessment, state: { ...assessment.state, under_six: true } }
+    const wrapper = shallow(
+      <AssessmentFormHeader assessment={agelessAssessment} client={client} onAssessmentUpdate={jest.fn()} />
+    )
+    expect(wrapper.find('.age-button-selected').html()).toContain('Age: 0-5')
+  })
+
+  it('selects second age button when under_six is false', () => {
+    const agelessAssessment = { ...assessment, state: { ...assessment.state, under_six: false } }
+    const wrapper = shallow(
+      <AssessmentFormHeader assessment={agelessAssessment} client={client} onAssessmentUpdate={jest.fn()} />
+    )
+    expect(wrapper.find('.age-button-selected').html()).toContain('Age: 6-21')
+  })
+
   describe('case number', () => {
     it('renders with case number', () => {
       const clientWithCases = clone(client)

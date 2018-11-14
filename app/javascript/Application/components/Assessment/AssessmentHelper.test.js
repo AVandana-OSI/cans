@@ -172,6 +172,10 @@ describe('AssessmentHelper', () => {
       it('should return false when the assessment is not under six', () => {
         expect(shouldDomainBeRendered(false, domain)).toBeFalsy()
       })
+
+      it('should return false when assessment has no age group selected', () => {
+        expect(shouldDomainBeRendered(null, domain)).toBeFalsy()
+      })
     })
 
     describe('when domain is above six', () => {
@@ -182,6 +186,10 @@ describe('AssessmentHelper', () => {
 
       it('should return true when the assessment is not under six', () => {
         expect(shouldDomainBeRendered(false, domain)).toBeTruthy()
+      })
+
+      it('should return false when assessment has no age group selected', () => {
+        expect(shouldDomainBeRendered(null, domain)).toBeFalsy()
       })
     })
   })
