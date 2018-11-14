@@ -72,7 +72,9 @@ export const childInfoJson = {
   identifier: 'aaaaaaaaaa',
   last_name: 'Child',
   person_role: 'CLIENT',
-  cases: [],
+  service_source: 'CASE',
+  service_source_id: 'C6vN5DG0Aq',
+  service_source_ui_id: '0687-9473-7673-8000672',
   metadata: {
     editable: true,
   },

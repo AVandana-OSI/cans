@@ -113,10 +113,14 @@ class AssessmentContainer extends Component {
   }
 
   onFetchNewAssessmentSuccess(instrument) {
+    const client = this.props.client
     const assessment = {
       instrument_id: instrument.id,
-      person: this.props.client,
-      county: this.props.client.county,
+      person: client,
+      service_source: client.service_source,
+      service_source_id: client.service_source_id,
+      service_source_ui_id: client.service_source_ui_id,
+      county: client.county,
       assessment_type: AssessmentType.initial,
       status: AssessmentStatus.inProgress,
       state: instrument.prototype,

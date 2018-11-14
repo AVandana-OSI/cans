@@ -375,7 +375,12 @@ describe('<AssessmentContainer />', () => {
         expect(wrapper.state('assessment').instrument_id).toBeFalsy()
         wrapper.instance().onFetchNewAssessmentSuccess(instrument)
         const assessment = wrapper.state('assessment')
-        expect(assessment).toEqual(initialAssessment)
+        expect(assessment).toEqual({
+          ...initialAssessment,
+          service_source: 'CASE',
+          service_source_id: 'C6vN5DG0Aq',
+          service_source_ui_id: '0687-9473-7673-8000672',
+        })
         expect(assessment.person).toEqual(childInfoJson)
         expect(assessment.county).toEqual(childInfoJson.county)
       })

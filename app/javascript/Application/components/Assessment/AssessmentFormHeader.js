@@ -107,15 +107,13 @@ class AssessmentFormHeader extends PureComponent {
   }
 
   renderCaseNumber() {
-    const { cases } = this.props.client
-    const caseNumber = cases === undefined || cases.length === 0 ? '' : cases[0].external_id
     return (
       <Fragment>
         <Label for={'case-number'} className={'assessment-form-header-label'}>
-          Case Number
+          Case/Referral Number
         </Label>
         <div id={'case-number'} className={'assessment-form-header-case-number'}>
-          {caseNumber}
+          {this.props.assessment.service_source_ui_id}
         </div>
       </Fragment>
     )

@@ -33,28 +33,6 @@ class Client extends Component {
     )
   }
 
-  formatClientId = num => {
-    if (num && num.length === 19) {
-      const firstFour = num.substring(0, 4)
-      const secondFour = num.substring(4, 8)
-      const thirdFour = num.substring(8, 12)
-      const fourthFour = num.substring(12, 19)
-      return `${firstFour}-${secondFour}-${thirdFour}-${fourthFour}`
-    } else if (num && num.length === 22) {
-      return num
-    } else {
-      return '0'
-    }
-  }
-
-  formatCases(cases) {
-    if (!cases) return null
-    const items = [...cases].reverse().map(aCase => {
-      return <li key={aCase.external_id}>{aCase.external_id}</li>
-    })
-    return <ul className={'no-indent-list'}>{items}</ul>
-  }
-
   sensitivityTypeLabel(type) {
     if (!type) {
       return 'Unrestricted'
@@ -110,18 +88,12 @@ class Client extends Component {
                       {this.renderClientData(client.suffix, 'Suffix')}
                       {this.renderClientData(isoToLocalDate(client.dob), 'Date of Birth')}
                       {this.renderClientData(this.formatCounties(client.counties), 'Counties', 3, 'counties')}
-                      {this.renderClientData(this.formatClientId(client.external_id), 'Client Id', 6)}
+                      {this.renderClientData(client.external_id, 'Client Id', 6)}
                       {this.renderClientData(
                         this.sensitivityTypeLabel(client.sensitivity_type),
                         'Access Restrictions',
                         6,
                         'sensitivity-type'
-                      )}
-                      {this.renderClientData(
-                        this.formatCases(client.cases),
-                        client.cases.length > 1 ? 'Case Numbers' : 'Case Number',
-                        6,
-                        'case-number'
                       )}
                     </Grid>
                   ) : (
