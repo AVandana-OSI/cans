@@ -17,7 +17,6 @@ Bundler.require(*Rails.groups)
 
 module Cans
   class Application < Rails::Application
-    require 'infrastructure/cwds_system_information'
     require 'infrastructure/cwds_authenticator'
     require 'infrastructure/cwds_permission_checker'
     require 'infrastructure/api_middleware'
@@ -33,8 +32,8 @@ module Cans
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    config.middleware.use Infrastructure::CwdsSystemInformation
-    config.middleware.insert_after(Infrastructure::CwdsSystemInformation, Infrastructure::CwdsAuthenticator)
+    config.middleware.use Infrastructure::CwdsAuthenticator
+    config.middleware.use SystemInformation::SystemInformationMiddleware
     config.middleware.insert_after(Infrastructure::CwdsAuthenticator, Infrastructure::CwdsPermissionChecker)
     config.middleware.insert_after(Infrastructure::CwdsPermissionChecker, Infrastructure::ApiMiddleware)
     config.middleware.insert_after(Infrastructure::ApiMiddleware, Infrastructure::TimeoutMiddleware)

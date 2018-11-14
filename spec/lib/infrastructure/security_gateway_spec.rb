@@ -52,14 +52,5 @@ module Infrastructure
         end
       end
     end
-
-    describe '#health_check' do
-      it 'returns perry response' do
-        allow(Faraday).to receive(:get)
-          .with('https://perry.test:8080/system-information')
-          .and_return(response)
-        expect(security_gateway.health_check).to eq response
-      end
-    end
   end
 end
